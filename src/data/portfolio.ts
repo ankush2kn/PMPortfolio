@@ -6,6 +6,7 @@ export const profile = {
   phone: "734-494-2012",
   linkedin: "https://linkedin.com/in/ankushbhargava",
   github: "https://github.com/ankush2kn",
+  portfolioRepo: "https://github.com/ankush2kn/PMPortfolio",
   taglines: [
     "20 years building products. Now building with AI.",
     "Enterprise scale meets startup speed.",
@@ -14,9 +15,10 @@ export const profile = {
   summary:
     "Entrepreneurial player-coach with 20+ years across Product, Engineering and Business. AI-enabled, data-fluent, patent holder with a growth mindset.",
   availability: "Available Immediately",
-  seeking: "Director / Senior PM roles in B2B SaaS & AI",
+  seeking: "Product Manager roles in B2B & AI",
 };
 
+// columns to left, right
 export const impactMetrics = [
   { value: "$250M", label: "ARR", context: "B2B Marketplace", company: "Walmart" },
   { value: "250M+", label: "Deliveries/yr", context: "Last Mile Routing", company: "Walmart" },
