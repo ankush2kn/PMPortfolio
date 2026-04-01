@@ -16,15 +16,19 @@ export const profile = {
     "Entrepreneurial player-coach with 20+ years across Product, Engineering and Business. AI-enabled, data-fluent, patent holder with a growth mindset.",
   availability: "Available Immediately",
   seeking: "Product Manager roles in B2B & AI",
+  seekingSubline: "Let's solve some hard problems together",
 };
 
 // columns to left, right
 export const impactMetrics = [
-  { value: "$250M", label: "ARR", context: "B2B Marketplace", company: "Walmart" },
-  { value: "250M+", label: "Deliveries/yr", context: "Last Mile Routing", company: "Walmart" },
-  { value: "$50M+", label: "Annual Savings", context: "Platform Consolidation", company: "Walmart" },
-  { value: "2", label: "Patents", context: "Inventory + Delivery", company: "Walmart" },
+  { value: "", label: " ", context: " ", company: "" },
   { value: "3", label: "AI Products", context: "Built & Launched Solo", company: "Independent" },
+  { value: "$250M", label: "ARR in 18m", context: "B2B Marketplace", company: "Walmart" },
+  { value: "$50M+", label: "Savings in 5 Markets", context: "Transportation Platform", company: "Walmart" },
+  { value: "First", label: "E2E Simulation Platform", context: "$5B+ Investment Support to CEO", company: "Walmart" },
+  { value: "2", label: "Utility Patents", context: "Inventory & Delivery", company: "Walmart" },
+  { value: "250M+", label: "Last Mile Deliveries/yr", context: "Routing, Scheduling, Execution", company: "Walmart" },
+  { value: "First", label: "Sortation Center", context: "Tech Inside & Outside the Building of a sortation center", company: "Walmart" }
 ];
 
 export const principles = [

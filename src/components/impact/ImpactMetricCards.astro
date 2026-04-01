@@ -5,17 +5,25 @@ import { impactMetrics } from "@/data/portfolio";
 <!-- Impact Option A: "Metric Cards" - Clean, scannable cards in a row -->
 <section id="impact" class="mt-12 md:mt-16 py-20 px-6">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-10 text-center">Impact at Scale</h2>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-10 text-center">
+      Key Impact Metrics
+    </h2>
+    <div class="flex flex-wrap justify-center gap-4">
       {impactMetrics.map((metric, i) => (
         <div
-          class="group bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 text-center hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          class="group bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 flex flex-col items-stretch text-center w-36 sm:w-40 md:w-44 shrink-0 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
           style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.1 * i}s both;`}
         >
-          <span class="block text-3xl md:text-4xl font-bold text-[var(--color-accent)] mb-1">{metric.value}</span>
-          <span class="block text-sm font-medium mb-2">{metric.label}</span>
-          <span class="block text-xs text-[var(--color-text-secondary)]">{metric.context}</span>
-          <span class="block text-[10px] text-[var(--color-text-secondary)] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{metric.company}</span>
+          <span class="block text-3xl md:text-4xl font-bold text-[var(--color-accent)] mb-1 text-center">{metric.value}</span>
+          <span class="block text-sm font-medium mb-2 text-center">{metric.label}</span>
+          <span
+            class="metric-card-context block text-xs text-[var(--color-text-secondary)] leading-snug line-clamp-2 break-words text-center"
+          >
+            {metric.context}
+          </span>
+          <span class="block text-[10px] text-[var(--color-text-secondary)] mt-1 opacity-0 group-hover:opacity-100 transition-opacity text-center">
+            {metric.company}
+          </span>
         </div>
       ))}
     </div>
