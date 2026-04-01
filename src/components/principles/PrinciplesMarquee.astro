@@ -7,7 +7,7 @@ const doubled = [...principles, ...principles];
 <!-- Option B: Marquee / Scrolling Strip -->
 <section class="py-14 overflow-hidden border-y border-[var(--color-border)]" id="principles">
   <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-8 text-center">
-    Key Principles
+    Approach & Mindset
   </h2>
   <div class="relative principles-marquee-wrap">
     <div class="principles-marquee-track flex gap-10 whitespace-nowrap" style="animation: ticker-scroll 45s linear infinite;">
@@ -18,11 +18,16 @@ const doubled = [...principles, ...principles];
           <span class="text-[var(--color-border)]">|</span>
         </div>
       ))}
+      <div class="shrink-0 w-10" aria-hidden="true"></div>
     </div>
   </div>
 </section>
 
 <style>
+  .principles-marquee-track {
+    backface-visibility: hidden;
+  }
+
   .principles-marquee-wrap:hover .principles-marquee-track {
     animation-play-state: paused;
   }

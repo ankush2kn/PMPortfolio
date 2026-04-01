@@ -167,9 +167,10 @@
   50% { transform: rotate(1deg); }
 }
 
+/* -50% scroll + trailing spacer = one full period; avoids flex gap off-by-one loop flash */
 @keyframes ticker-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes count-up {

@@ -21,23 +21,22 @@ export const profile = {
 
 // columns to left, right
 export const impactMetrics = [
-  { value: "", label: " ", context: " ", company: "" },
   { value: "3", label: "AI Products", context: "Built & Launched Solo", company: "Independent" },
   { value: "$250M", label: "ARR in 18m", context: "B2B Marketplace", company: "Walmart" },
   { value: "$50M+", label: "Savings in 5 Markets", context: "Transportation Platform", company: "Walmart" },
   { value: "First", label: "E2E Simulation Platform", context: "$5B+ Investment Support to CEO", company: "Walmart" },
   { value: "2", label: "Utility Patents", context: "Inventory & Delivery", company: "Walmart" },
   { value: "250M+", label: "Last Mile Deliveries/yr", context: "Routing, Scheduling, Execution", company: "Walmart" },
-  { value: "First", label: "Sortation Center", context: "Tech Inside & Outside the Building of a sortation center", company: "Walmart" }
+  { value: "First", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New Building Type", company: "Walmart" }
 ];
 
 export const principles = [
-  { title: "Leave it better than you found it", context: "Solve the hardest problems. Always." },
-  { title: "0 to 1 to N", context: "Energized by building from scratch, then scaling." },
-  { title: "Data over opinions", context: "SQL first, then strategy." },
+  { title: "Data over opinions", context: "Understand first, Strategize second, and Execute last." },
   { title: "Build to learn, learn to build", context: "Ship fast. Iterate faster." },
-  { title: "Every 1% matters at scale", context: "Small wins, massive P&L impact." },
   { title: "End-to-end thinking", context: "Strategy through execution, no handoffs." },
+  { title: "0 to 1 to N", context: "Energized by building from scratch, then scaling." },
+  { title: "Every 1% matters at scale", context: "Small wins, massive P&L impact." },
+  { title: "Leave it better than I find it", context: "Solve the hardest problems. Always." },
 ];
 
 export const projects = [
