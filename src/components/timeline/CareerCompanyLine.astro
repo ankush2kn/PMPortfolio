@@ -1,0 +1,49 @@
+---
+import { careerStr } from "@/lib/careerDisplay";
+
+interface Props {
+  company?: string;
+  companyUrl?: string;
+  textClass: string;
+}
+
+const { company, companyUrl, textClass } = Astro.props;
+const name = careerStr(company);
+const url = careerStr(companyUrl);
+---
+
+{
+  name && (
+    <p class={textClass}>
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline-offset-2 hover:underline hover:text-[var(--color-accent)] inline-flex items-center gap-1"
+        >
+          {name}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="shrink-0 opacity-70"
+            style="width: 0.85em; height: 0.85em;"
+            aria-hidden="true"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          <span class="sr-only">Opens in new tab</span>
+        </a>
+      ) : (
+        name
+      )}
+    </p>
+  )
+}

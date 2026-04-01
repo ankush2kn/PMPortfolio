@@ -1,13 +1,14 @@
 ---
 import { careerReverseChronological } from "@/data/portfolio";
-
-const domainColors: Record<string, string> = {
-  engineering: "#6366f1",
-  startup: "#f59e0b",
-  operations: "#10b981",
-  product: "#3b82f6",
-  ai: "#e88c4f",
-};
+import {
+  careerHighlightsPreview,
+  careerPeriodLocation,
+  careerStr,
+  pickCareerDomainColor,
+} from "@/lib/careerDisplay";
+import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
+import CareerCardThumbnails from "@/components/timeline/CareerCardThumbnails.astro";
+import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 ---
 
 <!-- Timeline Option 3: "Scroll-Driven Vertical Timeline" - Central spine, alternating cards -->
@@ -16,56 +17,74 @@ const domainColors: Record<string, string> = {
   <div class="absolute left-6 top-0 bottom-0 w-px bg-[var(--color-border)] md:hidden"></div>
 
   <div class="vertical-timeline-stack pb-10 space-y-8 md:space-y-0" data-vertical-timeline>
-    {careerReverseChronological.map((entry, i) => (
+    {careerReverseChronological.map((entry, i) => {
+      const primary = careerEntryPrimaryDomain(entry);
+      const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, primary);
+      const periodLoc = careerPeriodLocation(entry.period, entry.location);
+      const preview = careerHighlightsPreview(entry.highlights);
+      const cardLabel = careerStr(entry.company) ?? careerStr(entry.title) ?? entry.id;
+      return (
       <div
-        class="vertical-timeline-step relative"
+        class="vertical-timeline-step relative pointer-events-none"
+        data-career-entry
+        data-career-domains={careerDomainsCsv(entry)}
         data-step-index={String(i)}
-        data-domain={entry.domain}
+        data-domain={primary ?? ""}
         style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
       >
         <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-          <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+          <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
             <div class="timeline-card-surface bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
-              <span
-                class="text-xs font-medium px-2 py-0.5 rounded-full"
-                style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}
-              >
-                {entry.chapter}
-              </span>
-              <h3 class="vertical-timeline-title text-base font-bold mt-2" style={`color: ${domainColors[entry.domain]};`}>
+              {careerStr(entry.title) && (
+              <h3 class="vertical-timeline-title text-base font-bold" style={`color: ${color};`}>
                 {entry.title}
               </h3>
-              <p class="text-sm text-[var(--color-text-secondary)]">{entry.company}</p>
-              <p class="text-xs text-[var(--color-text-secondary)] mt-1">{entry.period} &middot; {entry.location}</p>
-              {entry.keyMetric && (
+              )}
+              <CareerCompanyLine
+                company={entry.company}
+                companyUrl={entry.companyUrl}
+                textClass="text-sm text-[var(--color-text-secondary)]"
+              />
+              {periodLoc && (
+              <p class="text-xs text-[var(--color-text-secondary)] mt-1">{periodLoc}</p>
+              )}
+              {careerStr(entry.keyMetric) && (
                 <p class="text-lg font-bold text-[var(--color-accent)] mt-2">{entry.keyMetric}</p>
               )}
+              {preview.length > 0 && (
               <ul class="mt-3 space-y-1">
-                {entry.highlights.slice(0, 2).map((h) => (
+                {preview.map((h) => (
                   <li class={`text-xs text-[var(--color-text-secondary)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>{h}</li>
                 ))}
               </ul>
+              )}
+              <CareerCardThumbnails
+                images={entry.images}
+                label={cardLabel}
+                align={i % 2 === 0 ? "end" : "start"}
+              />
             </div>
           </div>
         </div>
 
         <div
           class="vertical-timeline-dot absolute left-6 md:left-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-20 shadow-sm pointer-events-none"
-          style={`background-color: ${domainColors[entry.domain]};`}
+          style={`background-color: ${color};`}
         >
         </div>
 
         <div
           class="vertical-timeline-connector absolute z-10 h-[3px] md:h-2 rounded-full pointer-events-none opacity-95"
           data-card-side={i % 2 === 0 ? 'left' : 'right'}
-          style={`background-color: ${domainColors[entry.domain]};`}
+          style={`background-color: ${color};`}
           aria-hidden="true"
         >
         </div>
 
         <span class="vertical-timeline-connector-tip absolute z-10 pointer-events-none block w-0 h-0 border-transparent" aria-hidden="true"></span>
       </div>
-    ))}
+      );
+    })}
   </div>
 </div>
 
@@ -77,30 +96,37 @@ const domainColors: Record<string, string> = {
     startup: "#f59e0b",
     operations: "#10b981",
     product: "#3b82f6",
+    b2b: "#0d9488",
+    b2c: "#f43f5e",
     ai: "#e88c4f",
+    "tech strategy": "#a855f7",
   };
 
   const MD_UP = "(min-width: 768px)";
+
+  function visibleVerticalSteps(stack: HTMLElement): HTMLElement[] {
+    return Array.from(stack.querySelectorAll(".vertical-timeline-step")).filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && !el.classList.contains("hidden"),
+    );
+  }
 
   function applyVerticalTimelineOverlap() {
     const stack = document.querySelector("[data-vertical-timeline]");
     if (!(stack instanceof HTMLElement)) return;
 
-    const steps = stack.querySelectorAll(".vertical-timeline-step");
+    stack.querySelectorAll(".vertical-timeline-step").forEach((step) => {
+      if (step instanceof HTMLElement) step.style.marginTop = "";
+    });
+
+    const steps = visibleVerticalSteps(stack);
     const desktop = window.matchMedia(MD_UP).matches;
 
+    if (!desktop) return;
+
     steps.forEach((step, i) => {
-      if (!(step instanceof HTMLElement)) return;
-      if (!desktop) {
-        step.style.marginTop = "";
-        return;
-      }
-      if (i === 0) {
-        step.style.marginTop = "";
-        return;
-      }
+      if (i === 0) return;
       const prev = steps[i - 1];
-      if (!(prev instanceof HTMLElement)) return;
+      if (!prev) return;
       const h = prev.offsetHeight;
       const pullUp = (1 - VERTICAL_TIMELINE_START_RATIO) * h;
       step.style.marginTop = h > 0 ? `${-pullUp}px` : "";
@@ -112,15 +138,21 @@ const domainColors: Record<string, string> = {
     if (!(stack instanceof HTMLElement)) return;
 
     const desktop = window.matchMedia(MD_UP).matches;
-    const steps = stack.querySelectorAll(".vertical-timeline-step");
+    const steps = visibleVerticalSteps(stack);
 
     steps.forEach((step) => {
       if (!(step instanceof HTMLElement)) return;
-      const title = step.querySelector(".vertical-timeline-title");
+      const explicitTitle = step.querySelector(".vertical-timeline-title");
       const dot = step.querySelector(".vertical-timeline-dot");
       const connector = step.querySelector(".vertical-timeline-connector");
       const tip = step.querySelector(".vertical-timeline-connector-tip");
       const card = step.querySelector(".timeline-card-surface");
+      const title =
+        explicitTitle instanceof HTMLElement
+          ? explicitTitle
+          : card instanceof HTMLElement
+            ? (card.querySelector("span, h3, p") as HTMLElement | null) ?? card
+            : null;
       if (!(title instanceof HTMLElement) || !(dot instanceof HTMLElement) || !(connector instanceof HTMLElement) || !(tip instanceof HTMLElement) || !(card instanceof HTMLElement)) {
         return;
       }
@@ -211,4 +243,6 @@ const domainColors: Record<string, string> = {
     window.addEventListener("resize", scheduleLayout);
     window.matchMedia(MD_UP).addEventListener("change", scheduleLayout);
   }
+
+  document.addEventListener("journey-career-filter-changed", scheduleLayout);
 </script>

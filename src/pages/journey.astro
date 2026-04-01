@@ -6,6 +6,8 @@ import TimelineElevation from "@/components/timeline/TimelineElevation.astro";
 import TimelineVertical from "@/components/timeline/TimelineVertical.astro";
 import TimelineOrbit from "@/components/timeline/TimelineOrbit.astro";
 import TimelineFilmStrip from "@/components/timeline/TimelineFilmStrip.astro";
+import CareerImageLightbox from "@/components/timeline/CareerImageLightbox.astro";
+import CareerDomainFilter from "@/components/timeline/CareerDomainFilter.astro";
 import ContactMinimalFooter from "@/components/contact/ContactMinimalFooter.astro";
 import { education } from "@/data/portfolio";
 
@@ -23,6 +25,7 @@ function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
           20+ years across engineering, startups, enterprise operations, and product leadership.
           From building code to building organizations.
         </p>
+        <CareerDomainFilter />
       </div>
 
       <!-- TIMELINE VARIANTS -->
@@ -69,6 +72,8 @@ function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
       </div>
     </div>
   </section>
+
+  <CareerImageLightbox />
 
   <ContactMinimalFooter />
 </Layout>

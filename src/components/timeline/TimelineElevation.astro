@@ -1,17 +1,12 @@
 ---
 import { career, careerReverseChronological } from "@/data/portfolio";
 import { samplePositionsAlongPolyline, ELEVATION_TRAIL_VERTICES } from "@/lib/careerTimelineLayout";
+import { careerCompanyShort, careerStr, pickCareerDomainColor } from "@/lib/careerDisplay";
+import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
+import CareerCardThumbnails from "@/components/timeline/CareerCardThumbnails.astro";
 
 const careerCount = career.length;
 const positionsChrono = samplePositionsAlongPolyline(ELEVATION_TRAIL_VERTICES, careerCount);
-
-const domainColors: Record<string, string> = {
-  engineering: "#6366f1",
-  startup: "#f59e0b",
-  operations: "#10b981",
-  product: "#3b82f6",
-  ai: "#e88c4f",
-};
 ---
 
 <!-- Timeline Option 2: "The Elevation Path" (Mountain Climb) - Career as ascending terrain -->
@@ -38,22 +33,36 @@ const domainColors: Record<string, string> = {
       <!-- Milestone flags -->
       {careerReverseChronological.map((entry, i) => {
         const pos = positionsChrono[careerCount - 1 - i]!;
+        const primary = careerEntryPrimaryDomain(entry);
+        const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, primary);
+        const short = careerCompanyShort(entry.company);
+        const per = careerStr(entry.period);
         return (
-          <g style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.4 * i + 0.8}s both;`} class="cursor-pointer milestone-flag" data-idx={i}>
+          <g
+            style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.4 * i + 0.8}s both;`}
+            class="cursor-pointer milestone-flag"
+            data-idx={i}
+            data-career-entry
+            data-career-domains={careerDomainsCsv(entry)}
+          >
             {/* Flag pole */}
             <line x1={pos.x} y1={pos.y} x2={pos.x} y2={pos.y - 45} stroke="currentColor" stroke-width="1.5"/>
             {/* Flag */}
             <path d={`M${pos.x} ${pos.y - 45} L${pos.x + 30} ${pos.y - 37} L${pos.x} ${pos.y - 29}`}
-                  fill={domainColors[entry.domain]} opacity="0.8"/>
+                  fill={color} opacity="0.8"/>
             {/* Camp marker */}
-            <circle cx={pos.x} cy={pos.y} r="5" fill={domainColors[entry.domain]} stroke="var(--color-card-bg)" stroke-width="2"/>
+            <circle cx={pos.x} cy={pos.y} r="5" fill={color} stroke="var(--color-card-bg)" stroke-width="2"/>
             {/* Label */}
-            <text x={pos.x} y={pos.y + 18} text-anchor="middle" fill="currentColor" font-size="10" font-weight="600">
-              {entry.company.split(' ')[0]}
+            {short && (
+            <text x={pos.x} y={pos.y + (per ? 18 : 24)} text-anchor="middle" fill="currentColor" font-size="10" font-weight="600">
+              {short}
             </text>
-            <text x={pos.x} y={pos.y + 30} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.5">
-              {entry.period}
+            )}
+            {per && (
+            <text x={pos.x} y={pos.y + (short ? 30 : 24)} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.5">
+              {per}
             </text>
+            )}
           </g>
         );
       })}
@@ -74,17 +83,24 @@ const domainColors: Record<string, string> = {
 
   <!-- Detail cards -->
   <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-[repeat(auto-fit,minmax(8.75rem,1fr))]">
-    {careerReverseChronological.map((entry, i) => (
-      <div class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 text-center hover:border-[var(--color-accent)] transition-colors"
-           style={`animation: fadeInUp 0.5s var(--ease-out-expo) ${0.1 * i + 1}s both;`}>
-        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}>
-          {entry.chapter}
-        </span>
-        <p class="text-xs text-[var(--color-text-secondary)] mt-2">{entry.title}</p>
-        {entry.keyMetric && (
+    {careerReverseChronological.map((entry, i) => {
+      const cardLabel = careerStr(entry.company) ?? careerStr(entry.title) ?? entry.id;
+      return (
+      <div
+        class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 text-center hover:border-[var(--color-accent)] transition-colors"
+        data-career-entry
+        data-career-domains={careerDomainsCsv(entry)}
+        style={`animation: fadeInUp 0.5s var(--ease-out-expo) ${0.1 * i + 1}s both;`}
+      >
+        {careerStr(entry.title) && (
+        <p class="text-xs text-[var(--color-text-secondary)]">{entry.title}</p>
+        )}
+        {careerStr(entry.keyMetric) && (
           <p class="text-sm font-bold text-[var(--color-accent)] mt-1">{entry.keyMetric}</p>
         )}
+        <CareerCardThumbnails images={entry.images} label={cardLabel} align="center" />
       </div>
-    ))}
+      );
+    })}
   </div>
 </div>

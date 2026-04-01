@@ -1,0 +1,95 @@
+---
+import { career } from "@/data/portfolio";
+import {
+  CAREER_DOMAIN_HEX,
+  CAREER_DOMAIN_LABEL,
+  CAREER_DOMAIN_ORDER,
+  uniqueCareerDomainsPresent,
+} from "@/lib/careerDomains";
+
+const present = uniqueCareerDomainsPresent(career);
+const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
+---
+
+<div
+  class="flex flex-wrap items-center justify-center gap-2 mt-10 md:mt-10 max-w-2xl mx-auto"
+  data-journey-domain-filter-bar
+  role="toolbar"
+  aria-label="Filter journey by domain"
+>
+  <button
+    type="button"
+    data-journey-domain-pill
+    data-domain="all"
+    aria-pressed="true"
+    class="journey-domain-pill text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors ring-2 ring-[var(--color-accent)] ring-offset-2 ring-offset-[var(--color-bg)]"
+  >
+    All
+  </button>
+  {
+    pills.map((id) => (
+      <button
+        type="button"
+        data-journey-domain-pill
+        data-domain={id}
+        aria-pressed="false"
+        class="journey-domain-pill text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors"
+      >
+        <span
+          class="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+          style={`background-color: ${CAREER_DOMAIN_HEX[id]};`}
+          aria-hidden="true"
+        />
+        {CAREER_DOMAIN_LABEL[id]}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  function applyJourneyDomainFilter(activeDomain: string | null) {
+    document.querySelectorAll("[data-career-entry]").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const raw = el.dataset.careerDomains ?? "";
+      const set = raw.split(",").map((s) => s.trim()).filter(Boolean);
+      const show = activeDomain === null || set.includes(activeDomain);
+      el.classList.toggle("hidden", !show);
+    });
+
+    document.querySelectorAll("[data-journey-domain-pill]").forEach((btn) => {
+      if (!(btn instanceof HTMLElement)) return;
+      const d = btn.dataset.domain ?? "";
+      const isAll = d === "all";
+      const pressed = activeDomain === null ? isAll : d === activeDomain;
+      btn.setAttribute("aria-pressed", pressed ? "true" : "false");
+      btn.classList.toggle("ring-2", pressed);
+      btn.classList.toggle("ring-[var(--color-accent)]", pressed);
+      btn.classList.toggle("ring-offset-2", pressed);
+      btn.classList.toggle("ring-offset-[var(--color-bg)]", pressed);
+    });
+
+    window.dispatchEvent(new CustomEvent("journey-career-filter-changed"));
+  }
+
+  function onFilterClick(e: MouseEvent) {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    const btn = t.closest("[data-journey-domain-pill]");
+    if (!(btn instanceof HTMLButtonElement)) return;
+    const d = btn.dataset.domain ?? "all";
+    applyJourneyDomainFilter(d === "all" ? null : d);
+  }
+
+  function initJourneyFilter() {
+    applyJourneyDomainFilter(null);
+  }
+
+  const g = globalThis as typeof globalThis & { __journeyDomainFilterInit?: boolean };
+  if (!g.__journeyDomainFilterInit) {
+    g.__journeyDomainFilterInit = true;
+    document.addEventListener("click", onFilterClick);
+    document.addEventListener("astro:page-load", initJourneyFilter);
+  }
+
+  requestAnimationFrame(initJourneyFilter);
+</script>

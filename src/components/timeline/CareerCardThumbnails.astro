@@ -1,0 +1,71 @@
+---
+import type { CareerImageItem } from "@/data/portfolio";
+import { careerImageItems } from "@/lib/careerDisplay";
+
+interface Props {
+  images?: (string | CareerImageItem)[] | null;
+  label: string;
+  align?: "start" | "end" | "center";
+}
+
+const thumbBox =
+  "inline-flex w-10 h-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-[var(--color-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] transition-colors";
+
+const thumbImg = "max-h-full max-w-full object-contain";
+
+const { images, label, align = "start" } = Astro.props;
+const items = careerImageItems(images ?? null);
+---
+
+{
+  items.length > 0 && (
+    <div
+      class:list={[
+        "flex flex-wrap gap-1.5 mt-3",
+        align === "end" && "md:justify-end",
+        align === "center" && "justify-center",
+      ]}
+      role="group"
+      aria-label={`Photos for ${label}`}
+    >
+      {items.map((item, idx) => (
+        item.href ? (
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[thumbBox]}
+            aria-label={`Open related link in new tab — image ${idx + 1} — ${label}`}
+          >
+            <img
+              src={item.src}
+              alt=""
+              width="40"
+              height="40"
+              class:list={[thumbImg, "block"]}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        ) : (
+          <button
+            type="button"
+            class:list={["career-thumb-btn", thumbBox]}
+            data-career-lightbox={item.src}
+            aria-label={`View image ${idx + 1} full size — ${label}`}
+          >
+            <img
+              src={item.src}
+              alt=""
+              width="40"
+              height="40"
+              class:list={[thumbImg, "block"]}
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        )
+      ))}
+    </div>
+  )
+}

@@ -1,16 +1,12 @@
 ---
 import { career, careerReverseChronological } from "@/data/portfolio";
 import { orbitContainerMinHeightPx } from "@/lib/careerTimelineLayout";
+import { careerCompanyShort, careerStr, pickCareerDomainColor } from "@/lib/careerDisplay";
+import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
+import CareerCardThumbnails from "@/components/timeline/CareerCardThumbnails.astro";
+import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 
 const orbitMinHeight = orbitContainerMinHeightPx(career.length);
-
-const domainColors: Record<string, string> = {
-  engineering: "#6366f1",
-  startup: "#f59e0b",
-  operations: "#10b981",
-  product: "#3b82f6",
-  ai: "#e88c4f",
-};
 ---
 
 <!-- Timeline Option 4: "The Orbit / Solar System" - Current role at center -->
@@ -33,10 +29,17 @@ const domainColors: Record<string, string> = {
       const rad = (angle * Math.PI) / 180;
       const x = Math.cos(rad) * radius;
       const y = Math.sin(rad) * radius;
-      const orbitDuration = 80 + i * 30;
+      const primary = careerEntryPrimaryDomain(entry);
+      const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, primary);
+      const short = careerCompanyShort(entry.company);
+      const cardLabel = careerStr(entry.company) ?? careerStr(entry.title) ?? entry.id;
 
       return (
-        <div>
+        <div
+          class="contents"
+          data-career-entry
+          data-career-domains={careerDomainsCsv(entry)}
+        >
           {/* Orbit ring */}
           <div class="absolute rounded-full border border-[var(--color-border)] opacity-20"
                style={`width: ${radius * 2}px; height: ${radius * 2}px; left: 50%; top: 50%; transform: translate(-50%, -50%);`}>
@@ -47,17 +50,28 @@ const domainColors: Record<string, string> = {
                style={`left: calc(50% + ${x}px); top: calc(50% + ${y}px); transform: translate(-50%, -50%); animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}>
             <div class="relative">
               <div class="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer border-2 bg-[var(--color-card-bg)] transition-transform hover:scale-110"
-                   style={`border-color: ${domainColors[entry.domain]};`}>
-                <span class="text-[9px] font-bold text-center leading-tight">{entry.company.split(' ')[0]}</span>
+                   style={`border-color: ${color};`}>
+                {short && (
+                <span class="text-[9px] font-bold text-center leading-tight">{short}</span>
+                )}
               </div>
               {/* Tooltip on hover */}
-              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity max-w-[min(16rem,calc(100vw-2rem))] whitespace-normal z-30">
+                {careerStr(entry.title) && (
                 <p class="text-xs font-bold">{entry.title}</p>
-                <p class="text-[10px] text-[var(--color-text-secondary)]">{entry.company}</p>
+                )}
+                <CareerCompanyLine
+                  company={entry.company}
+                  companyUrl={entry.companyUrl}
+                  textClass="text-[10px] text-[var(--color-text-secondary)]"
+                />
+                {careerStr(entry.period) && (
                 <p class="text-[10px] text-[var(--color-text-secondary)]">{entry.period}</p>
-                {entry.keyMetric && (
+                )}
+                {careerStr(entry.keyMetric) && (
                   <p class="text-xs font-bold text-[var(--color-accent)] mt-1">{entry.keyMetric}</p>
                 )}
+                <CareerCardThumbnails images={entry.images} label={cardLabel} align="start" />
               </div>
             </div>
           </div>

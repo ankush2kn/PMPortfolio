@@ -1,0 +1,121 @@
+---
+---
+
+<div
+  id="career-image-lightbox"
+  class="career-image-lightbox fixed inset-0 z-[200] flex flex-col items-center justify-center p-4 md:p-8 invisible opacity-0 pointer-events-none transition-opacity duration-200 [&.is-open]:visible [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto"
+  aria-hidden="true"
+  aria-modal="true"
+  role="dialog"
+  tabindex="-1"
+>
+  <button
+    type="button"
+    class="career-image-lightbox-backdrop absolute inset-0 bg-black/85 border-0 cursor-default"
+    aria-label="Close image"
+    tabindex="-1"
+  >
+  </button>
+  <button
+    type="button"
+    class="career-image-lightbox-close absolute top-3 right-3 z-10 rounded-full w-10 h-10 flex items-center justify-center text-white bg-white/10 hover:bg-white/20 border border-white/20 text-xl leading-none"
+    aria-label="Close"
+  >
+    &#215;
+  </button>
+  <div class="relative z-[1] max-w-[min(100%,1200px)] max-h-[min(85vh,900px)] w-full flex items-center justify-center pointer-events-none">
+    <img
+      class="career-image-lightbox-img max-w-full max-h-[min(85vh,900px)] w-auto h-auto object-contain rounded-lg shadow-2xl pointer-events-none"
+      src=""
+      alt=""
+    />
+  </div>
+</div>
+
+<script>
+  const LB_ID = "career-image-lightbox";
+
+  let focusBeforeOpen: HTMLElement | null = null;
+
+  function getLightboxEls() {
+    const root = document.getElementById(LB_ID);
+    if (!(root instanceof HTMLElement)) return null;
+    const img = root.querySelector(".career-image-lightbox-img");
+    const closeBtn = root.querySelector(".career-image-lightbox-close");
+    if (!(img instanceof HTMLImageElement) || !(closeBtn instanceof HTMLElement)) {
+      return null;
+    }
+    return { root, img, closeBtn };
+  }
+
+  function openLightbox(url: string) {
+    const els = getLightboxEls();
+    if (!els) return;
+    const ae = document.activeElement;
+    focusBeforeOpen = ae instanceof HTMLElement ? ae : null;
+    els.img.src = url;
+    els.img.alt = "Career photo (full size)";
+    els.root.classList.add("is-open");
+    els.root.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    els.root.focus({ preventScroll: true });
+  }
+
+  function closeLightbox() {
+    const els = getLightboxEls();
+    if (els) {
+      const toRestore = focusBeforeOpen;
+      focusBeforeOpen = null;
+      els.root.classList.remove("is-open");
+      els.img.removeAttribute("src");
+      els.img.alt = "";
+      if (toRestore && document.contains(toRestore)) {
+        toRestore.focus({ preventScroll: true });
+      } else {
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && els.root.contains(active)) {
+          active.blur();
+        }
+      }
+      els.root.setAttribute("aria-hidden", "true");
+    }
+    document.body.style.overflow = "";
+  }
+
+  function onDocClick(e: MouseEvent) {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+
+    const root = document.getElementById(LB_ID);
+    const lightboxOpen = root instanceof HTMLElement && root.classList.contains("is-open");
+
+    if (lightboxOpen) {
+      if (t.closest(".career-image-lightbox-backdrop") || t.closest(".career-image-lightbox-close")) {
+        e.preventDefault();
+        closeLightbox();
+      }
+      return;
+    }
+
+    const openBtn = t.closest("[data-career-lightbox]");
+    if (openBtn instanceof HTMLElement) {
+      const url = openBtn.getAttribute("data-career-lightbox");
+      if (url) {
+        e.preventDefault();
+        openLightbox(url);
+      }
+    }
+  }
+
+  function onKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") closeLightbox();
+  }
+
+  const g = globalThis as typeof globalThis & { __careerLightboxDocListeners?: boolean };
+  if (!g.__careerLightboxDocListeners) {
+    g.__careerLightboxDocListeners = true;
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("astro:page-load", closeLightbox);
+  }
+</script>

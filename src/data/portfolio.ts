@@ -1,3 +1,5 @@
+import type { CareerDomainId } from "@/lib/careerDomains";
+
 export const profile = {
   name: "Ankush Bhargava",
   portraitSrc: "/images/ankush-bhargava-profile.jpg",
@@ -87,18 +89,29 @@ export const projects = [
   },
 ];
 
+/** One career photo: thumbnail uses `src`; optional `href` opens in a new tab instead of the lightbox */
+export interface CareerImageItem {
+  src: string;
+  href?: string;
+}
+
 export interface CareerEntry {
   id: string;
-  chapter: string;
-  title: string;
-  company: string;
-  location: string;
-  period: string;
-  yearStart: number;
-  yearEnd: number;
-  domain: "engineering" | "startup" | "operations" | "product" | "ai";
-  highlights: string[];
+  chapter?: string;
+  title?: string;
+  company?: string;
+  /** If set, company name is linked and opens in a new tab on Journey timelines */
+  companyUrl?: string;
+  location?: string;
+  period?: string;
+  yearStart?: number;
+  yearEnd?: number;
+  /** One or more domains per role; used for colors (first) and Journey domain filter */
+  domains: CareerDomainId[];
+  highlights?: string[];
   keyMetric?: string;
+  /** Each entry is a `src` string or `{ src, href? }`. With `href`, click opens a new tab; otherwise the fullscreen lightbox. */
+  images?: (string | CareerImageItem)[];
 }
 
 export const career: CareerEntry[] = [
@@ -107,54 +120,50 @@ export const career: CareerEntry[] = [
     chapter: "The Engineer",
     title: "Software Engineer",
     company: "Infosys Technologies",
-    location: "Ohio & Texas",
+    companyUrl: "https://www.infosys.com/",
+    location: "India, Ohio & Texas",
     period: "2002–2006",
     yearStart: 2002,
     yearEnd: 2006,
-    domain: "engineering",
+    domains: ["engineering", "b2b"],
     highlights: [
-      "Built enterprise workflows for Pearson's Education",
-      "Next-gen unified content delivery platform for LexisNexis across 5 countries",
-      "Excellence award from Infosys Global CEO",
-      "Best Software Engineer among 1,800 peers",
+      "> Pearson's: Built e2e assessment creation workflows",
+      "> LexisNexis: next-gen unified content delivery platform across US & Europe"
     ],
-    keyMetric: "5 countries",
+    keyMetric: "Enterprise data platforms",
   },
   {
     id: "agilemile",
-    chapter: "The Startup Builder",
-    title: "Lead Product Manager & Full Stack Developer",
-    company: "Agile Mile (NuRide)",
+    title: "Lead Developer & Product Manager",
+    company: "Agile Mile (formerly NuRide)",
+    companyUrl: "https://agilemile.com/",
     location: "Virginia & Connecticut",
     period: "2006–2010",
     yearStart: 2006,
     yearEnd: 2010,
-    domain: "startup",
+    domains: ["startup", "engineering", "b2b", "b2c", "product"],
     highlights: [
-      "Created strategy with CEO and built the multi-sided marketplace",
-      "Led tech-driven turnaround during 2008 crisis: reduced headcount 70%, scaled to 4x users",
-      "Early adopter of Amazon AWS, migrated infra to cloud",
-      "Launched 300+ marketing campaigns with geo-spatial customer segmentation",
+      "> Strategied with CEO to built the multi-sided marketplace",
+      "> Led PLG turnaround during financial crisis: reduced headcount 70%, scaled to 4x users",
+      "> Early adopter of Amazon AWS, migrated infra to cloud",
+      "> Launched 300+ marketing campaigns with geo-spatial customer segmentation",
     ],
-    keyMetric: "2x ARR impact",
+    keyMetric: "PLG turnaround during crisis",
+    images: [
+     "/public/career/nuride.png", 
+    ],
   },
   {
     id: "internships",
-    chapter: "Grad School Internships",
-    title: "Lead Product Manager & Full Stack Developer",
-    company: "Agile Mile (NuRide)",
-    location: "Virginia & Connecticut",
-    period: "2011–2011",
+    title: "MBA Intern, Product Tech Strategy",
     yearStart: 2011,
     yearEnd: 2011,
-    domain: "product",
+    domains: ["b2b", "product"],
     highlights: [
-      "Created strategy with CEO and built the multi-sided marketplace",
-      "Led tech-driven turnaround during 2008 crisis: reduced headcount 70%, scaled to 4x users",
-      "Early adopter of Amazon AWS, migrated infra to cloud",
-      "Launched 300+ marketing campaigns with geo-spatial customer segmentation",
+      "> TMobile: Private routers as public Internet gateways",
+      "> Compuware: Identify Management as a service"
     ],
-    keyMetric: "2x ARR impact",
+    keyMetric: "New market entry",
   },
   {
     id: "walmart-ops",
@@ -165,14 +174,14 @@ export const career: CareerEntry[] = [
     period: "2012–2016",
     yearStart: 2012,
     yearEnd: 2016,
-    domain: "operations",
+    domains: ["operations", "b2b"],
     highlights: [
-      "Led inventory flow planning for holiday peak season",
-      "Improved Customer Order Fill Rates from <90% to 95+% in 6 months",
-      "Curated 1M+ highest priority SKUs for eCommerce",
-      "Facilitated eComm CEO's Weekly Business Reviews",
+      "> Led inventory flow planning for holiday peak season",
+      "> Improved Customer Order Fill Rates from <90% to 95+% in 6 months",
+      "> Curated 1M+ highest priority SKUs for eCommerce",
+      "> Facilitated eComm CEO's Weekly Business Reviews",
     ],
-    keyMetric: "$4M top-line increase",
+    keyMetric: "Setup & Improve processes",
   },
   {
     id: "walmart-pm",
@@ -183,15 +192,15 @@ export const career: CareerEntry[] = [
     period: "2016–2025",
     yearStart: 2016,
     yearEnd: 2025,
-    domain: "product",
+    domains: ["product", "operations"],
     highlights: [
-      "Built 0→1 B2B transportation marketplace to $250M ARR",
-      "End-to-end logistics platform across 5 countries, $50M+ annual savings",
-      "Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent",
-      "Created simulation platform for $5B+ infrastructure investments, presented to CEO",
-      "Built sortation center tech: cut delivery costs 10%, reduced time 15%",
+      "> Built 0→1 B2B transportation marketplace to $250M ARR",
+      "> End-to-end logistics platform across 5 countries, $50M+ annual savings",
+      "> Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent",
+      "> Created simulation platform for $5B+ infrastructure investments, presented to CEO",
+      "> Built sortation center tech: cut delivery costs 10%, reduced time 15%",
     ],
-    keyMetric: "$250M ARR",
+    keyMetric: "$100+ savings impact",
   },
   {
     id: "independent",
@@ -202,13 +211,12 @@ export const career: CareerEntry[] = [
     period: "2025–Present",
     yearStart: 2025,
     yearEnd: 2026,
-    domain: "ai",
+    domains: ["startup", "product", "engineering", "b2c"],
     highlights: [
-      "Architected 'Force Multiplier' stacks using agentic workflows and GenAI",
-      "SimpleStory.ai: AI-native publishing marketplace — MVP launched",
-      "TroveScore: AI inventory valuation from single image — live product",
-      "Fultu.com: What-If AI game — interactive AI experiences",
-      "Full stack: Cursor AI, Claude Code, Vertex AI, Supabase, PostHog",
+      "> Architected 'Force Multiplier' stacks using agentic workflows and GenAI",
+      "> SimpleStory.ai: AI-native publishing marketplace — MVP launched",
+      "> TroveScore: AI inventory valuation from single image — live product",
+      "> Fultu.com: What-If AI game — interactive AI experiences",
     ],
     keyMetric: "3 AI products shipped",
   },

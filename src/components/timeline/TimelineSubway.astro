@@ -1,24 +1,21 @@
 ---
 import { career, careerReverseChronological } from "@/data/portfolio";
 import { samplePositionsAlongPolyline, SUBWAY_ROUTE_VERTICES } from "@/lib/careerTimelineLayout";
+import { careerCompanyShort, careerStr, pickCareerDomainColor } from "@/lib/careerDisplay";
+import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
 
 const careerCount = career.length;
 const positionsChrono = samplePositionsAlongPolyline(SUBWAY_ROUTE_VERTICES, careerCount);
-
-const lineColors: Record<string, string> = {
-  engineering: "#6366f1",
-  startup: "#f59e0b",
-  operations: "#10b981",
-  product: "#3b82f6",
-  ai: "#e88c4f",
-};
 
 const lineNames = [
   { domain: "engineering", label: "Engineering Line", color: "#6366f1" },
   { domain: "startup", label: "Startup Line", color: "#f59e0b" },
   { domain: "operations", label: "Operations Line", color: "#10b981" },
   { domain: "product", label: "Product Line", color: "#3b82f6" },
+  { domain: "b2b", label: "B2B Line", color: "#0d9488" },
+  { domain: "b2c", label: "B2C Line", color: "#f43f5e" },
   { domain: "ai", label: "AI Line", color: "#e88c4f" },
+  { domain: "tech strategy", label: "Tech strategy", color: "#a855f7" },
 ];
 ---
 
@@ -57,22 +54,34 @@ const lineNames = [
       <!-- Stations -->
       {careerReverseChronological.map((entry, i) => {
         const pos = positionsChrono[careerCount - 1 - i]!;
+        const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, careerEntryPrimaryDomain(entry));
+        const short = careerCompanyShort(entry.company);
+        const per = careerStr(entry.period);
         return (
-          <g class="subway-station cursor-pointer" data-station={entry.id}
-             style={`animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}>
+          <g
+            class="subway-station cursor-pointer"
+            data-station={entry.id}
+            data-career-entry
+            data-career-domains={careerDomainsCsv(entry)}
+            style={`animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}
+          >
             {/* Station circle */}
-            <circle cx={pos.x} cy={pos.y} r="10" fill="var(--color-card-bg)" stroke={lineColors[entry.domain]} stroke-width="3"/>
-            <circle cx={pos.x} cy={pos.y} r="4" fill={lineColors[entry.domain]}/>
+            <circle cx={pos.x} cy={pos.y} r="10" fill="var(--color-card-bg)" stroke={color} stroke-width="3"/>
+            <circle cx={pos.x} cy={pos.y} r="4" fill={color}/>
             {/* Station label */}
-            <text x={pos.x} y={pos.y - 20} text-anchor="middle" fill="currentColor" font-size="11" font-weight="600">
-              {entry.company.split(' ')[0]}
+            {short && (
+            <text x={pos.x} y={pos.y - (per ? 20 : 14)} text-anchor="middle" fill="currentColor" font-size="11" font-weight="600">
+              {short}
             </text>
-            <text x={pos.x} y={pos.y - 8} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.6">
-              {entry.period}
+            )}
+            {per && (
+            <text x={pos.x} y={pos.y - (short ? 8 : 14)} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.6">
+              {per}
             </text>
+            )}
             {/* Key metric below */}
-            {entry.keyMetric && (
-              <text x={pos.x} y={pos.y + 25} text-anchor="middle" fill={lineColors[entry.domain]} font-size="10" font-weight="700">
+            {careerStr(entry.keyMetric) && (
+              <text x={pos.x} y={pos.y + 25} text-anchor="middle" fill={color} font-size="10" font-weight="700">
                 {entry.keyMetric}
               </text>
             )}
@@ -94,34 +103,144 @@ const lineNames = [
   </div>
 </div>
 
-<script define:vars={{ career: JSON.stringify(careerReverseChronological), lineColors: JSON.stringify(lineColors) }}>
+<script define:vars={{ career: JSON.stringify(careerReverseChronological), lineColors: JSON.stringify(CAREER_DOMAIN_HEX) }}>
   const careerData = JSON.parse(career);
   const colors = JSON.parse(lineColors);
 
-  document.querySelectorAll('.subway-station').forEach((station) => {
-    station.addEventListener('click', () => {
-      const id = station.getAttribute('data-station');
+  function careerStrClient(v) {
+    if (v == null || typeof v !== "string") return null;
+    const t = v.trim();
+    return t.length > 0 ? t : null;
+  }
+
+  function pickCareerDomainColorClient(entry) {
+    const first = Array.isArray(entry.domains) && entry.domains.length > 0 ? entry.domains[0] : null;
+    if (first && colors[first]) return colors[first];
+    return "#888888";
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function escAttr(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;");
+  }
+
+  const EXTERNAL_TAB_ICON =
+    '<svg class="career-subway-company-ext" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span class="sr-only"> Opens in new tab</span>';
+
+  document.querySelectorAll(".subway-station").forEach((station) => {
+    station.addEventListener("click", () => {
+      const id = station.getAttribute("data-station");
       const entry = careerData.find((e) => e.id === id);
       if (!entry) return;
 
-      const detail = document.getElementById('subway-detail');
-      const content = document.getElementById('subway-detail-content');
+      const detail = document.getElementById("subway-detail");
+      const content = document.getElementById("subway-detail-content");
       if (!detail || !content) return;
 
-      detail.classList.remove('hidden');
-      content.innerHTML = `
-        <div class="flex items-start justify-between mb-3">
-          <div>
-            <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background-color: ${colors[entry.domain]}20; color: ${colors[entry.domain]};">${entry.chapter}</span>
-            <h3 class="text-lg font-bold mt-2">${entry.title}</h3>
-            <p class="text-sm" style="color: var(--color-text-secondary);">${entry.company} &middot; ${entry.period}</p>
-          </div>
-          ${entry.keyMetric ? `<span class="text-xl font-bold" style="color: ${colors[entry.domain]};">${entry.keyMetric}</span>` : ''}
-        </div>
-        <ul class="space-y-1.5">
-          ${entry.highlights.map((h) => `<li class="text-sm" style="color: var(--color-text-secondary);">&#8226; ${h}</li>`).join('')}
-        </ul>
-      `;
+      const domainColor = pickCareerDomainColorClient(entry);
+      const companyName = careerStrClient(entry.company);
+      const companyUrl = careerStrClient(entry.companyUrl);
+      const companyHtml =
+        companyName &&
+        (companyUrl
+          ? `<a href="${escAttr(companyUrl)}" target="_blank" rel="noopener noreferrer" class="career-subway-company-link">${escHtml(companyName)}${EXTERNAL_TAB_ICON}</a>`
+          : escHtml(companyName));
+      const metaTail = [careerStrClient(entry.period), careerStrClient(entry.location)].filter(Boolean).map(escHtml);
+      const metaSegments = [companyHtml, ...metaTail].filter(Boolean);
+      const metaHtml =
+        metaSegments.length > 0
+          ? `<p class="text-sm" style="color: var(--color-text-secondary);">${metaSegments.join(" &middot; ")}</p>`
+          : "";
+
+      const title = careerStrClient(entry.title);
+      const titleHtml = title ? `<h3 class="text-lg font-bold">${escHtml(title)}</h3>` : "";
+
+      const key = careerStrClient(entry.keyMetric);
+      const keyHtml = key
+        ? `<span class="text-xl font-bold shrink-0" style="color: ${domainColor};">${escHtml(key)}</span>`
+        : "";
+
+      const hl = Array.isArray(entry.highlights)
+        ? entry.highlights.map((h) => careerStrClient(h)).filter(Boolean)
+        : [];
+      const listHtml = hl.length > 0
+        ? `<ul class="space-y-1.5">${hl.map((h) => `<li class="text-sm" style="color: var(--color-text-secondary);">&#8226; ${escHtml(h)}</li>`).join("")}</ul>`
+        : "";
+
+      function normalizeCareerImagesClient(images) {
+        if (!Array.isArray(images)) return [];
+        const out = [];
+        for (const raw of images) {
+          if (typeof raw === "string") {
+            const s = careerStrClient(raw);
+            if (s) out.push({ src: s });
+            continue;
+          }
+          if (raw && typeof raw === "object" && typeof raw.src === "string") {
+            const src = careerStrClient(raw.src);
+            if (!src) continue;
+            const href = careerStrClient(raw.href);
+            out.push(href ? { src, href } : { src });
+          }
+        }
+        return out;
+      }
+
+      const imgItems = normalizeCareerImagesClient(entry.images);
+      const labelForImgs = careerStrClient(entry.company) ?? careerStrClient(entry.title) ?? entry.id;
+      const thumbClass =
+        "inline-flex w-10 h-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-[var(--color-accent)]";
+      const thumbImgClass = "max-h-full max-w-full object-contain block";
+      const thumbsHtml =
+        imgItems.length > 0
+          ? `<div class="flex flex-wrap gap-1.5 mt-4" role="group" aria-label="Photos for ${escAttr(labelForImgs)}">${imgItems
+              .map((item, idx) =>
+                item.href
+                  ? `<a href="${escAttr(item.href)}" target="_blank" rel="noopener noreferrer" class="${thumbClass}" aria-label="Open related link in new tab — image ${idx + 1} — ${escAttr(labelForImgs)}"><img src="${escAttr(item.src)}" alt="" width="40" height="40" class="${thumbImgClass}" loading="lazy" decoding="async" /></a>`
+                  : `<button type="button" class="career-thumb-btn ${thumbClass}" data-career-lightbox="${escAttr(item.src)}" aria-label="View image ${idx + 1} full size — ${escAttr(labelForImgs)}"><img src="${escAttr(item.src)}" alt="" width="40" height="40" class="${thumbImgClass}" loading="lazy" decoding="async" /></button>`,
+              )
+              .join("")}</div>`
+          : "";
+
+      const leftBlock = titleHtml || metaHtml;
+      const topRow = leftBlock
+        ? `<div class="flex items-start justify-between mb-3 gap-4"><div>${titleHtml}${metaHtml}</div>${keyHtml}</div>`
+        : keyHtml
+          ? `<div class="flex items-start justify-between mb-3 gap-4"><div></div>${keyHtml}</div>`
+          : "";
+
+      detail.classList.remove("hidden");
+      content.innerHTML = topRow + listHtml + thumbsHtml;
     });
   });
 </script>
+
+<style is:global>
+  .career-subway-company-link {
+    color: inherit;
+    text-underline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .career-subway-company-link:hover {
+    text-decoration: underline;
+    color: var(--color-accent);
+  }
+  .career-subway-company-ext {
+    flex-shrink: 0;
+    width: 0.85em;
+    height: 0.85em;
+    opacity: 0.7;
+    vertical-align: middle;
+  }
+</style>
