@@ -4,7 +4,7 @@ const doubled = [...impactMetrics, ...impactMetrics];
 ---
 
 <!-- Impact Option B: "Ticker Strip" - Horizontally scrolling news ticker -->
-<section id="impact" class="py-16 overflow-hidden border-y border-[var(--color-border)]">
+<section id="impact" class="mt-12 md:mt-16 py-6 md:py-8 overflow-hidden border-y border-[var(--color-border)]">
   <div class="ticker-container relative">
     <div class="ticker-track flex gap-12 whitespace-nowrap" style="animation: ticker-scroll 30s linear infinite;">
       {doubled.map((metric) => (

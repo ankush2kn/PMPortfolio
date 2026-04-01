@@ -1,41 +1,54 @@
 ---
 import { projects } from "@/data/portfolio";
 
-const iconPaths: Record<string, string> = {
-  book: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
-  camera: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M15 12.75a3 3 0 11-6 0 3 3 0 016 0z",
-  gamepad: "M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c-1.054-.1-2.03-.607-2.03-1.643v0c0-1.036 1.007-1.875 2.25-1.875h.375m0 0A2.25 2.25 0 018.25 5.25v0c0-1.036 1.007-1.875 2.25-1.875M5.25 5.25A2.25 2.25 0 017.5 3h0c1.243 0 2.25.84 2.25 1.875M5.25 5.25v3.75m13.5-3.75A2.25 2.25 0 0016.5 3h0c-1.243 0-2.25.84-2.25 1.875m4.5 0v3.75",
-};
+const CHALLENGE_LABEL = "Why it existed";
+const OUTCOME_LABEL = "What I shipped";
 ---
 
-<!-- Projects Option A: "App Store Cards" - App listing style -->
+<!-- Projects Option A: App-style cards with screenshot + challenge / outcome -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   {projects.map((project, i) => (
     <a
       href={project.url}
       target="_blank"
       rel="noopener"
-      class="group bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-6 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg block"
+      class="group bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-5 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg block"
       style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
     >
-      <!-- App icon -->
-      <div class="w-14 h-14 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center mb-4 group-hover:bg-[var(--color-accent)]/20 transition-colors">
-        <svg class="w-7 h-7 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d={iconPaths[project.icon] || iconPaths.book}/>
-        </svg>
+      <div class="flex gap-4 mb-4">
+        <div class="w-[4.5rem] h-[4.5rem] shrink-0 rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+          <img
+            src={project.screenshot}
+            alt={`${project.name} site preview`}
+            class="w-full h-full object-cover object-top"
+            width="72"
+            height="72"
+            loading="lazy"
+          />
+        </div>
+        <div class="min-w-0 flex-1 pt-0.5">
+          <h3 class="text-lg font-bold leading-tight group-hover:text-[var(--color-accent)] transition-colors">{project.name}</h3>
+          <p class="text-xs text-[var(--color-text-secondary)] mt-1 line-clamp-2">{project.tagline}</p>
+        </div>
       </div>
 
-      <h3 class="text-lg font-bold mb-1">{project.name}</h3>
-      <p class="text-sm text-[var(--color-text-secondary)] mb-4 line-clamp-2">{project.tagline}</p>
+      <div class="space-y-2 mb-4 text-left">
+        <div>
+          <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{CHALLENGE_LABEL}</p>
+          <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">{project.challenge}</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{OUTCOME_LABEL}</p>
+          <p class="text-xs text-[var(--color-text)] leading-relaxed">{project.outcome}</p>
+        </div>
+      </div>
 
-      <!-- Metrics -->
-      <div class="flex flex-wrap gap-1.5 mb-4">
+      <div class="flex flex-wrap gap-1.5 mb-3">
         {project.metrics.map((m) => (
           <span class="text-[10px] px-2 py-0.5 bg-[var(--color-bg-secondary)] rounded-full text-[var(--color-text-secondary)]">{m}</span>
         ))}
       </div>
 
-      <!-- Tech stack -->
       <div class="flex flex-wrap gap-1">
         {project.techStack.map((t) => (
           <span class="text-[10px] px-1.5 py-0.5 border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">{t}</span>

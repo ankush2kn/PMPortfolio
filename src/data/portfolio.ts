@@ -4,7 +4,6 @@ export const profile = {
   phone: "734-494-2012",
   linkedin: "https://linkedin.com/in/ankushbhargava",
   github: "https://github.com/ankush2kn",
-  email: "ankush.bhargava@gmail.com",
   taglines: [
     "20 years building products. Now building with AI.",
     "Enterprise scale meets startup speed.",
@@ -24,6 +23,15 @@ export const impactMetrics = [
   { value: "3", label: "AI Products", context: "Built & Launched Solo", company: "Independent" },
 ];
 
+export const principles = [
+  { title: "Leave it better than you found it", context: "Solve the hardest problems. Always." },
+  { title: "0 to 1 to N", context: "Energized by building from scratch, then scaling." },
+  { title: "Data over opinions", context: "SQL first, then strategy." },
+  { title: "Build to learn, learn to build", context: "Ship fast. Iterate faster." },
+  { title: "Every 1% matters at scale", context: "Small wins, massive P&L impact." },
+  { title: "End-to-end thinking", context: "Strategy through execution, no handoffs." },
+];
+
 export const projects = [
   {
     name: "SimpleStory.ai",
@@ -34,6 +42,11 @@ export const projects = [
     metrics: ["MVP launched", "Low-friction creator UX validated"],
     techStack: ["Vertex AI", "Google Cloud", "ElevenLabs", "Supabase"],
     icon: "book",
+    screenshot: "/projects/simplestory.svg",
+    challenge:
+      "Teachers and parents needed faster ways to create engaging, personalized learning stories without a production team.",
+    outcome:
+      "Shipped an AI-native publishing flow with generated visuals and voice — validated creator UX through MVP launch.",
   },
   {
     name: "TroveScore",
@@ -44,6 +57,11 @@ export const projects = [
     metrics: ["Real-time market data", "Single-image recognition"],
     techStack: ["Vertex AI", "Google Cloud", "eBay API", "Fal.ai"],
     icon: "camera",
+    screenshot: "/projects/trovescore.svg",
+    challenge:
+      "People with large home libraries couldn’t quickly value books or decide sell vs. donate vs. keep without manual lookup.",
+    outcome:
+      "Built one-tap shelf capture with ID + live market pricing to recommend the best next action.",
   },
   {
     name: "Fultu",
@@ -54,6 +72,11 @@ export const projects = [
     metrics: ["AI-driven gameplay", "Interactive narratives"],
     techStack: ["AI/ML", "Interactive Design"],
     icon: "gamepad",
+    screenshot: "/projects/fultu.svg",
+    challenge:
+      "Exploring “what if” scenarios was mostly static or generic — few playful, interactive ways to branch narratives with AI.",
+    outcome:
+      "Launched a what-if game engine that turns hypotheticals into short, dynamic AI-driven story paths.",
   },
 ];
 
@@ -172,12 +195,16 @@ export const education = [
     focus: "Strategy and Operations",
     school: "University of Michigan, Ann Arbor",
     year: 2012,
+    logoSrc: "/images/Michigan_large.webp",
+    logoAlt: "University of Michigan",
   },
   {
     degree: "Bachelor of Information Technology (Engineering)",
     focus: "Internet Technologies",
     school: "University of Delhi, New Delhi, India",
     year: 2002,
+    logoSrc: "/images/pngwing.com.png",
+    logoAlt: "University of Delhi",
   },
 ];
 

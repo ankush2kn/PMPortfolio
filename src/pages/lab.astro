@@ -1,10 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { DEFAULT_VARIANTS } from "@/data/siteDefaults";
 import ProjectsAppStore from "@/components/projects/ProjectsAppStore.astro";
 import ProjectsScreenshot from "@/components/projects/ProjectsScreenshot.astro";
 import ProjectsProblemSolution from "@/components/projects/ProjectsProblemSolution.astro";
 import ContactMinimalFooter from "@/components/contact/ContactMinimalFooter.astro";
-import { profile } from "@/data/portfolio";
+function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
+  return DEFAULT_VARIANTS[group] === variant ? ({ "data-is-default": true } as const) : {};
+}
 ---
 
 <Layout title="The Lab — Ankush Bhargava">
@@ -61,13 +64,13 @@ import { profile } from "@/data/portfolio";
       </div>
 
       <!-- PROJECT VARIANTS -->
-      <div data-variant-group="Projects" data-variant="A">
+      <div data-variant-group="Projects" data-variant="A" {...defaultAttr("Projects", "A")}>
         <ProjectsAppStore />
       </div>
-      <div data-variant-group="Projects" data-variant="B">
+      <div data-variant-group="Projects" data-variant="B" {...defaultAttr("Projects", "B")}>
         <ProjectsScreenshot />
       </div>
-      <div data-variant-group="Projects" data-variant="C">
+      <div data-variant-group="Projects" data-variant="C" {...defaultAttr("Projects", "C")}>
         <ProjectsProblemSolution />
       </div>
     </div>

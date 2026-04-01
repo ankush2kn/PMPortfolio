@@ -1,14 +1,10 @@
 ---
-import SketchAnkush from "@/components/characters/SketchAnkush.astro";
 import { profile } from "@/data/portfolio";
 ---
 
-<!-- Contact Option A: "The Open Door" - Character waving with CTA -->
+<!-- Contact Option A: "The Open Door" - CTA without character -->
 <section class="py-20 px-6 border-t border-[var(--color-border)]">
   <div class="max-w-2xl mx-auto text-center">
-    <div class="flex justify-center mb-6" style="animation: float 3s ease-in-out infinite;">
-      <SketchAnkush pose="present" class="w-24 h-auto" />
-    </div>
     <h2 class="text-3xl md:text-4xl font-bold mb-3">Let's Build Something</h2>
     <p class="text-[var(--color-text-secondary)] mb-2">{profile.seeking}</p>
     <div class="flex items-center justify-center gap-2 mb-8">
@@ -19,11 +15,8 @@ import { profile } from "@/data/portfolio";
       <span class="text-sm text-[var(--color-available)]">{profile.availability}</span>
     </div>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href={`mailto:${profile.email}`} class="px-6 py-2.5 bg-[var(--color-accent)] text-white rounded-full text-sm font-medium hover:bg-[var(--color-accent-hover)] transition-colors">
-        Email Me
-      </a>
-      <a href={profile.linkedin} target="_blank" rel="noopener" class="px-6 py-2.5 border border-[var(--color-border)] rounded-full text-sm font-medium hover:bg-[var(--color-bg-secondary)] transition-colors">
-        LinkedIn
+      <a href={profile.linkedin} target="_blank" rel="noopener" class="px-6 py-2.5 bg-[var(--color-accent)] text-white rounded-full text-sm font-medium hover:bg-[var(--color-accent-hover)] transition-colors">
+        Message on LinkedIn
       </a>
       <a href={profile.github} target="_blank" rel="noopener" class="px-6 py-2.5 border border-[var(--color-border)] rounded-full text-sm font-medium hover:bg-[var(--color-bg-secondary)] transition-colors">
         GitHub

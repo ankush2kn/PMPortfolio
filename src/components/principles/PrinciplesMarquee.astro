@@ -1,0 +1,29 @@
+---
+import { principles } from "@/data/portfolio";
+
+const doubled = [...principles, ...principles];
+---
+
+<!-- Option B: Marquee / Scrolling Strip -->
+<section class="py-14 overflow-hidden border-y border-[var(--color-border)]" id="principles">
+  <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-8 text-center">
+    Key Principles
+  </h2>
+  <div class="relative principles-marquee-wrap">
+    <div class="principles-marquee-track flex gap-10 whitespace-nowrap" style="animation: ticker-scroll 45s linear infinite;">
+      {doubled.map((p) => (
+        <div class="flex items-baseline gap-3 shrink-0">
+          <span class="text-base md:text-lg font-bold text-[var(--color-accent)]">{p.title}</span>
+          <span class="text-sm text-[var(--color-text-secondary)] max-w-[14rem] hidden sm:inline">{p.context}</span>
+          <span class="text-[var(--color-border)]">|</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .principles-marquee-wrap:hover .principles-marquee-track {
+    animation-play-state: paused;
+  }
+</style>
