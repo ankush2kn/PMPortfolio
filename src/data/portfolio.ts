@@ -1,5 +1,7 @@
 export const profile = {
   name: "Ankush Bhargava",
+  portraitSrc: "/images/ankush-bhargava-profile.jpg",
+  portraitAlt: "Portrait of Ankush Bhargava, product leader",
   location: "San Francisco Bay Area, CA",
   phone: "734-494-2012",
   linkedin: "https://linkedin.com/in/ankushbhargava",
@@ -42,7 +44,7 @@ export const projects = [
     metrics: ["MVP launched", "Low-friction creator UX validated"],
     techStack: ["Vertex AI", "Google Cloud", "ElevenLabs", "Supabase"],
     icon: "book",
-    screenshot: "/projects/simplestory.svg",
+    screenshot: "/projects/simplestory.png",
     challenge:
       "Teachers and parents needed faster ways to create engaging, personalized learning stories without a production team.",
     outcome:
@@ -57,7 +59,7 @@ export const projects = [
     metrics: ["Real-time market data", "Single-image recognition"],
     techStack: ["Vertex AI", "Google Cloud", "eBay API", "Fal.ai"],
     icon: "camera",
-    screenshot: "/projects/trovescore.svg",
+    screenshot: "/projects/trovescore.png",
     challenge:
       "People with large home libraries couldn’t quickly value books or decide sell vs. donate vs. keep without manual lookup.",
     outcome:
@@ -72,7 +74,7 @@ export const projects = [
     metrics: ["AI-driven gameplay", "Interactive narratives"],
     techStack: ["AI/ML", "Interactive Design"],
     icon: "gamepad",
-    screenshot: "/projects/fultu.svg",
+    screenshot: "/projects/fultu.png",
     challenge:
       "Exploring “what if” scenarios was mostly static or generic — few playful, interactive ways to branch narratives with AI.",
     outcome:

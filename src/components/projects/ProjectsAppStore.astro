@@ -6,23 +6,23 @@ const OUTCOME_LABEL = "What I shipped";
 ---
 
 <!-- Projects Option A: App-style cards with screenshot + challenge / outcome -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
   {projects.map((project, i) => (
     <a
       href={project.url}
       target="_blank"
       rel="noopener"
-      class="group bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-5 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg block"
+      class="group flex h-full min-h-0 flex-col bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-5 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
       style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
     >
-      <div class="flex gap-4 mb-4">
-        <div class="w-[4.5rem] h-[4.5rem] shrink-0 rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+      <div class="flex gap-4 shrink-0 mb-4">
+        <div class="flex h-[5.4rem] w-[5.4rem] shrink-0 items-center justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-1.5">
           <img
             src={project.screenshot}
             alt={`${project.name} site preview`}
-            class="w-full h-full object-cover object-top"
-            width="72"
-            height="72"
+            class="max-h-full max-w-full object-contain object-center"
+            width="87"
+            height="87"
             loading="lazy"
           />
         </div>
@@ -32,31 +32,33 @@ const OUTCOME_LABEL = "What I shipped";
         </div>
       </div>
 
-      <div class="space-y-2 mb-4 text-left">
-        <div>
-          <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{CHALLENGE_LABEL}</p>
-          <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">{project.challenge}</p>
+      <div class="flex min-h-0 flex-1 flex-col text-left">
+        <div class="space-y-2 mb-4">
+          <div>
+            <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{CHALLENGE_LABEL}</p>
+            <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">{project.challenge}</p>
+          </div>
+          <div>
+            <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{OUTCOME_LABEL}</p>
+            <p class="text-xs text-[var(--color-text)] leading-relaxed">{project.outcome}</p>
+          </div>
         </div>
-        <div>
-          <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{OUTCOME_LABEL}</p>
-          <p class="text-xs text-[var(--color-text)] leading-relaxed">{project.outcome}</p>
+
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          {project.metrics.map((m) => (
+            <span class="text-[10px] px-2 py-0.5 bg-[var(--color-bg-secondary)] rounded-full text-[var(--color-text-secondary)]">{m}</span>
+          ))}
         </div>
-      </div>
 
-      <div class="flex flex-wrap gap-1.5 mb-3">
-        {project.metrics.map((m) => (
-          <span class="text-[10px] px-2 py-0.5 bg-[var(--color-bg-secondary)] rounded-full text-[var(--color-text-secondary)]">{m}</span>
-        ))}
-      </div>
+        <div class="flex flex-wrap gap-1">
+          {project.techStack.map((t) => (
+            <span class="text-[10px] px-1.5 py-0.5 border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">{t}</span>
+          ))}
+        </div>
 
-      <div class="flex flex-wrap gap-1">
-        {project.techStack.map((t) => (
-          <span class="text-[10px] px-1.5 py-0.5 border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">{t}</span>
-        ))}
-      </div>
-
-      <div class="mt-4 text-xs text-[var(--color-accent)] font-medium group-hover:underline">
-        View Project →
+        <div class="mt-auto self-end pt-4 text-right text-xs text-[var(--color-accent)] font-medium group-hover:underline">
+          View Project →
+        </div>
       </div>
     </a>
   ))}

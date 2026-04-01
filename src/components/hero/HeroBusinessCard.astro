@@ -5,6 +5,26 @@ import { profile } from "@/data/portfolio";
 <!-- Hero Option C: "The Business Card" - Ultra-minimal, typography-driven -->
 <section class="min-h-0 py-8 md:py-10 flex flex-col items-center justify-center px-6 text-center">
   <div class="space-y-6" style="animation: fadeIn 1.2s ease-out both;">
+    <div class="flex justify-center" style="animation: fadeInUp 0.85s var(--ease-out-expo) both;">
+      <div
+        class="hero-portrait-frame relative size-28 sm:size-32 md:size-36 overflow-hidden rounded-full ring-2 ring-[var(--color-accent)]/40 shadow-lg dark:shadow-[0_0_44px_rgba(232,140,79,0.22)]"
+      >
+        <img
+          src={profile.portraitSrc}
+          alt={profile.portraitAlt}
+          width="320"
+          height="320"
+          class="hero-portrait-img size-full object-cover object-[center_18%] scale-[1.07] translate-x-[6%] opacity-[0.88]"
+          loading="eager"
+          decoding="async"
+        />
+        <div
+          class="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-transparent from-40% via-[var(--color-bg)]/25 to-[var(--color-bg)]/85"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+
     <h1 class="text-6xl md:text-8xl font-bold tracking-tighter" style="animation: fadeInUp 1s var(--ease-out-expo) 0.2s both;">
       {profile.name}
     </h1>
