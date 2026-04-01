@@ -1,5 +1,5 @@
 ---
-import { career } from "@/data/portfolio";
+import { careerReverseChronological } from "@/data/portfolio";
 
 const domainColors: Record<string, string> = {
   engineering: "#6366f1",
@@ -15,7 +15,7 @@ const domainColors: Record<string, string> = {
   <!-- Horizontal scroll container -->
   <div class="overflow-x-auto pb-6 scrollbar-hide" id="film-strip">
     <div class="flex gap-6 px-6 min-w-max">
-      {career.map((entry, i) => (
+      {careerReverseChronological.map((entry, i) => (
         <div
           class="w-72 shrink-0 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
           style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.12 * i}s both;`}
@@ -68,7 +68,7 @@ const domainColors: Record<string, string> = {
       </svg>
     </button>
     <div class="flex items-center gap-1">
-      {career.map((_, i) => (
+      {careerReverseChronological.map((_, i) => (
         <div class="w-1.5 h-1.5 rounded-full bg-[var(--color-border)] film-dot" data-idx={i}></div>
       ))}
     </div>

@@ -1,5 +1,5 @@
 ---
-import { career } from "@/data/portfolio";
+import { careerReverseChronological } from "@/data/portfolio";
 
 const domainColors: Record<string, string> = {
   engineering: "#6366f1",
@@ -12,39 +12,203 @@ const domainColors: Record<string, string> = {
 
 <!-- Timeline Option 3: "Scroll-Driven Vertical Timeline" - Central spine, alternating cards -->
 <div class="relative max-w-4xl mx-auto">
-  <!-- Central line -->
   <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--color-border)] -translate-x-1/2 hidden md:block"></div>
   <div class="absolute left-6 top-0 bottom-0 w-px bg-[var(--color-border)] md:hidden"></div>
 
-  <div class="space-y-12">
-    {career.map((entry, i) => (
-      <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-           style={`animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}>
-        <!-- Timeline node -->
-        <div class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-10"
-             style={`background-color: ${domainColors[entry.domain]};`}>
-        </div>
-
-        <!-- Card -->
-        <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
-          <div class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
-            <span class="text-xs font-medium px-2 py-0.5 rounded-full" style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}>
-              {entry.chapter}
-            </span>
-            <h3 class="text-base font-bold mt-2">{entry.title}</h3>
-            <p class="text-sm text-[var(--color-text-secondary)]">{entry.company}</p>
-            <p class="text-xs text-[var(--color-text-secondary)] mt-1">{entry.period} &middot; {entry.location}</p>
-            {entry.keyMetric && (
-              <p class="text-lg font-bold text-[var(--color-accent)] mt-2">{entry.keyMetric}</p>
-            )}
-            <ul class="mt-3 space-y-1">
-              {entry.highlights.slice(0, 2).map((h) => (
-                <li class={`text-xs text-[var(--color-text-secondary)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>{h}</li>
-              ))}
-            </ul>
+  <div class="vertical-timeline-stack pb-10 space-y-8 md:space-y-0" data-vertical-timeline>
+    {careerReverseChronological.map((entry, i) => (
+      <div
+        class="vertical-timeline-step relative"
+        data-step-index={String(i)}
+        data-domain={entry.domain}
+        style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
+      >
+        <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+          <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+            <div class="timeline-card-surface bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
+              <span
+                class="text-xs font-medium px-2 py-0.5 rounded-full"
+                style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}
+              >
+                {entry.chapter}
+              </span>
+              <h3 class="vertical-timeline-title text-base font-bold mt-2" style={`color: ${domainColors[entry.domain]};`}>
+                {entry.title}
+              </h3>
+              <p class="text-sm text-[var(--color-text-secondary)]">{entry.company}</p>
+              <p class="text-xs text-[var(--color-text-secondary)] mt-1">{entry.period} &middot; {entry.location}</p>
+              {entry.keyMetric && (
+                <p class="text-lg font-bold text-[var(--color-accent)] mt-2">{entry.keyMetric}</p>
+              )}
+              <ul class="mt-3 space-y-1">
+                {entry.highlights.slice(0, 2).map((h) => (
+                  <li class={`text-xs text-[var(--color-text-secondary)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>{h}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
+
+        <div
+          class="vertical-timeline-dot absolute left-6 md:left-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-20 shadow-sm pointer-events-none"
+          style={`background-color: ${domainColors[entry.domain]};`}
+        >
+        </div>
+
+        <div
+          class="vertical-timeline-connector absolute z-10 h-[3px] md:h-2 rounded-full pointer-events-none opacity-95"
+          data-card-side={i % 2 === 0 ? 'left' : 'right'}
+          style={`background-color: ${domainColors[entry.domain]};`}
+          aria-hidden="true"
+        >
+        </div>
+
+        <span class="vertical-timeline-connector-tip absolute z-10 pointer-events-none block w-0 h-0 border-transparent" aria-hidden="true"></span>
       </div>
     ))}
   </div>
 </div>
+
+<script>
+  const VERTICAL_TIMELINE_START_RATIO = 0.75;
+
+  const DOMAIN_COLORS: Record<string, string> = {
+    engineering: "#6366f1",
+    startup: "#f59e0b",
+    operations: "#10b981",
+    product: "#3b82f6",
+    ai: "#e88c4f",
+  };
+
+  const MD_UP = "(min-width: 768px)";
+
+  function applyVerticalTimelineOverlap() {
+    const stack = document.querySelector("[data-vertical-timeline]");
+    if (!(stack instanceof HTMLElement)) return;
+
+    const steps = stack.querySelectorAll(".vertical-timeline-step");
+    const desktop = window.matchMedia(MD_UP).matches;
+
+    steps.forEach((step, i) => {
+      if (!(step instanceof HTMLElement)) return;
+      if (!desktop) {
+        step.style.marginTop = "";
+        return;
+      }
+      if (i === 0) {
+        step.style.marginTop = "";
+        return;
+      }
+      const prev = steps[i - 1];
+      if (!(prev instanceof HTMLElement)) return;
+      const h = prev.offsetHeight;
+      const pullUp = (1 - VERTICAL_TIMELINE_START_RATIO) * h;
+      step.style.marginTop = h > 0 ? `${-pullUp}px` : "";
+    });
+  }
+
+  function alignDotsAndConnectors() {
+    const stack = document.querySelector("[data-vertical-timeline]");
+    if (!(stack instanceof HTMLElement)) return;
+
+    const desktop = window.matchMedia(MD_UP).matches;
+    const steps = stack.querySelectorAll(".vertical-timeline-step");
+
+    steps.forEach((step) => {
+      if (!(step instanceof HTMLElement)) return;
+      const title = step.querySelector(".vertical-timeline-title");
+      const dot = step.querySelector(".vertical-timeline-dot");
+      const connector = step.querySelector(".vertical-timeline-connector");
+      const tip = step.querySelector(".vertical-timeline-connector-tip");
+      const card = step.querySelector(".timeline-card-surface");
+      if (!(title instanceof HTMLElement) || !(dot instanceof HTMLElement) || !(connector instanceof HTMLElement) || !(tip instanceof HTMLElement) || !(card instanceof HTMLElement)) {
+        return;
+      }
+
+      const domain = step.dataset.domain ?? "";
+      const color = DOMAIN_COLORS[domain] ?? "#888";
+
+      const stepRect = step.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+      const titleCenterY = titleRect.top - stepRect.top + titleRect.height / 2;
+
+      dot.style.top = `${titleCenterY}px`;
+      dot.style.transform = desktop ? "translate(-50%, -50%)" : "translate(0, -50%)";
+
+      if (!desktop) {
+        connector.style.display = "none";
+        tip.style.display = "none";
+        return;
+      }
+
+      const dotRect = dot.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const dotCx = dotRect.left + dotRect.width / 2;
+      const dotCy = dotRect.top + dotRect.height / 2;
+      const side = connector.getAttribute("data-card-side") ?? "left";
+      const toward = side === "left" ? -1 : 1;
+      const cardEdgeX = side === "left" ? cardRect.left : cardRect.right;
+      /* Connector length: 25% of prior “halfway to card” segment (= 12.5% of dot→card gap) */
+      const halfLen = Math.abs(cardEdgeX - dotCx) * 0.1;
+      const endX = dotCx + toward * halfLen;
+
+      const x1 = Math.min(dotCx, endX) - stepRect.left;
+      const w = Math.abs(endX - dotCx);
+
+      if (w < 2) {
+        connector.style.display = "none";
+        tip.style.display = "none";
+        return;
+      }
+      connector.style.display = "block";
+      tip.style.display = "block";
+      connector.style.backgroundColor = color;
+      connector.style.left = `${x1}px`;
+      connector.style.width = `${w}px`;
+      connector.style.top = `${dotCy - stepRect.top}px`;
+      connector.style.transform = "translateY(-50%)";
+
+      const tipHalf = 4;
+      const tipW = 5;
+      tip.style.borderStyle = "solid";
+      tip.style.borderColor = "transparent";
+      tip.style.top = `${dotCy - stepRect.top}px`;
+      tip.style.transform = "translateY(-50%)";
+      if (side === "left") {
+        tip.style.left = `${x1 - tipW}px`;
+        tip.style.borderWidth = `${tipHalf}px ${tipW}px ${tipHalf}px 0`;
+        tip.style.borderRightColor = color;
+      } else {
+        tip.style.left = `${x1 + w}px`;
+        tip.style.borderWidth = `${tipHalf}px 0 ${tipHalf}px ${tipW}px`;
+        tip.style.borderLeftColor = color;
+      }
+    });
+  }
+
+  function runLayout() {
+    applyVerticalTimelineOverlap();
+    requestAnimationFrame(() => {
+      alignDotsAndConnectors();
+    });
+  }
+
+  function scheduleLayout() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(runLayout);
+    });
+  }
+
+  scheduleLayout();
+  void document.fonts?.ready?.then(scheduleLayout);
+  document.addEventListener("astro:page-load", scheduleLayout);
+
+  const stackEl = document.querySelector("[data-vertical-timeline]");
+  if (stackEl instanceof HTMLElement) {
+    const ro = new ResizeObserver(scheduleLayout);
+    ro.observe(stackEl);
+    stackEl.querySelectorAll(".vertical-timeline-step").forEach((el) => ro.observe(el));
+    window.addEventListener("resize", scheduleLayout);
+    window.matchMedia(MD_UP).addEventListener("change", scheduleLayout);
+  }
+</script>

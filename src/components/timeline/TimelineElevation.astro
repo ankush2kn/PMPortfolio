@@ -1,5 +1,9 @@
 ---
-import { career } from "@/data/portfolio";
+import { career, careerReverseChronological } from "@/data/portfolio";
+import { samplePositionsAlongPolyline, ELEVATION_TRAIL_VERTICES } from "@/lib/careerTimelineLayout";
+
+const careerCount = career.length;
+const positionsChrono = samplePositionsAlongPolyline(ELEVATION_TRAIL_VERTICES, careerCount);
 
 const domainColors: Record<string, string> = {
   engineering: "#6366f1",
@@ -32,15 +36,8 @@ const domainColors: Record<string, string> = {
             class="trail-path" style="stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw 3s ease-out 0.5s forwards;"/>
 
       <!-- Milestone flags -->
-      {career.map((entry, i) => {
-        const positions = [
-          { x: 120, y: 395 },
-          { x: 310, y: 340 },
-          { x: 500, y: 310 },
-          { x: 720, y: 185 },
-          { x: 890, y: 75 },
-        ];
-        const pos = positions[i];
+      {careerReverseChronological.map((entry, i) => {
+        const pos = positionsChrono[careerCount - 1 - i]!;
         return (
           <g style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.4 * i + 0.8}s both;`} class="cursor-pointer milestone-flag" data-idx={i}>
             {/* Flag pole */}
@@ -76,8 +73,8 @@ const domainColors: Record<string, string> = {
   </div>
 
   <!-- Detail cards -->
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mt-8">
-    {career.map((entry, i) => (
+  <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-[repeat(auto-fit,minmax(8.75rem,1fr))]">
+    {careerReverseChronological.map((entry, i) => (
       <div class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 text-center hover:border-[var(--color-accent)] transition-colors"
            style={`animation: fadeInUp 0.5s var(--ease-out-expo) ${0.1 * i + 1}s both;`}>
         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}>

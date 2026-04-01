@@ -1,5 +1,8 @@
 ---
-import { career } from "@/data/portfolio";
+import { career, careerReverseChronological } from "@/data/portfolio";
+import { orbitContainerMinHeightPx } from "@/lib/careerTimelineLayout";
+
+const orbitMinHeight = orbitContainerMinHeightPx(career.length);
 
 const domainColors: Record<string, string> = {
   engineering: "#6366f1",
@@ -12,7 +15,7 @@ const domainColors: Record<string, string> = {
 
 <!-- Timeline Option 4: "The Orbit / Solar System" - Current role at center -->
 <div class="max-w-3xl mx-auto">
-  <div class="relative flex items-center justify-center" style="height: 550px;">
+  <div class="relative flex items-center justify-center" style={`min-height: ${orbitMinHeight}px; height: ${orbitMinHeight}px;`}>
     <!-- Center: Current role (the sun) -->
     <div class="absolute z-20 w-28 h-28 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-center shadow-lg shadow-[var(--color-accent)]/20"
          style="animation: fadeIn 0.8s ease-out both;">
@@ -24,7 +27,7 @@ const domainColors: Record<string, string> = {
     </div>
 
     <!-- Orbit rings -->
-    {career.slice(0, -1).reverse().map((entry, i) => {
+    {careerReverseChronological.slice(1).map((entry, i) => {
       const radius = 100 + i * 60;
       const angle = 45 + i * 72;
       const rad = (angle * Math.PI) / 180;

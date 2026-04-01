@@ -139,6 +139,24 @@ export const career: CareerEntry[] = [
     keyMetric: "2x ARR impact",
   },
   {
+    id: "internships",
+    chapter: "Grad School Internships",
+    title: "Lead Product Manager & Full Stack Developer",
+    company: "Agile Mile (NuRide)",
+    location: "Virginia & Connecticut",
+    period: "2011–2011",
+    yearStart: 2011,
+    yearEnd: 2011,
+    domain: "product",
+    highlights: [
+      "Created strategy with CEO and built the multi-sided marketplace",
+      "Led tech-driven turnaround during 2008 crisis: reduced headcount 70%, scaled to 4x users",
+      "Early adopter of Amazon AWS, migrated infra to cloud",
+      "Launched 300+ marketing campaigns with geo-spatial customer segmentation",
+    ],
+    keyMetric: "2x ARR impact",
+  },
+  {
     id: "walmart-ops",
     chapter: "The Operator",
     title: "Senior Business Manager",
@@ -195,6 +213,9 @@ export const career: CareerEntry[] = [
     keyMetric: "3 AI products shipped",
   },
 ];
+
+/** Newest roles first — used on Journey timeline views */
+export const careerReverseChronological: CareerEntry[] = [...career].reverse();
 
 export const education = [
   {

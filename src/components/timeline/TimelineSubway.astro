@@ -1,5 +1,9 @@
 ---
-import { career } from "@/data/portfolio";
+import { career, careerReverseChronological } from "@/data/portfolio";
+import { samplePositionsAlongPolyline, SUBWAY_ROUTE_VERTICES } from "@/lib/careerTimelineLayout";
+
+const careerCount = career.length;
+const positionsChrono = samplePositionsAlongPolyline(SUBWAY_ROUTE_VERTICES, careerCount);
 
 const lineColors: Record<string, string> = {
   engineering: "#6366f1",
@@ -51,15 +55,8 @@ const lineNames = [
             class="subway-line" style="stroke-dasharray: 150; stroke-dashoffset: 150; animation: draw 1s ease-out 1.4s forwards;"/>
 
       <!-- Stations -->
-      {career.map((entry, i) => {
-        const positions = [
-          { x: 120, y: 300 },
-          { x: 350, y: 240 },
-          { x: 530, y: 290 },
-          { x: 700, y: 300 },
-          { x: 840, y: 210 },
-        ];
-        const pos = positions[i];
+      {careerReverseChronological.map((entry, i) => {
+        const pos = positionsChrono[careerCount - 1 - i]!;
         return (
           <g class="subway-station cursor-pointer" data-station={entry.id}
              style={`animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}>
@@ -97,7 +94,7 @@ const lineNames = [
   </div>
 </div>
 
-<script define:vars={{ career: JSON.stringify(career), lineColors: JSON.stringify(lineColors) }}>
+<script define:vars={{ career: JSON.stringify(careerReverseChronological), lineColors: JSON.stringify(lineColors) }}>
   const careerData = JSON.parse(career);
   const colors = JSON.parse(lineColors);
 
