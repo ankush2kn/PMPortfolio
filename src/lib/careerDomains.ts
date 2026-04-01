@@ -5,18 +5,16 @@ export type CareerDomainId =
   | "product"
   | "b2b"
   | "b2c"
-  | "ai"
-  | "tech strategy";
+  | "ai";
 
 export const CAREER_DOMAIN_ORDER: CareerDomainId[] = [
-  "engineering",
-  "startup",
-  "operations",
   "product",
+  "engineering",
+  "operations",
+  "startup",
   "b2b",
   "b2c",
-  "ai",
-  "tech strategy",
+  "ai"
 ];
 
 export const CAREER_DOMAIN_HEX: Record<CareerDomainId, string> = {
@@ -27,7 +25,6 @@ export const CAREER_DOMAIN_HEX: Record<CareerDomainId, string> = {
   b2b: "#0d9488",
   b2c: "#f43f5e",
   ai: "#e88c4f",
-  "tech strategy": "#a855f7",
 };
 
 export const CAREER_DOMAIN_LABEL: Record<CareerDomainId, string> = {
@@ -38,7 +35,6 @@ export const CAREER_DOMAIN_LABEL: Record<CareerDomainId, string> = {
   b2b: "B2B",
   b2c: "B2C",
   ai: "AI",
-  "tech strategy": "Tech strategy",
 };
 
 export function careerEntryDomains(entry: { domains?: CareerDomainId[] }): CareerDomainId[] {
