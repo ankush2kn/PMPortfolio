@@ -1,0 +1,71 @@
+---
+import { career } from "@/data/portfolio";
+
+const domainColors: Record<string, string> = {
+  engineering: "#6366f1",
+  startup: "#f59e0b",
+  operations: "#10b981",
+  product: "#3b82f6",
+  ai: "#e88c4f",
+};
+---
+
+<!-- Timeline Option 4: "The Orbit / Solar System" - Current role at center -->
+<div class="max-w-3xl mx-auto">
+  <div class="relative flex items-center justify-center" style="height: 550px;">
+    <!-- Center: Current role (the sun) -->
+    <div class="absolute z-20 w-28 h-28 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-center shadow-lg shadow-[var(--color-accent)]/20"
+         style="animation: fadeIn 0.8s ease-out both;">
+      <div class="px-2">
+        <span class="text-xs font-bold block">NOW</span>
+        <span class="text-[10px] block mt-0.5 opacity-80">AI Builder</span>
+        <span class="text-[10px] block opacity-60">2025–</span>
+      </div>
+    </div>
+
+    <!-- Orbit rings -->
+    {career.slice(0, -1).reverse().map((entry, i) => {
+      const radius = 100 + i * 60;
+      const angle = 45 + i * 72;
+      const rad = (angle * Math.PI) / 180;
+      const x = Math.cos(rad) * radius;
+      const y = Math.sin(rad) * radius;
+      const orbitDuration = 80 + i * 30;
+
+      return (
+        <div>
+          {/* Orbit ring */}
+          <div class="absolute rounded-full border border-[var(--color-border)] opacity-20"
+               style={`width: ${radius * 2}px; height: ${radius * 2}px; left: 50%; top: 50%; transform: translate(-50%, -50%);`}>
+          </div>
+
+          {/* Planet/node */}
+          <div class="absolute z-10 group"
+               style={`left: calc(50% + ${x}px); top: calc(50% + ${y}px); transform: translate(-50%, -50%); animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}>
+            <div class="relative">
+              <div class="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer border-2 bg-[var(--color-card-bg)] transition-transform hover:scale-110"
+                   style={`border-color: ${domainColors[entry.domain]};`}>
+                <span class="text-[9px] font-bold text-center leading-tight">{entry.company.split(' ')[0]}</span>
+              </div>
+              {/* Tooltip on hover */}
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                <p class="text-xs font-bold">{entry.title}</p>
+                <p class="text-[10px] text-[var(--color-text-secondary)]">{entry.company}</p>
+                <p class="text-[10px] text-[var(--color-text-secondary)]">{entry.period}</p>
+                {entry.keyMetric && (
+                  <p class="text-xs font-bold text-[var(--color-accent)] mt-1">{entry.keyMetric}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+
+    <!-- Domain labels at corners -->
+    <div class="absolute top-4 left-4 text-[10px] text-[var(--color-text-secondary)] opacity-40">Engineering</div>
+    <div class="absolute top-4 right-4 text-[10px] text-[var(--color-text-secondary)] opacity-40">Product</div>
+    <div class="absolute bottom-4 left-4 text-[10px] text-[var(--color-text-secondary)] opacity-40">Startups</div>
+    <div class="absolute bottom-4 right-4 text-[10px] text-[var(--color-text-secondary)] opacity-40">Operations</div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<!-- Option B: "The Builder" - Abstract geometric mascot with tools -->
+<div class={`inline-block ${className}`} data-character="builder">
+  <svg viewBox="0 0 200 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full" style="max-width: 200px;">
+    <!-- Hard hat / builder cap -->
+    <path d="M75 75 L75 60 Q105 35 135 60 L135 75" stroke="currentColor" stroke-width="2.5" fill="none"/>
+    <line x1="68" y1="75" x2="142" y2="75" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Head (geometric - slightly angular) -->
+    <rect x="80" y="75" width="50" height="50" rx="12" stroke="currentColor" stroke-width="2.5" fill="none"/>
+
+    <!-- Eyes (geometric squares) -->
+    <rect x="90" y="90" width="6" height="6" rx="1" fill="currentColor"/>
+    <rect x="114" y="90" width="6" height="6" rx="1" fill="currentColor"/>
+
+    <!-- Mouth (straight line - focused) -->
+    <line x1="97" y1="110" x2="113" y2="110" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Neck -->
+    <line x1="105" y1="125" x2="105" y2="140" stroke="currentColor" stroke-width="2.5"/>
+
+    <!-- Body (geometric vest/jacket) -->
+    <path d="M70 150 L70 235 L140 235 L140 150 L130 140 L80 140 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+    <!-- Vest line -->
+    <line x1="105" y1="140" x2="105" y2="235" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <!-- Pockets -->
+    <rect x="78" y="190" width="20" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <rect x="112" y="190" width="20" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+    <!-- Right arm holding wrench -->
+    <path d="M140 155 L170 180 L175 175" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Wrench -->
+    <g style="animation: float 4s ease-in-out infinite;">
+      <path d="M172 170 L195 147" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="195" cy="143" r="6" stroke="var(--color-accent)" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Left arm holding blueprint -->
+    <path d="M70 155 L45 175 L40 172" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Blueprint roll -->
+    <rect x="18" y="165" width="25" height="12" rx="3" stroke="var(--color-accent)" stroke-width="1.5" fill="none"/>
+
+    <!-- Legs -->
+    <line x1="90" y1="235" x2="85" y2="320" stroke="currentColor" stroke-width="2.5"/>
+    <line x1="120" y1="235" x2="125" y2="320" stroke="currentColor" stroke-width="2.5"/>
+
+    <!-- Boots (sturdy, geometric) -->
+    <path d="M85 320 L72 324 L70 332 L100 332 L100 324 Z" stroke="currentColor" stroke-width="2" fill="none"/>
+    <path d="M125 320 L138 324 L140 332 L110 332 L110 324 Z" stroke="currentColor" stroke-width="2" fill="none"/>
+
+    <!-- Floating geometric elements around (blocks, gears) -->
+    <g style="animation: float 5s ease-in-out infinite; animation-delay: 0.5s;">
+      <rect x="160" y="210" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4" transform="rotate(15 166 216)"/>
+    </g>
+    <g style="animation: float 4s ease-in-out infinite; animation-delay: 1s;">
+      <rect x="25" y="140" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1" fill="none" opacity="0.3" transform="rotate(-10 29 144)"/>
+    </g>
+    <g style="animation: float 6s ease-in-out infinite; animation-delay: 2s;">
+      <circle cx="170" cy="130" r="5" stroke="currentColor" stroke-width="1" fill="none" opacity="0.3"/>
+    </g>
+  </svg>
+</div>

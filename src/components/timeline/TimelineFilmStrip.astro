@@ -1,0 +1,110 @@
+---
+import { career } from "@/data/portfolio";
+
+const domainColors: Record<string, string> = {
+  engineering: "#6366f1",
+  startup: "#f59e0b",
+  operations: "#10b981",
+  product: "#3b82f6",
+  ai: "#e88c4f",
+};
+---
+
+<!-- Timeline Option 5: "The Film Strip / Chapters" - Horizontal scroll cards -->
+<div class="relative">
+  <!-- Horizontal scroll container -->
+  <div class="overflow-x-auto pb-6 scrollbar-hide" id="film-strip">
+    <div class="flex gap-6 px-6 min-w-max">
+      {career.map((entry, i) => (
+        <div
+          class="w-72 shrink-0 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
+          style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.12 * i}s both;`}
+        >
+          <!-- Chapter header with color band -->
+          <div class="h-24 flex items-end p-5 relative" style={`background: linear-gradient(135deg, ${domainColors[entry.domain]}15, ${domainColors[entry.domain]}05);`}>
+            <div class="absolute top-3 right-3">
+              <span class="text-4xl font-black opacity-10" style={`color: ${domainColors[entry.domain]};`}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <span class="text-lg font-bold" style={`color: ${domainColors[entry.domain]};`}>
+              {entry.chapter}
+            </span>
+          </div>
+
+          <!-- Content -->
+          <div class="p-5 space-y-3">
+            <div>
+              <h3 class="text-sm font-bold">{entry.title}</h3>
+              <p class="text-xs text-[var(--color-text-secondary)]">{entry.company}</p>
+              <p class="text-xs text-[var(--color-text-secondary)]">{entry.period} &middot; {entry.location}</p>
+            </div>
+
+            {entry.keyMetric && (
+              <div class="bg-[var(--color-bg-secondary)] rounded-lg px-3 py-2">
+                <span class="text-lg font-bold text-[var(--color-accent)]">{entry.keyMetric}</span>
+              </div>
+            )}
+
+            <ul class="space-y-1.5">
+              {entry.highlights.slice(0, 3).map((h) => (
+                <li class="text-[11px] text-[var(--color-text-secondary)] flex items-start gap-1.5">
+                  <span class="text-[var(--color-accent)] mt-0.5 shrink-0">&#8226;</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Scroll indicators -->
+  <div class="flex justify-center gap-2 mt-4">
+    <button id="film-prev" class="p-2 rounded-full border border-[var(--color-border)] hover:bg-[var(--color-bg-secondary)] transition-colors">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+      </svg>
+    </button>
+    <div class="flex items-center gap-1">
+      {career.map((_, i) => (
+        <div class="w-1.5 h-1.5 rounded-full bg-[var(--color-border)] film-dot" data-idx={i}></div>
+      ))}
+    </div>
+    <button id="film-next" class="p-2 rounded-full border border-[var(--color-border)] hover:bg-[var(--color-bg-secondary)] transition-colors">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Keyboard hint -->
+  <p class="text-[10px] text-[var(--color-text-secondary)] text-center mt-2 opacity-50">
+    Drag to scroll or use arrow keys
+  </p>
+</div>
+
+<script>
+  const strip = document.getElementById('film-strip');
+  const prev = document.getElementById('film-prev');
+  const next = document.getElementById('film-next');
+  const cardWidth = 288 + 24;
+
+  prev?.addEventListener('click', () => {
+    strip?.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+  });
+  next?.addEventListener('click', () => {
+    strip?.scrollBy({ left: cardWidth, behavior: 'smooth' });
+  });
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

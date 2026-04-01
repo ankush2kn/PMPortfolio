@@ -1,0 +1,61 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import HeroAnimatedIntro from "@/components/hero/HeroAnimatedIntro.astro";
+import HeroSplitScreen from "@/components/hero/HeroSplitScreen.astro";
+import HeroBusinessCard from "@/components/hero/HeroBusinessCard.astro";
+import ImpactMetricCards from "@/components/impact/ImpactMetricCards.astro";
+import ImpactTickerStrip from "@/components/impact/ImpactTickerStrip.astro";
+import ImpactNapkinSketch from "@/components/impact/ImpactNapkinSketch.astro";
+import SkillsGroupedTags from "@/components/skills/SkillsGroupedTags.astro";
+import SkillsOrbitRings from "@/components/skills/SkillsOrbitRings.astro";
+import SkillsToolShelf from "@/components/skills/SkillsToolShelf.astro";
+import ContactOpenDoor from "@/components/contact/ContactOpenDoor.astro";
+import ContactTerminal from "@/components/contact/ContactTerminal.astro";
+import ContactMinimalFooter from "@/components/contact/ContactMinimalFooter.astro";
+---
+
+<Layout>
+  <!-- HERO VARIANTS -->
+  <div data-variant-group="Hero" data-variant="A">
+    <HeroAnimatedIntro />
+  </div>
+  <div data-variant-group="Hero" data-variant="B">
+    <HeroSplitScreen />
+  </div>
+  <div data-variant-group="Hero" data-variant="C">
+    <HeroBusinessCard />
+  </div>
+
+  <!-- IMPACT VARIANTS -->
+  <div data-variant-group="Impact" data-variant="A">
+    <ImpactMetricCards />
+  </div>
+  <div data-variant-group="Impact" data-variant="B">
+    <ImpactTickerStrip />
+  </div>
+  <div data-variant-group="Impact" data-variant="C">
+    <ImpactNapkinSketch />
+  </div>
+
+  <!-- SKILLS VARIANTS -->
+  <div data-variant-group="Skills" data-variant="A">
+    <SkillsGroupedTags />
+  </div>
+  <div data-variant-group="Skills" data-variant="B">
+    <SkillsOrbitRings />
+  </div>
+  <div data-variant-group="Skills" data-variant="C">
+    <SkillsToolShelf />
+  </div>
+
+  <!-- CONTACT VARIANTS -->
+  <div data-variant-group="Contact" data-variant="A">
+    <ContactOpenDoor />
+  </div>
+  <div data-variant-group="Contact" data-variant="B">
+    <ContactTerminal />
+  </div>
+  <div data-variant-group="Contact" data-variant="C">
+    <ContactMinimalFooter />
+  </div>
+</Layout>

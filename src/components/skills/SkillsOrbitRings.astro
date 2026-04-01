@@ -1,0 +1,64 @@
+---
+import { skills } from "@/data/portfolio";
+
+const coreSkills = ["0→1 Product Dev", "AI/ML", "Platform Strategy", "Full Stack"];
+const midSkills = ["Supply Chain", "Marketplace", "Forecasting", "Microservices", "API Design", "Cloud"];
+const outerSkills = ["eCommerce", "EdTech", "Simulation", "Data Modeling", "OKRs", "A/B Testing"];
+---
+
+<!-- Skills Option B: "Orbit Rings" - Concentric rings with skills orbiting -->
+<section class="py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-10 text-center">Skills & Expertise</h2>
+
+    <div class="relative flex items-center justify-center" style="height: 500px;">
+      <!-- Center -->
+      <div class="absolute z-10 bg-[var(--color-accent)] text-white rounded-full w-20 h-20 flex items-center justify-center text-xs font-bold text-center leading-tight px-2">
+        Product<br/>Leader
+      </div>
+
+      <!-- Inner ring -->
+      <div class="absolute w-56 h-56 rounded-full border border-[var(--color-border)] border-dashed" style="animation: orbit-ring 60s linear infinite;">
+        {coreSkills.map((skill, i) => (
+          <div
+            class="absolute bg-[var(--color-card-bg)] border border-[var(--color-accent)] rounded-full px-2.5 py-1 text-[11px] font-medium text-[var(--color-accent)] whitespace-nowrap"
+            style={`top: 50%; left: 50%; transform: rotate(${i * 90}deg) translateX(112px) rotate(-${i * 90}deg) translate(-50%, -50%);`}
+          >
+            {skill}
+          </div>
+        ))}
+      </div>
+
+      <!-- Middle ring -->
+      <div class="absolute w-80 h-80 rounded-full border border-[var(--color-border)] opacity-60" style="animation: orbit-ring 90s linear infinite reverse;">
+        {midSkills.map((skill, i) => (
+          <div
+            class="absolute bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-full px-2 py-1 text-[10px] text-[var(--color-text-secondary)] whitespace-nowrap"
+            style={`top: 50%; left: 50%; transform: rotate(${i * 60}deg) translateX(160px) rotate(-${i * 60}deg) translate(-50%, -50%);`}
+          >
+            {skill}
+          </div>
+        ))}
+      </div>
+
+      <!-- Outer ring -->
+      <div class="absolute w-[420px] h-[420px] rounded-full border border-[var(--color-border)] opacity-30" style="animation: orbit-ring 120s linear infinite;">
+        {outerSkills.map((skill, i) => (
+          <div
+            class="absolute bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-full px-2 py-0.5 text-[9px] text-[var(--color-text-secondary)] whitespace-nowrap opacity-70"
+            style={`top: 50%; left: 50%; transform: rotate(${i * 60}deg) translateX(210px) rotate(-${i * 60}deg) translate(-50%, -50%);`}
+          >
+            {skill}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes orbit-ring {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>

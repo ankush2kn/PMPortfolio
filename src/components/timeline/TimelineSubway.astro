@@ -1,0 +1,130 @@
+---
+import { career } from "@/data/portfolio";
+
+const lineColors: Record<string, string> = {
+  engineering: "#6366f1",
+  startup: "#f59e0b",
+  operations: "#10b981",
+  product: "#3b82f6",
+  ai: "#e88c4f",
+};
+
+const lineNames = [
+  { domain: "engineering", label: "Engineering Line", color: "#6366f1" },
+  { domain: "startup", label: "Startup Line", color: "#f59e0b" },
+  { domain: "operations", label: "Operations Line", color: "#10b981" },
+  { domain: "product", label: "Product Line", color: "#3b82f6" },
+  { domain: "ai", label: "AI Line", color: "#e88c4f" },
+];
+---
+
+<!-- Timeline Option 1: "The Subway Map" - Career as a metro route -->
+<div class="max-w-5xl mx-auto">
+  <!-- Legend -->
+  <div class="flex flex-wrap gap-4 mb-10 justify-center">
+    {lineNames.map((line) => (
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-1 rounded-full" style={`background-color: ${line.color};`}></div>
+        <span class="text-xs text-[var(--color-text-secondary)]">{line.label}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- Subway map as SVG -->
+  <div class="relative">
+    <svg viewBox="0 0 900 600" class="w-full" xmlns="http://www.w3.org/2000/svg">
+      <!-- Route lines -->
+      <!-- Engineering line (left section) -->
+      <path d="M50 300 L200 300" stroke="#6366f1" stroke-width="6" fill="none" stroke-linecap="round"
+            class="subway-line" style="stroke-dasharray: 200; stroke-dashoffset: 200; animation: draw 1s ease-out 0.2s forwards;"/>
+      <!-- Startup line (continues, with a curve) -->
+      <path d="M200 300 L300 300 Q350 300 370 260 L400 200" stroke="#f59e0b" stroke-width="6" fill="none" stroke-linecap="round"
+            class="subway-line" style="stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 1s ease-out 0.5s forwards;"/>
+      <!-- Operations line (from startup, curves back) -->
+      <path d="M400 200 Q420 160 460 180 L550 280 Q570 300 600 300" stroke="#10b981" stroke-width="6" fill="none" stroke-linecap="round"
+            class="subway-line" style="stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 1s ease-out 0.8s forwards;"/>
+      <!-- Product line (main horizontal) -->
+      <path d="M600 300 L780 300" stroke="#3b82f6" stroke-width="6" fill="none" stroke-linecap="round"
+            class="subway-line" style="stroke-dasharray: 200; stroke-dashoffset: 200; animation: draw 1s ease-out 1.1s forwards;"/>
+      <!-- AI line (ascends from product) -->
+      <path d="M780 300 Q810 300 830 260 L850 200" stroke="#e88c4f" stroke-width="6" fill="none" stroke-linecap="round"
+            class="subway-line" style="stroke-dasharray: 150; stroke-dashoffset: 150; animation: draw 1s ease-out 1.4s forwards;"/>
+
+      <!-- Stations -->
+      {career.map((entry, i) => {
+        const positions = [
+          { x: 120, y: 300 },
+          { x: 350, y: 240 },
+          { x: 530, y: 290 },
+          { x: 700, y: 300 },
+          { x: 840, y: 210 },
+        ];
+        const pos = positions[i];
+        return (
+          <g class="subway-station cursor-pointer" data-station={entry.id}
+             style={`animation: fadeIn 0.5s ease-out ${0.3 * i + 0.5}s both;`}>
+            {/* Station circle */}
+            <circle cx={pos.x} cy={pos.y} r="10" fill="var(--color-card-bg)" stroke={lineColors[entry.domain]} stroke-width="3"/>
+            <circle cx={pos.x} cy={pos.y} r="4" fill={lineColors[entry.domain]}/>
+            {/* Station label */}
+            <text x={pos.x} y={pos.y - 20} text-anchor="middle" fill="currentColor" font-size="11" font-weight="600">
+              {entry.company.split(' ')[0]}
+            </text>
+            <text x={pos.x} y={pos.y - 8} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.6">
+              {entry.period}
+            </text>
+            {/* Key metric below */}
+            {entry.keyMetric && (
+              <text x={pos.x} y={pos.y + 25} text-anchor="middle" fill={lineColors[entry.domain]} font-size="10" font-weight="700">
+                {entry.keyMetric}
+              </text>
+            )}
+          </g>
+        );
+      })}
+
+      <!-- Education/MBA marker -->
+      <g style="animation: fadeIn 0.5s ease-out 1s both;">
+        <rect x="440" y="360" width="80" height="25" rx="4" fill="none" stroke="var(--color-border)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="480" y="377" text-anchor="middle" fill="currentColor" font-size="9" opacity="0.5">MBA 2012</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Station details (shown on hover/click) -->
+  <div id="subway-detail" class="mt-8 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-6 hidden">
+    <div id="subway-detail-content"></div>
+  </div>
+</div>
+
+<script define:vars={{ career: JSON.stringify(career), lineColors: JSON.stringify(lineColors) }}>
+  const careerData = JSON.parse(career);
+  const colors = JSON.parse(lineColors);
+
+  document.querySelectorAll('.subway-station').forEach((station) => {
+    station.addEventListener('click', () => {
+      const id = station.getAttribute('data-station');
+      const entry = careerData.find((e) => e.id === id);
+      if (!entry) return;
+
+      const detail = document.getElementById('subway-detail');
+      const content = document.getElementById('subway-detail-content');
+      if (!detail || !content) return;
+
+      detail.classList.remove('hidden');
+      content.innerHTML = `
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background-color: ${colors[entry.domain]}20; color: ${colors[entry.domain]};">${entry.chapter}</span>
+            <h3 class="text-lg font-bold mt-2">${entry.title}</h3>
+            <p class="text-sm" style="color: var(--color-text-secondary);">${entry.company} &middot; ${entry.period}</p>
+          </div>
+          ${entry.keyMetric ? `<span class="text-xl font-bold" style="color: ${colors[entry.domain]};">${entry.keyMetric}</span>` : ''}
+        </div>
+        <ul class="space-y-1.5">
+          ${entry.highlights.map((h) => `<li class="text-sm" style="color: var(--color-text-secondary);">&#8226; ${h}</li>`).join('')}
+        </ul>
+      `;
+    });
+  });
+</script>

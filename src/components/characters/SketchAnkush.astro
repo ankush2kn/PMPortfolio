@@ -1,0 +1,112 @@
+---
+interface Props {
+  pose?: "wave" | "point" | "code" | "think" | "present" | "idle";
+  class?: string;
+}
+const { pose = "idle", class: className = "" } = Astro.props;
+---
+
+<!-- Option A: "Sketch Ankush" - Fido-Dido-inspired minimalist character with personality -->
+<div class={`inline-block ${className}`} data-character="sketch" data-pose={pose}>
+  <svg viewBox="0 0 200 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full" style="max-width: 200px;">
+    <!-- Spiky hair (Fido-Dido style) -->
+    <g class="character-hair" style="animation: sway 3s ease-in-out infinite;">
+      <line x1="90" y1="52" x2="75" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="100" y1="48" x2="95" y2="8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="110" y1="48" x2="115" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="120" y1="52" x2="132" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="105" y1="46" x2="105" y2="5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Head (rounded, slightly angular like Fido) -->
+    <ellipse cx="105" cy="82" rx="30" ry="35" stroke="currentColor" stroke-width="2.5" fill="none"/>
+
+    <!-- Eyes (small dots with personality) -->
+    <circle cx="94" cy="76" r="3" fill="currentColor"/>
+    <circle cx="116" cy="76" r="3" fill="currentColor"/>
+    <circle cx="95" cy="75" r="1" fill="var(--color-bg)" class="blink"/>
+
+    <!-- Eyebrows -->
+    <line x1="88" y1="68" x2="100" y2="70" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="110" y1="70" x2="122" y2="68" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Nose (minimal line) -->
+    <path d="M105 80 L102 88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Mouth (slight smile) -->
+    <path d="M95 96 Q105 104 115 96" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- Neck -->
+    <line x1="105" y1="117" x2="105" y2="135" stroke="currentColor" stroke-width="2.5"/>
+
+    <!-- Body / T-shirt -->
+    <path d="M70 145 L70 220 L140 220 L140 145 L125 135 L85 135 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+    <line x1="85" y1="135" x2="125" y2="135" stroke="currentColor" stroke-width="2.5"/>
+
+    <!-- T-shirt design (small face doodle on shirt - meta!) -->
+    <circle cx="105" cy="175" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <circle cx="102" cy="173" r="1.5" fill="currentColor"/>
+    <circle cx="108" cy="173" r="1.5" fill="currentColor"/>
+    <path d="M101 179 Q105 182 109 179" stroke="currentColor" stroke-width="1" fill="none"/>
+
+    {pose === "wave" ? (
+      <!-- Right arm waving -->
+      <g style="transform-origin: 140px 145px; animation: sway 1s ease-in-out infinite;">
+        <path d="M140 145 L170 115 L185 90" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M185 90 L190 82 M185 90 L180 82 M185 90 L188 80" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <!-- Left arm relaxed -->
+      <path d="M70 145 L45 190 L55 195" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    ) : pose === "point" ? (
+      <!-- Right arm pointing right -->
+      <path d="M140 160 L180 155 L200 152" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Left arm at side -->
+      <path d="M70 145 L50 195 L55 200" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    ) : pose === "code" ? (
+      <!-- Arms forward (typing) -->
+      <path d="M140 155 L160 175 L155 185" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M70 155 L50 175 L55 185" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Laptop outline -->
+      <rect x="42" y="183" width="126" height="6" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <path d="M55 183 L60 160 L150 160 L155 183" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    ) : pose === "think" ? (
+      <!-- Right arm to chin -->
+      <path d="M140 155 L130 135 L115 105" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Left arm crossed -->
+      <path d="M70 155 L60 180 L90 170" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Thought bubble -->
+      <circle cx="155" cy="50" r="14" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <circle cx="145" cy="72" r="5" stroke="currentColor" stroke-width="1" fill="none"/>
+      <circle cx="140" cy="82" r="3" stroke="currentColor" stroke-width="1" fill="none"/>
+    ) : pose === "present" ? (
+      <!-- Both arms out, presenting -->
+      <path d="M140 150 L175 130 L185 125" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M70 150 L35 130 L25 125" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    ) : (
+      <!-- Idle: arms at sides, slight casual pose -->
+      <path d="M140 150 L155 195 L150 200" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M70 150 L55 195 L60 200" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    )}
+
+    <!-- Legs -->
+    <line x1="90" y1="220" x2="82" y2="310" stroke="currentColor" stroke-width="2.5"/>
+    <line x1="120" y1="220" x2="128" y2="310" stroke="currentColor" stroke-width="2.5"/>
+
+    <!-- Shoes (sneakers with personality) -->
+    <path d="M82 310 L70 315 L68 322 L95 322 L95 315 L82 310" stroke="currentColor" stroke-width="2" fill="none"/>
+    <path d="M128 310 L140 315 L142 322 L115 322 L115 315 L128 310" stroke="currentColor" stroke-width="2" fill="none"/>
+    <!-- Shoe accent (colored laces) -->
+    <line x1="74" y1="318" x2="90" y2="318" stroke="var(--color-accent)" stroke-width="1.5"/>
+    <line x1="120" y1="318" x2="136" y2="318" stroke="var(--color-accent)" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<style>
+  .blink {
+    animation: blink-anim 3s ease-in-out infinite;
+  }
+  @keyframes blink-anim {
+    0%, 95%, 100% { opacity: 1; }
+    97% { opacity: 0; }
+  }
+</style>

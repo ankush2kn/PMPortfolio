@@ -1,0 +1,50 @@
+---
+import { career } from "@/data/portfolio";
+
+const domainColors: Record<string, string> = {
+  engineering: "#6366f1",
+  startup: "#f59e0b",
+  operations: "#10b981",
+  product: "#3b82f6",
+  ai: "#e88c4f",
+};
+---
+
+<!-- Timeline Option 3: "Scroll-Driven Vertical Timeline" - Central spine, alternating cards -->
+<div class="relative max-w-4xl mx-auto">
+  <!-- Central line -->
+  <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--color-border)] -translate-x-1/2 hidden md:block"></div>
+  <div class="absolute left-6 top-0 bottom-0 w-px bg-[var(--color-border)] md:hidden"></div>
+
+  <div class="space-y-12">
+    {career.map((entry, i) => (
+      <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+           style={`animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}>
+        <!-- Timeline node -->
+        <div class="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-10"
+             style={`background-color: ${domainColors[entry.domain]};`}>
+        </div>
+
+        <!-- Card -->
+        <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+          <div class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full" style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}>
+              {entry.chapter}
+            </span>
+            <h3 class="text-base font-bold mt-2">{entry.title}</h3>
+            <p class="text-sm text-[var(--color-text-secondary)]">{entry.company}</p>
+            <p class="text-xs text-[var(--color-text-secondary)] mt-1">{entry.period} &middot; {entry.location}</p>
+            {entry.keyMetric && (
+              <p class="text-lg font-bold text-[var(--color-accent)] mt-2">{entry.keyMetric}</p>
+            )}
+            <ul class="mt-3 space-y-1">
+              {entry.highlights.slice(0, 2).map((h) => (
+                <li class={`text-xs text-[var(--color-text-secondary)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>{h}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

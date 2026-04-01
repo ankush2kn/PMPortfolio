@@ -1,0 +1,93 @@
+---
+import { career } from "@/data/portfolio";
+
+const domainColors: Record<string, string> = {
+  engineering: "#6366f1",
+  startup: "#f59e0b",
+  operations: "#10b981",
+  product: "#3b82f6",
+  ai: "#e88c4f",
+};
+---
+
+<!-- Timeline Option 2: "The Elevation Path" (Mountain Climb) - Career as ascending terrain -->
+<div class="max-w-5xl mx-auto">
+  <div class="relative">
+    <svg viewBox="0 0 1000 500" class="w-full" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background terrain gradient -->
+      <defs>
+        <linearGradient id="terrain-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Terrain shape (filled) -->
+      <path d="M0 450 L100 400 L250 380 L350 320 L450 350 L550 280 L680 200 L800 150 L900 80 L1000 60 L1000 500 L0 500 Z"
+            fill="url(#terrain-fill)" stroke="none"/>
+
+      <!-- Trail path -->
+      <path d="M50 420 C100 400 150 390 250 380 S350 340 400 330 S480 340 550 280 S620 220 680 200 S750 170 800 150 S860 100 900 80"
+            stroke="var(--color-accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="8 4"
+            class="trail-path" style="stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw 3s ease-out 0.5s forwards;"/>
+
+      <!-- Milestone flags -->
+      {career.map((entry, i) => {
+        const positions = [
+          { x: 120, y: 395 },
+          { x: 310, y: 340 },
+          { x: 500, y: 310 },
+          { x: 720, y: 185 },
+          { x: 890, y: 75 },
+        ];
+        const pos = positions[i];
+        return (
+          <g style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.4 * i + 0.8}s both;`} class="cursor-pointer milestone-flag" data-idx={i}>
+            {/* Flag pole */}
+            <line x1={pos.x} y1={pos.y} x2={pos.x} y2={pos.y - 45} stroke="currentColor" stroke-width="1.5"/>
+            {/* Flag */}
+            <path d={`M${pos.x} ${pos.y - 45} L${pos.x + 30} ${pos.y - 37} L${pos.x} ${pos.y - 29}`}
+                  fill={domainColors[entry.domain]} opacity="0.8"/>
+            {/* Camp marker */}
+            <circle cx={pos.x} cy={pos.y} r="5" fill={domainColors[entry.domain]} stroke="var(--color-card-bg)" stroke-width="2"/>
+            {/* Label */}
+            <text x={pos.x} y={pos.y + 18} text-anchor="middle" fill="currentColor" font-size="10" font-weight="600">
+              {entry.company.split(' ')[0]}
+            </text>
+            <text x={pos.x} y={pos.y + 30} text-anchor="middle" fill="currentColor" font-size="8" opacity="0.5">
+              {entry.period}
+            </text>
+          </g>
+        );
+      })}
+
+      <!-- Elevation labels on right -->
+      <text x="960" y="75" fill="currentColor" font-size="9" opacity="0.3" text-anchor="end">Director</text>
+      <text x="960" y="200" fill="currentColor" font-size="9" opacity="0.3" text-anchor="end">Staff PM</text>
+      <text x="960" y="330" fill="currentColor" font-size="9" opacity="0.3" text-anchor="end">Manager</text>
+      <text x="960" y="420" fill="currentColor" font-size="9" opacity="0.3" text-anchor="end">Engineer</text>
+
+      <!-- Horizontal guide lines -->
+      <line x1="40" y1="420" x2="950" y2="420" stroke="currentColor" stroke-width="0.5" opacity="0.06"/>
+      <line x1="40" y1="330" x2="950" y2="330" stroke="currentColor" stroke-width="0.5" opacity="0.06"/>
+      <line x1="40" y1="200" x2="950" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.06"/>
+      <line x1="40" y1="80" x2="950" y2="80" stroke="currentColor" stroke-width="0.5" opacity="0.06"/>
+    </svg>
+  </div>
+
+  <!-- Detail cards -->
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mt-8">
+    {career.map((entry, i) => (
+      <div class="bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 text-center hover:border-[var(--color-accent)] transition-colors"
+           style={`animation: fadeInUp 0.5s var(--ease-out-expo) ${0.1 * i + 1}s both;`}>
+        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" style={`background-color: ${domainColors[entry.domain]}20; color: ${domainColors[entry.domain]};`}>
+          {entry.chapter}
+        </span>
+        <p class="text-xs text-[var(--color-text-secondary)] mt-2">{entry.title}</p>
+        {entry.keyMetric && (
+          <p class="text-sm font-bold text-[var(--color-accent)] mt-1">{entry.keyMetric}</p>
+        )}
+      </div>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,42 @@
+---
+import { skills } from "@/data/portfolio";
+
+const groups = [
+  { label: "Product", items: skills.product },
+  { label: "Technical", items: skills.technical },
+  { label: "Domain", items: skills.domain },
+];
+---
+
+<!-- Skills Option A: "Grouped Tags" - Skills as tag chips organized by category -->
+<section class="py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-10 text-center">Skills & Expertise</h2>
+    <div class="space-y-8">
+      {groups.map((group, gi) => (
+        <div style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * gi}s both;`}>
+          <h3 class="text-xs uppercase tracking-wider text-[var(--color-text-secondary)] mb-3 font-medium">{group.label}</h3>
+          <div class="flex flex-wrap gap-2">
+            {group.items.map((skill) => (
+              <span class="px-3 py-1.5 text-sm border border-[var(--color-border)] rounded-full hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors cursor-default">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- Credentials row -->
+      <div style={`animation: fadeInUp 0.6s var(--ease-out-expo) 0.6s both;`}>
+        <h3 class="text-xs uppercase tracking-wider text-[var(--color-text-secondary)] mb-3 font-medium">Credentials</h3>
+        <div class="flex flex-wrap gap-2">
+          {skills.credentials.map((cred) => (
+            <span class="px-3 py-1.5 text-sm bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full font-medium">
+              {cred}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

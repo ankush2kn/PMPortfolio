@@ -1,0 +1,56 @@
+---
+import { impactMetrics } from "@/data/portfolio";
+---
+
+<!-- Impact Option C: "The Napkin Sketch" - Hand-drawn feel, SVG path animations -->
+<section id="impact" class="py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-10 text-center">
+      Impact at Scale
+    </h2>
+    <div class="relative bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-8 md:p-12">
+      <!-- Napkin texture lines -->
+      <svg class="absolute inset-0 w-full h-full opacity-[0.03] pointer-events-none" preserveAspectRatio="none">
+        <pattern id="napkin-lines" width="20" height="20" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="0.5"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#napkin-lines)"/>
+      </svg>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+        {impactMetrics.map((metric, i) => (
+          <div class="napkin-metric flex items-start gap-4" style={`animation: fadeInUp 0.8s var(--ease-out-expo) ${0.15 * i}s both;`}>
+            <!-- Hand-drawn circle around number -->
+            <div class="relative shrink-0">
+              <svg class="w-20 h-20" viewBox="0 0 80 80">
+                <ellipse
+                  cx="40" cy="40" rx="35" ry="30"
+                  stroke="var(--color-accent)" stroke-width="2" fill="none"
+                  class="sketch-circle"
+                  style={`stroke-dasharray: 220; stroke-dashoffset: 220; animation: draw 1s ease-out ${0.2 * i + 0.5}s forwards;`}
+                  transform={`rotate(${-5 + i * 3} 40 40)`}
+                />
+              </svg>
+              <span class="absolute inset-0 flex items-center justify-center text-lg font-bold text-[var(--color-accent)]">
+                {metric.value}
+              </span>
+            </div>
+            <div class="pt-2">
+              <span class="block text-sm font-semibold">{metric.label}</span>
+              <span class="block text-xs text-[var(--color-text-secondary)] mt-0.5">{metric.context}</span>
+              <!-- Hand-drawn underline -->
+              <svg class="w-24 h-2 mt-1" viewBox="0 0 100 8">
+                <path
+                  d="M0 4 Q25 2 50 5 Q75 8 100 3"
+                  stroke="var(--color-accent)" stroke-width="1.5" fill="none" opacity="0.4"
+                  class="sketch-line"
+                  style={`stroke-dasharray: 110; stroke-dashoffset: 110; animation: draw 0.6s ease-out ${0.2 * i + 1}s forwards;`}
+                />
+              </svg>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
