@@ -22,3 +22,6 @@ npm-debug.log*
 
 # Microsoft Office lock files
 ~$*
+
+# Local docs (not published to GitHub)
+Docs/
