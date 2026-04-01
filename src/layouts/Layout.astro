@@ -22,7 +22,7 @@ function navClass(path: string): string {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-typography="sans" data-creator-mode="false">
+<html lang="en" data-typography="sans" data-creator-mode="false">
   <head>
     <meta charset="UTF-8" />
     <script is:inline define:vars={{ previewKey: PREVIEW_QUERY_KEY }}>
@@ -32,6 +32,26 @@ function navClass(path: string): string {
           document.documentElement.setAttribute("data-creator-mode", q.has(previewKey) ? "true" : "false");
         } catch (e) {
           document.documentElement.setAttribute("data-creator-mode", "false");
+        }
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("portfolio-theme");
+          var theme =
+            stored
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "warm";
+          if (theme !== "dark" && theme !== "warm") theme = "warm";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          document.documentElement.setAttribute(
+            "data-theme",
+            window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "warm"
+          );
         }
       })();
     </script>
@@ -46,8 +66,8 @@ function navClass(path: string): string {
         <a href="/" class="text-lg font-bold tracking-tight" style="font-family: var(--font-heading-sans)">AB</a>
         <div class="flex items-center gap-6">
           <a href="/" class={navClass('/')}>Home</a>
-          <a href="/journey" class={navClass('/journey')}>Journey</a>
           <a href="/lab" class={navClass('/lab')}>The Lab</a>
+          <a href="/journey" class={navClass('/journey')}>Journey</a>
           <div class="w-px h-5 bg-[var(--color-border)]"></div>
           <button id="theme-toggle" class="text-sm p-1.5 rounded-md hover:bg-[var(--color-bg-secondary)] transition-colors" aria-label="Toggle theme">
             <svg id="icon-moon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -101,12 +121,11 @@ function navClass(path: string): string {
 
     <script is:inline>
       (function() {
-        var savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+        var theme = document.documentElement.getAttribute('data-theme') || 'warm';
         var creator = document.documentElement.getAttribute('data-creator-mode') === 'true';
         var savedTypo = creator
           ? (localStorage.getItem('portfolio-typography') || 'sans')
           : 'sans';
-        document.documentElement.setAttribute('data-theme', savedTheme);
         document.documentElement.setAttribute('data-typography', savedTypo);
         function syncTypoButtons() {
           var sans = document.getElementById('typo-sans');
@@ -120,7 +139,7 @@ function navClass(path: string): string {
         var moon = document.getElementById('icon-moon');
         var sun = document.getElementById('icon-sun');
         if (moon && sun) {
-          if (savedTheme === 'dark') { moon.classList.add('hidden'); sun.classList.remove('hidden'); }
+          if (theme === 'dark') { moon.classList.add('hidden'); sun.classList.remove('hidden'); }
           else { moon.classList.remove('hidden'); sun.classList.add('hidden'); }
         }
       })();
@@ -148,6 +167,19 @@ function navClass(path: string): string {
         localStorage.setItem('portfolio-theme', next);
         updateThemeIcons(next);
       });
+
+      const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      function applySystemThemeWhenNoSavedChoice() {
+        try {
+          if (localStorage.getItem('portfolio-theme')) return;
+        } catch {
+          return;
+        }
+        const next = colorSchemeMedia.matches ? 'dark' : 'warm';
+        document.documentElement.setAttribute('data-theme', next);
+        updateThemeIcons(next);
+      }
+      colorSchemeMedia.addEventListener('change', applySystemThemeWhenNoSavedChoice);
 
       function setTypography(mode: 'sans' | 'serif') {
         document.documentElement.setAttribute('data-typography', mode);
