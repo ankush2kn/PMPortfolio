@@ -1,11 +1,6 @@
 ---
 import { career } from "@/data/portfolio";
-import {
-  CAREER_DOMAIN_HEX,
-  CAREER_DOMAIN_LABEL,
-  CAREER_DOMAIN_ORDER,
-  uniqueCareerDomainsPresent,
-} from "@/lib/careerDomains";
+import { CAREER_DOMAIN_LABEL, CAREER_DOMAIN_ORDER, uniqueCareerDomainsPresent } from "@/lib/careerDomains";
 
 const present = uniqueCareerDomainsPresent(career);
 const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
@@ -22,8 +17,17 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
     data-journey-domain-pill
     data-domain="all"
     aria-pressed="true"
-    class="journey-domain-pill text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors ring-2 ring-[var(--color-accent)] ring-offset-2 ring-offset-[var(--color-bg)]"
+    class="journey-domain-pill inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors"
   >
+    <span
+      class="inline-flex shrink-0 items-center justify-center text-green-600 dark:text-green-500"
+      data-journey-pill-check
+      aria-hidden="true"
+    >
+      <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </span>
     All
   </button>
   {
@@ -33,13 +37,17 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
         data-journey-domain-pill
         data-domain={id}
         aria-pressed="false"
-        class="journey-domain-pill text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors"
+        class="journey-domain-pill inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors"
       >
         <span
-          class="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
-          style={`background-color: ${CAREER_DOMAIN_HEX[id]};`}
+          class="hidden shrink-0 items-center justify-center text-green-600 dark:text-green-500"
+          data-journey-pill-check
           aria-hidden="true"
-        />
+        >
+          <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
         {CAREER_DOMAIN_LABEL[id]}
       </button>
     ))
@@ -56,16 +64,35 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
       el.classList.toggle("hidden", !show);
     });
 
+    document.querySelectorAll("[data-career-highlight]").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const raw = el.dataset.highlightTags ?? "";
+      const tags = raw.split(",").map((s) => s.trim()).filter(Boolean);
+      const show =
+        activeDomain === null || tags.includes("all") || tags.includes(activeDomain);
+      el.classList.toggle("hidden", !show);
+    });
+
+    document.querySelectorAll("[data-career-highlights-list]").forEach((ul) => {
+      if (!(ul instanceof HTMLElement)) return;
+      const items = ul.querySelectorAll("[data-career-highlight]");
+      const anyVisible = Array.from(items).some(
+        (li) => li instanceof HTMLElement && !li.classList.contains("hidden"),
+      );
+      ul.classList.toggle("hidden", items.length > 0 && !anyVisible);
+    });
+
     document.querySelectorAll("[data-journey-domain-pill]").forEach((btn) => {
       if (!(btn instanceof HTMLElement)) return;
       const d = btn.dataset.domain ?? "";
       const isAll = d === "all";
       const pressed = activeDomain === null ? isAll : d === activeDomain;
       btn.setAttribute("aria-pressed", pressed ? "true" : "false");
-      btn.classList.toggle("ring-2", pressed);
-      btn.classList.toggle("ring-[var(--color-accent)]", pressed);
-      btn.classList.toggle("ring-offset-2", pressed);
-      btn.classList.toggle("ring-offset-[var(--color-bg)]", pressed);
+      const check = btn.querySelector("[data-journey-pill-check]");
+      if (check instanceof HTMLElement) {
+        check.classList.toggle("hidden", !pressed);
+        check.classList.toggle("inline-flex", pressed);
+      }
     });
 
     window.dispatchEvent(new CustomEvent("journey-career-filter-changed"));

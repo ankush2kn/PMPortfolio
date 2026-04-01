@@ -1,9 +1,11 @@
 ---
 import { careerReverseChronological } from "@/data/portfolio";
 import {
+  careerHighlightDisplayText,
+  careerHighlightTagsCsv,
   careerHighlightsPreview,
-  careerPeriodLocation,
   careerStr,
+  careerYearStartEndLabels,
   pickCareerDomainColor,
 } from "@/lib/careerDisplay";
 import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
@@ -20,41 +22,83 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
     {careerReverseChronological.map((entry, i) => {
       const primary = careerEntryPrimaryDomain(entry);
       const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, primary);
-      const periodLoc = careerPeriodLocation(entry.period, entry.location);
+      const yearLabels = careerYearStartEndLabels(entry);
+      const locationOnly = careerStr(entry.location);
       const preview = careerHighlightsPreview(entry.highlights);
       const cardLabel = careerStr(entry.company) ?? careerStr(entry.title) ?? entry.id;
+      const hasKeyMetric = Boolean(careerStr(entry.keyMetric));
+      const hasTitle = Boolean(careerStr(entry.title));
+      const hasHeading = hasKeyMetric || hasTitle;
       return (
       <div
         class="vertical-timeline-step relative pointer-events-none"
         data-career-entry
         data-career-domains={careerDomainsCsv(entry)}
         data-step-index={String(i)}
+        data-card-side={i % 2 === 0 ? "left" : "right"}
         data-domain={primary ?? ""}
         style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
       >
         <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
           <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
             <div class="timeline-card-surface bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
-              {careerStr(entry.title) && (
-              <h3 class="vertical-timeline-title text-base font-bold" style={`color: ${color};`}>
+              {careerStr(entry.keyMetric) && (
+                <p class="vertical-timeline-anchor text-lg font-bold leading-snug" style={`color: ${color};`}>
+                  {entry.keyMetric}
+                </p>
+              )}
+              {hasTitle && (
+              <h3
+                class:list={[
+                  "vertical-timeline-title text-sm font-bold leading-snug text-[var(--color-text-secondary)]",
+                  hasKeyMetric ? "mt-2" : "vertical-timeline-anchor",
+                ]}
+              >
                 {entry.title}
               </h3>
               )}
-              <CareerCompanyLine
-                company={entry.company}
-                companyUrl={entry.companyUrl}
-                textClass="text-sm text-[var(--color-text-secondary)]"
-              />
-              {periodLoc && (
-              <p class="text-xs text-[var(--color-text-secondary)] mt-1">{periodLoc}</p>
-              )}
-              {careerStr(entry.keyMetric) && (
-                <p class="text-lg font-bold text-[var(--color-accent)] mt-2">{entry.keyMetric}</p>
+              {(careerStr(entry.company) || locationOnly) && (
+              <p
+                class:list={[
+                  "text-sm text-[var(--color-text-secondary)]",
+                  hasHeading ? "mt-1" : "",
+                  i % 2 === 0 ? "md:text-right" : "",
+                ]}
+              >
+                {careerStr(entry.company) && (
+                  <><CareerCompanyLine as="span" company={entry.company} companyUrl={entry.companyUrl} textClass="" />{locationOnly && ","}{locationOnly && <span class="text-xs text-[var(--color-text-secondary)]">{" "}{locationOnly}</span>}</>
+                )}
+                {!careerStr(entry.company) && locationOnly}
+              </p>
               )}
               {preview.length > 0 && (
-              <ul class="mt-3 space-y-1">
+              <ul class="mt-3 space-y-2.5" data-career-highlights-list>
                 {preview.map((h) => (
-                  <li class={`text-xs text-[var(--color-text-secondary)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>{h}</li>
+                  <li
+                    class:list={[
+                      "flex flex-row items-stretch gap-2.5 text-xs text-[var(--color-text-secondary)]",
+                      i % 2 === 0 ? "justify-start md:justify-end" : "justify-start",
+                    ]}
+                    data-career-highlight
+                    data-highlight-tags={careerHighlightTagsCsv(h.domains)}
+                  >
+                    <span
+                      class:list={[
+                        "career-hl-rail w-0.5 shrink-0 rounded-full self-stretch min-h-[1em] opacity-[0.5]",
+                        i % 2 === 0 ? "order-1 md:order-2" : "order-1",
+                      ]}
+                      style={`background-color: ${color}`}
+                      aria-hidden="true"
+                    />
+                    <span
+                      class:list={[
+                        "career-hl-text min-w-0 flex-1 text-left",
+                        i % 2 === 0 ? "order-2 md:order-1 md:text-right" : "order-2",
+                      ]}
+                    >
+                      {careerHighlightDisplayText(h.text)}
+                    </span>
+                  </li>
                 ))}
               </ul>
               )}
@@ -72,6 +116,21 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
           style={`background-color: ${color};`}
         >
         </div>
+
+        {yearLabels.start && (
+          <div
+            class="vertical-timeline-year-start absolute z-[15] pointer-events-none whitespace-nowrap text-center text-[10px] font-semibold leading-none tracking-wide text-[var(--color-text-secondary)] tabular-nums"
+          >
+            {yearLabels.start}
+          </div>
+        )}
+        {yearLabels.end && (
+          <div
+            class="vertical-timeline-year-end absolute z-[15] pointer-events-none whitespace-nowrap text-center text-[10px] font-semibold leading-none tracking-wide text-[var(--color-text-secondary)] tabular-nums"
+          >
+            {yearLabels.end}
+          </div>
+        )}
 
         <div
           class="vertical-timeline-connector absolute z-10 h-[3px] md:h-2 rounded-full pointer-events-none opacity-95"
@@ -102,6 +161,14 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
   };
 
   const MD_UP = "(min-width: 768px)";
+  /** Vertical gap so start year clears the horizontal connector (right column: 3px tighter). */
+  const YEAR_ABOVE_GAP_LEFT_PX = 9;
+  const YEAR_ABOVE_GAP_RIGHT_PX = 9;
+  const YEAR_BELOW_GAP_PX = 8;
+  /** Shift year labels off the vertical spine, toward the card. */
+  const YEAR_OFF_SPINE_LEFT_PX = 32;
+  const YEAR_OFF_SPINE_RIGHT_PX = 20;
+  const YEAR_OFF_SPINE_MOBILE_PX = 20;
 
   function visibleVerticalSteps(stack: HTMLElement): HTMLElement[] {
     return Array.from(stack.querySelectorAll(".vertical-timeline-step")).filter(
@@ -141,18 +208,16 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 
     steps.forEach((step) => {
       if (!(step instanceof HTMLElement)) return;
-      const explicitTitle = step.querySelector(".vertical-timeline-title");
       const dot = step.querySelector(".vertical-timeline-dot");
       const connector = step.querySelector(".vertical-timeline-connector");
       const tip = step.querySelector(".vertical-timeline-connector-tip");
       const card = step.querySelector(".timeline-card-surface");
-      const title =
-        explicitTitle instanceof HTMLElement
-          ? explicitTitle
-          : card instanceof HTMLElement
-            ? (card.querySelector("span, h3, p") as HTMLElement | null) ?? card
-            : null;
-      if (!(title instanceof HTMLElement) || !(dot instanceof HTMLElement) || !(connector instanceof HTMLElement) || !(tip instanceof HTMLElement) || !(card instanceof HTMLElement)) {
+      const anchorEl =
+        (step.querySelector(".vertical-timeline-anchor") as HTMLElement | null) ??
+        (step.querySelector(".vertical-timeline-title") as HTMLElement | null) ??
+        (card instanceof HTMLElement ? (card.querySelector("h3, p, span") as HTMLElement | null) : null) ??
+        (card instanceof HTMLElement ? card : null);
+      if (!(anchorEl instanceof HTMLElement) || !(dot instanceof HTMLElement) || !(connector instanceof HTMLElement) || !(tip instanceof HTMLElement) || !(card instanceof HTMLElement)) {
         return;
       }
 
@@ -160,11 +225,36 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
       const color = DOMAIN_COLORS[domain] ?? "#888";
 
       const stepRect = step.getBoundingClientRect();
-      const titleRect = title.getBoundingClientRect();
-      const titleCenterY = titleRect.top - stepRect.top + titleRect.height / 2;
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const anchorCenterY = anchorRect.top - stepRect.top + anchorRect.height / 2;
 
-      dot.style.top = `${titleCenterY}px`;
+      dot.style.top = `${anchorCenterY}px`;
       dot.style.transform = desktop ? "translate(-50%, -50%)" : "translate(0, -50%)";
+
+      const dotCenterX = dot.offsetLeft + dot.offsetWidth / 2;
+      const cardSide = step.dataset.cardSide ?? connector.getAttribute("data-card-side") ?? "left";
+      const towardCardPx = desktop
+        ? cardSide === "left"
+          ? -YEAR_OFF_SPINE_LEFT_PX
+          : YEAR_OFF_SPINE_RIGHT_PX
+        : YEAR_OFF_SPINE_MOBILE_PX;
+      const yearAnchorX = dotCenterX + towardCardPx;
+
+      const yearAboveGapPx =
+        desktop && cardSide === "right" ? YEAR_ABOVE_GAP_RIGHT_PX : YEAR_ABOVE_GAP_LEFT_PX;
+
+      const yearStartEl = step.querySelector(".vertical-timeline-year-start");
+      if (yearStartEl instanceof HTMLElement) {
+        yearStartEl.style.left = `${yearAnchorX}px`;
+        yearStartEl.style.top = `${anchorCenterY - yearAboveGapPx}px`;
+        yearStartEl.style.transform = "translate(-50%, -100%)";
+      }
+      const yearEndEl = step.querySelector(".vertical-timeline-year-end");
+      if (yearEndEl instanceof HTMLElement) {
+        yearEndEl.style.left = `${yearAnchorX}px`;
+        yearEndEl.style.top = `${anchorCenterY + YEAR_BELOW_GAP_PX}px`;
+        yearEndEl.style.transform = "translate(-50%, 0)";
+      }
 
       if (!desktop) {
         connector.style.display = "none";
@@ -176,6 +266,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
       const cardRect = card.getBoundingClientRect();
       const dotCx = dotRect.left + dotRect.width / 2;
       const dotCy = dotRect.top + dotRect.height / 2;
+      const dotCenterYStep = dotCy - stepRect.top;
       const side = connector.getAttribute("data-card-side") ?? "left";
       const toward = side === "left" ? -1 : 1;
       const cardEdgeX = side === "left" ? cardRect.left : cardRect.right;
@@ -196,14 +287,14 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
       connector.style.backgroundColor = color;
       connector.style.left = `${x1}px`;
       connector.style.width = `${w}px`;
-      connector.style.top = `${dotCy - stepRect.top}px`;
+      connector.style.top = `${dotCenterYStep}px`;
       connector.style.transform = "translateY(-50%)";
 
       const tipHalf = 4;
       const tipW = 5;
       tip.style.borderStyle = "solid";
       tip.style.borderColor = "transparent";
-      tip.style.top = `${dotCy - stepRect.top}px`;
+      tip.style.top = `${dotCenterYStep}px`;
       tip.style.transform = "translateY(-50%)";
       if (side === "left") {
         tip.style.left = `${x1 - tipW}px`;

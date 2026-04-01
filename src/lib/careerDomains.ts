@@ -7,6 +7,9 @@ export type CareerDomainId =
   | "b2c"
   | "ai";
 
+/** Tag career highlights: real domain id(s) and/or `"all"` (visible for every domain pill). */
+export type CareerHighlightDomainTag = CareerDomainId | "all";
+
 export const CAREER_DOMAIN_ORDER: CareerDomainId[] = [
   "product",
   "engineering",

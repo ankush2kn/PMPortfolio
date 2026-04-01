@@ -1,4 +1,11 @@
-import type { CareerDomainId } from "@/lib/careerDomains";
+import type { CareerDomainId, CareerHighlightDomainTag } from "@/lib/careerDomains";
+
+/** Mandatory `domains` on each bullet so Journey pills can filter highlights. Use `"all"` to show under every domain. */
+export interface CareerHighlight {
+  /** Plain sentence; timelines render an accent rail (no manual `>` bullets). */
+  text: string;
+  domains: [CareerHighlightDomainTag, ...CareerHighlightDomainTag[]];
+}
 
 export const profile = {
   name: "Ankush Bhargava",
@@ -108,7 +115,7 @@ export interface CareerEntry {
   yearEnd?: number;
   /** One or more domains per role; used for colors (first) and Journey domain filter */
   domains: CareerDomainId[];
-  highlights?: string[];
+  highlights?: CareerHighlight[];
   keyMetric?: string;
   /** Each entry is a `src` string or `{ src, href? }`. With `href`, click opens a new tab; otherwise the fullscreen lightbox. */
   images?: (string | CareerImageItem)[];
@@ -127,8 +134,8 @@ export const career: CareerEntry[] = [
     yearEnd: 2006,
     domains: ["engineering", "b2b"],
     highlights: [
-      "> Pearson's: Built e2e assessment creation workflows",
-      "> LexisNexis: next-gen unified content delivery platform across US & Europe"
+      { text: "Pearson's: Built e2e assessment creation workflows", domains: ["engineering", "b2b"] },
+      { text: "LexisNexis: next-gen unified content delivery platform across US & Europe", domains: ["engineering", "b2b"] },
     ],
     keyMetric: "Enterprise data platforms",
   },
@@ -143,14 +150,14 @@ export const career: CareerEntry[] = [
     yearEnd: 2010,
     domains: ["startup", "engineering", "b2b", "b2c", "product"],
     highlights: [
-      "> Strategied with CEO to built the multi-sided marketplace",
-      "> Led PLG turnaround during financial crisis: reduced headcount 70%, scaled to 4x users",
-      "> Early adopter of Amazon AWS, migrated infra to cloud",
-      "> Launched 300+ marketing campaigns with geo-spatial customer segmentation",
+      { text: "Strategied with CEO to built the multi-sided marketplace", domains: ["startup", "product", "b2b", "b2c"] },
+      { text: "Led PLG turnaround during financial crisis: reduced headcount 70%, scaled to 4x users", domains: ["startup", "product"] },
+      { text: "Early adopter of Amazon AWS, migrated infra to cloud", domains: ["engineering", "startup"] },
+      { text: "Launched 300+ marketing campaigns with geo-spatial customer segmentation", domains: ["product", "b2c"] },
     ],
     keyMetric: "PLG turnaround during crisis",
     images: [
-     "/public/career/nuride.png", 
+     "/career/nuride.png", 
     ],
   },
   {
@@ -160,8 +167,8 @@ export const career: CareerEntry[] = [
     yearEnd: 2011,
     domains: ["b2b", "product"],
     highlights: [
-      "> TMobile: Private routers as public Internet gateways",
-      "> Compuware: Identify Management as a service"
+      { text: "TMobile: Private routers as public Internet gateways", domains: ["product", "b2b"] },
+      { text: "Compuware: Identify Management as a service", domains: ["product", "b2b"] },
     ],
     keyMetric: "New market entry",
   },
@@ -170,55 +177,73 @@ export const career: CareerEntry[] = [
     chapter: "The Operator",
     title: "Senior Business Manager",
     company: "Walmart Stores & eCommerce",
-    location: "San Francisco Bay Area",
+    location: "SF Bay Area",
     period: "2012–2016",
     yearStart: 2012,
     yearEnd: 2016,
     domains: ["operations", "b2b"],
     highlights: [
-      "> Led inventory flow planning for holiday peak season",
-      "> Improved Customer Order Fill Rates from <90% to 95+% in 6 months",
-      "> Curated 1M+ highest priority SKUs for eCommerce",
-      "> Facilitated eComm CEO's Weekly Business Reviews",
+      { text: "Led inventory flow planning for holiday peak season", domains: ["operations", "b2b"] },
+      { text: "Improved Customer Order Fill Rates from <90% to 95+% in 6 months", domains: ["operations", "b2b"] },
+      { text: "Curated 1M+ highest priority SKUs for eCommerce", domains: ["operations", "product"] },
+      { text: "Facilitated eComm CEO's Weekly Business Reviews", domains: ["operations", "all"] },
     ],
-    keyMetric: "Setup & Improve processes",
+    keyMetric: "Business Efficiency & Capability Setup",
   },
   {
     id: "walmart-pm",
-    chapter: "The Platform Architect",
-    title: "Staff PM → Director of Product Management",
+    chapter: "Inventory Management",
+    title: "Senior PM → Staff PM",
     company: "Walmart Tech",
-    location: "San Francisco Bay Area",
+    location: "SF Bay Area",
     period: "2016–2025",
     yearStart: 2016,
     yearEnd: 2025,
     domains: ["product", "operations"],
     highlights: [
-      "> Built 0→1 B2B transportation marketplace to $250M ARR",
-      "> End-to-end logistics platform across 5 countries, $50M+ annual savings",
-      "> Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent",
-      "> Created simulation platform for $5B+ infrastructure investments, presented to CEO",
-      "> Built sortation center tech: cut delivery costs 10%, reduced time 15%",
+      { text: "Built 0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
+      { text: "End-to-end logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations"] },
+      { text: "Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering"] },
+      { text: "Created simulation platform for $5B+ infrastructure investments, presented to CEO", domains: ["product", "operations"] },
+      { text: "Built sortation center tech: cut delivery costs 10%, reduced time 15%", domains: ["product", "engineering"] },
     ],
-    keyMetric: "$100+ savings impact",
+    keyMetric: "Captial efficiency of $1B+ inventory by optimizing inventory physical network",
+  },
+  {
+    id: "walmart-pm",
+    chapter: "The Platform Architect",
+    title: "Principal PM → Director",
+    company: "Walmart Tech",
+    location: "SF Bay Area",
+    period: "2016–2025",
+    yearStart: 2016,
+    yearEnd: 2025,
+    domains: ["product", "operations"],
+    highlights: [
+      { text: "Built 0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
+      { text: "End-to-end logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations"] },
+      { text: "Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering"] },
+      { text: "Created simulation platform for $5B+ infrastructure investments, presented to CEO", domains: ["product", "operations"] },
+      { text: "Built sortation center tech: cut delivery costs 10%, reduced time 15%", domains: ["product", "engineering"] },
+    ],
+    keyMetric: "$100M+ platform savings driven by automation and optimizations",
   },
   {
     id: "independent",
     chapter: "The AI Builder",
     title: "Product Lead & Architect",
-    company: "Technical Product Innovation",
-    location: "Burlingame, CA",
+    company: "Product Innovation",
+    location: "SF Bay Area",
     period: "2025–Present",
     yearStart: 2025,
-    yearEnd: 2026,
     domains: ["startup", "product", "engineering", "b2c"],
     highlights: [
-      "> Architected 'Force Multiplier' stacks using agentic workflows and GenAI",
-      "> SimpleStory.ai: AI-native publishing marketplace — MVP launched",
-      "> TroveScore: AI inventory valuation from single image — live product",
-      "> Fultu.com: What-If AI game — interactive AI experiences",
+      { text: "Architected 'Force Multiplier' stacks using AI", domains: ["ai", "engineering", "product"] },
+      { text: "SimpleStory.ai: AI native content marketplace", domains: ["ai", "product", "b2c"] },
+      { text: "TroveScore.com: AI vision powered book shelf valuation", domains: ["ai", "product"] },
+      { text: "Fultu.com: What-If-AI game — interactive experiences", domains: ["ai", "b2c", "product"] },
     ],
-    keyMetric: "3 AI products shipped",
+    keyMetric: "Shipped 3 AI products",
   },
 ];
 

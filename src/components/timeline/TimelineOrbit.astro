@@ -58,7 +58,7 @@ const orbitMinHeight = orbitContainerMinHeightPx(career.length);
               {/* Tooltip on hover */}
               <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-lg p-3 shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity max-w-[min(16rem,calc(100vw-2rem))] whitespace-normal z-30">
                 {careerStr(entry.title) && (
-                <p class="text-xs font-bold">{entry.title}</p>
+                <p class="text-xs font-bold text-[var(--color-text-secondary)]">{entry.title}</p>
                 )}
                 <CareerCompanyLine
                   company={entry.company}
@@ -69,7 +69,7 @@ const orbitMinHeight = orbitContainerMinHeightPx(career.length);
                 <p class="text-[10px] text-[var(--color-text-secondary)]">{entry.period}</p>
                 )}
                 {careerStr(entry.keyMetric) && (
-                  <p class="text-xs font-bold text-[var(--color-accent)] mt-1">{entry.keyMetric}</p>
+                  <p class="text-xs font-bold mt-1">{entry.keyMetric}</p>
                 )}
                 <CareerCardThumbnails images={entry.images} label={cardLabel} align="start" />
               </div>

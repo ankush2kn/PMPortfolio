@@ -112,6 +112,10 @@ const lineNames = [
     return t.length > 0 ? t : null;
   }
 
+  function stripHighlightChevron(s) {
+    return s.replace(/^\s*>\s*/, "").trim();
+  }
+
   function pickCareerDomainColorClient(entry) {
     const first = Array.isArray(entry.domains) && entry.domains.length > 0 ? entry.domains[0] : null;
     if (first && colors[first]) return colors[first];
@@ -161,19 +165,39 @@ const lineNames = [
           : "";
 
       const title = careerStrClient(entry.title);
-      const titleHtml = title ? `<h3 class="text-lg font-bold">${escHtml(title)}</h3>` : "";
+      const titleHtml = title
+        ? `<h3 class="text-lg font-bold" style="color: var(--color-text-secondary);">${escHtml(title)}</h3>`
+        : "";
 
       const key = careerStrClient(entry.keyMetric);
       const keyHtml = key
         ? `<span class="text-xl font-bold shrink-0" style="color: ${domainColor};">${escHtml(key)}</span>`
         : "";
 
-      const hl = Array.isArray(entry.highlights)
-        ? entry.highlights.map((h) => careerStrClient(h)).filter(Boolean)
-        : [];
-      const listHtml = hl.length > 0
-        ? `<ul class="space-y-1.5">${hl.map((h) => `<li class="text-sm" style="color: var(--color-text-secondary);">&#8226; ${escHtml(h)}</li>`).join("")}</ul>`
-        : "";
+      const hl =
+        Array.isArray(entry.highlights) && entry.highlights.length > 0
+          ? entry.highlights
+              .map((h) => {
+                if (!h || typeof h !== "object" || typeof h.text !== "string") return null;
+                const t = careerStrClient(stripHighlightChevron(h.text));
+                if (!t) return null;
+                const doms = Array.isArray(h.domains) ? h.domains.filter(Boolean) : [];
+                const tags = doms.length > 0 ? doms.map(String).join(",") : "";
+                return { text: t, tags };
+              })
+              .filter(Boolean)
+          : [];
+      const railStyle = (c) =>
+        `width:2px;min-height:1em;border-radius:9999px;opacity:0.5;background-color:${c};flex-shrink:0;align-self:stretch`;
+      const listHtml =
+        hl.length > 0
+          ? `<ul class="space-y-2" data-career-highlights-list>${hl
+              .map(
+                (item) =>
+                  `<li class="flex flex-row items-stretch gap-2.5 text-sm" style="color: var(--color-text-secondary);" data-career-highlight data-highlight-tags="${escAttr(item.tags)}"><span style="${railStyle(domainColor)}" aria-hidden="true"></span><span class="min-w-0 flex-1">${escHtml(item.text)}</span></li>`,
+              )
+              .join("")}</ul>`
+          : "";
 
       function normalizeCareerImagesClient(images) {
         if (!Array.isArray(images)) return [];
