@@ -48,7 +48,7 @@ Five visualization variants, all sharing the same career data:
 Supporting components: `CareerDomainFilter` (interactive filter pills), `CareerCardThumbnails`, `CareerCompanyLine`, `CareerImageLightbox`.
 
 ### Career Domain Filter
-`CareerDomainFilter.astro` uses `data-*` attributes and DOM queries (no state library). Filter changes dispatch a `journey-career-filter-changed` custom event. Career entries are hidden when no visible highlights remain. Highlights tagged `"all"` always display regardless of filter.
+`CareerDomainFilter.astro` uses `data-*` attributes and DOM queries (no state library). Filter changes dispatch a `journey-career-filter-changed` custom event. Career entries are hidden when no visible highlights remain. The Overall pill shows only highlights whose `domains` include `"overall"`; each domain pill shows only highlights whose `domains` include that domain id.
 
 ### Theming
 Tailwind v4 with CSS variables in `src/styles/global.css`. Two themes: `warm` (default) and `dark`, toggled via `localStorage`. Custom fonts: Inter Variable (body), Space Grotesk Variable (headings), Playfair Display Variable (decorative).

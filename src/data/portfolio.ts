@@ -1,6 +1,6 @@
 import type { CareerDomainId, CareerHighlightDomainTag } from "@/lib/careerDomains";
 
-/** Mandatory `domains` on each bullet so Journey pills can filter highlights. Use `"all"` to show under every domain. */
+/** Mandatory `domains` on each bullet for Journey filters. Use `"overall"` for high-level copy (shown only on the Overall pill). Use domain id(s) for specifics (shown only when that domain pill is selected). */
 export interface CareerHighlight {
   /** Plain sentence; timelines render an accent rail (no manual `>` bullets). */
   text: string;
@@ -134,10 +134,13 @@ export const career: CareerEntry[] = [
     yearEnd: 2006,
     domains: ["engineering", "b2b"],
     highlights: [
-      { text: "Pearson's: Built e2e assessment creation workflows", domains: ["engineering", "b2b"] },
-      { text: "LexisNexis: next-gen unified content delivery platform across US & Europe", domains: ["engineering", "b2b"] },
+      { text: "Pearson's: Built e2e assessment creation workflows", domains: ["overall", "engineering", "b2b"] },
+      { text: "LexisNexis: unified content delivery platform for US & EU", domains: ["overall", "engineering", "b2b"] },
     ],
-    keyMetric: "Enterprise data platforms",
+    keyMetric: "Core part of global Enterprise data platform",
+    images: [
+      { src: "/career/award-icon.svg", href: "https://drive.google.com/file/d/1oXkI_2ZVGbFOQ5v7hZTl5jvFgRxl_p3-/view?usp=sharing" },
+     ], 
   },
   {
     id: "agilemile",
@@ -148,14 +151,16 @@ export const career: CareerEntry[] = [
     period: "2006–2010",
     yearStart: 2006,
     yearEnd: 2010,
-    domains: ["startup", "engineering", "b2b", "b2c", "product"],
+    domains: ["engineering", "b2b", "b2c", "d2c", "product"],
     highlights: [
-      { text: "Strategied with CEO to built the multi-sided marketplace", domains: ["startup", "product", "b2b", "b2c"] },
-      { text: "Led PLG turnaround during financial crisis: reduced headcount 70%, scaled to 4x users", domains: ["startup", "product"] },
-      { text: "Early adopter of Amazon AWS, migrated infra to cloud", domains: ["engineering", "startup"] },
+      { text: "Early-stage startup focused on combining social networks with traffic demand management. As full stack developer and first PM, my work for key to PLG", domains: ["overall"] },
+      { text: "Team size: 1 to 2 Engineers", domains: ["overall"] },
+      { text: "Strategied with CEO to built the multi-sided marketplace", domains: ["product", "b2b", "b2c"] },
+      { text: "Led PLG turnaround during financial crisis: reduced headcount 70%, scaled to 4x users", domains: ["product"] },
+      { text: "Early adopter of Amazon AWS, migrated infra to cloud", domains: ["engineering"] },
       { text: "Launched 300+ marketing campaigns with geo-spatial customer segmentation", domains: ["product", "b2c"] },
     ],
-    keyMetric: "PLG turnaround during crisis",
+    keyMetric: "Achieved PLG turnaround and earned substantial responsibilities",
     images: [
      "/career/nuride.png", 
     ],
@@ -167,59 +172,66 @@ export const career: CareerEntry[] = [
     yearEnd: 2011,
     domains: ["b2b", "product"],
     highlights: [
-      { text: "TMobile: Private routers as public Internet gateways", domains: ["product", "b2b"] },
-      { text: "Compuware: Identify Management as a service", domains: ["product", "b2b"] },
+      { text: "TMobile: Private routers as public Internet gateways", domains: ["overall", "product", "b2b"] },
+      { text: "Compuware: Identify Management as a service", domains: ["overall", "product", "b2b"] },
     ],
-    keyMetric: "New market entry",
+    keyMetric: "Evaluated new market entry opportunities",
   },
   {
     id: "walmart-ops",
     chapter: "The Operator",
-    title: "Senior Business Manager",
+    title: "Analyst → Senior Business Manager",
     company: "Walmart Stores & eCommerce",
+    companyUrl: "https://walmart.com/",
     location: "SF Bay Area",
     period: "2012–2016",
     yearStart: 2012,
     yearEnd: 2016,
     domains: ["operations", "b2b"],
     highlights: [
+      { text: "Incubated innovative processes and broke silos by cultivating cross-functional partnerships across inventory, merchandising, and supply planning", domains: ["overall"] },
+      { text: "Team size: 1 to 5 Operators & Analysts", domains: ["overall"] },
       { text: "Led inventory flow planning for holiday peak season", domains: ["operations", "b2b"] },
       { text: "Improved Customer Order Fill Rates from <90% to 95+% in 6 months", domains: ["operations", "b2b"] },
       { text: "Curated 1M+ highest priority SKUs for eCommerce", domains: ["operations", "product"] },
-      { text: "Facilitated eComm CEO's Weekly Business Reviews", domains: ["operations", "all"] },
+      { text: "Facilitated eComm CEO's Weekly Business Reviews", domains: ["operations", "b2b"] },
     ],
-    keyMetric: "Business Efficiency & Capability Setup",
+    keyMetric: "Improved working capital, InStock rates, SKU sanity and built best practices",
   },
   {
-    id: "walmart-pm",
-    chapter: "Inventory Management",
+    id: "walmart-pm1",
+    chapter: "Inventory & Capacity Management",
     title: "Senior PM → Staff PM",
-    company: "Walmart Tech",
+    company: "Walmart Gloabl Tech",
+    companyUrl: "https://tech.walmart.com/content/walmart-global-tech/en_us.html",
     location: "SF Bay Area",
     period: "2016–2025",
     yearStart: 2016,
-    yearEnd: 2025,
-    domains: ["product", "operations"],
+    yearEnd: 2019,
+    domains: ["product", "b2b"],
     highlights: [
-      { text: "Built 0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
-      { text: "End-to-end logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations"] },
-      { text: "Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering"] },
-      { text: "Created simulation platform for $5B+ infrastructure investments, presented to CEO", domains: ["product", "operations"] },
-      { text: "Built sortation center tech: cut delivery costs 10%, reduced time 15%", domains: ["product", "engineering"] },
+      { text: "Delivered millions in cost savings by modernizing eCommerce predictive analytics and inventory planning products, while designing intuitive journeys for data-heavy decision tools.", domains: ["overall"] },
+      { text: "Team size: 1 to 6 PMs & Data Scientists", domains: ["overall"] },
+      { text: "Launched m/l based demand forecast, improving YoY accuracy by 25%", domains: ["product", "engineering","b2b"] },
+      { text: "Created products that converged tribal knowledge with systematic data to enable high speed decision making", domains: ["product", "operations"] },
+      { text: "Developed Walmart's first SKU-region level demand engine", domains: ["product", "engineering"] },
     ],
     keyMetric: "Captial efficiency of $1B+ inventory by optimizing inventory physical network",
   },
   {
-    id: "walmart-pm",
+    id: "walmart-pm2",
     chapter: "The Platform Architect",
     title: "Principal PM → Director",
-    company: "Walmart Tech",
+    company: "Walmart Global Tech",
+    companyUrl: "https://tech.walmart.com/content/walmart-global-tech/en_us.html",
     location: "SF Bay Area",
     period: "2016–2025",
-    yearStart: 2016,
+    yearStart: 2019,
     yearEnd: 2025,
-    domains: ["product", "operations"],
+    domains: ["product", "operations", "b2b", "d2c"],
     highlights: [
+      { text: "As first hire for freight transportation team, led enterprise transportation, last-mile, and eCommerce products", domains: ["overall"] },
+      { text: "Team size: 1 to 10 PMs", domains: ["overall"] },
       { text: "Built 0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
       { text: "End-to-end logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations"] },
       { text: "Last mile routing: 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering"] },
@@ -227,23 +239,33 @@ export const career: CareerEntry[] = [
       { text: "Built sortation center tech: cut delivery costs 10%, reduced time 15%", domains: ["product", "engineering"] },
     ],
     keyMetric: "$100M+ platform savings driven by automation and optimizations",
+    images: [
+      { src: "/career/award-icon.svg", href: "https://drive.google.com/file/d/1h73W6pvaw-5jAh8OQbQZ5PdjRtjR9v_j/view?usp=sharing" },
+      { src: "/career/award-icon.svg", href: "https://drive.google.com/file/d/10rX1WxuRx0LNYBNmnaooY9GDZTZPg_DA/view?usp=sharing" },
+    ],
   },
   {
     id: "independent",
     chapter: "The AI Builder",
     title: "Product Lead & Architect",
     company: "Product Innovation",
+    companyUrl: "/lab",
     location: "SF Bay Area",
     period: "2025–Present",
     yearStart: 2025,
-    domains: ["startup", "product", "engineering", "b2c"],
+    domains: ["product", "engineering", "b2c", "b2b", "d2c"],
     highlights: [
-      { text: "Architected 'Force Multiplier' stacks using AI", domains: ["ai", "engineering", "product"] },
-      { text: "SimpleStory.ai: AI native content marketplace", domains: ["ai", "product", "b2c"] },
-      { text: "TroveScore.com: AI vision powered book shelf valuation", domains: ["ai", "product"] },
-      { text: "Fultu.com: What-If-AI game — interactive experiences", domains: ["ai", "b2c", "product"] },
+      { text: "SimpleStory.ai: AI native content marketplace", domains: ["overall", "product", "b2b", "b2c", "engineering"] },
+      { text: "TroveScore.com: AI vision powered book shelf valuation", domains: ["overall", "d2c", "product", "engineering"] },
+      { text: "Fultu.com: What-If-AI game — interactive experiences", domains: ["overall", "d2c", "product", "engineering"] },
     ],
     keyMetric: "Shipped 3 AI products",
+    images: [
+      { src: "/projects/simplestory.png", href: "https://simplestory.ai" },
+      { src: "/projects/trovescore.png", href: "https://trovescore.com" },
+      { src: "/projects/fultu.png", href: "https://fultu.com" },
+      { src: "/career/ODF.png", href: "https://www.linkedin.com/posts/ankushbhargava_odf-activity-7433309687002906629-lMMg?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAAe-IsBt2zOUo6ATAv-NfKeeUD-m3WCqEo" },
+    ],
   },
 ];
 
@@ -268,6 +290,17 @@ export const education = [
     logoAlt: "University of Delhi",
   },
 ];
+
+/** Tech credential pill: plain string, or `{ label, href }` for linked badges (e.g. Credly). */
+export type SkillCredential = string | { label: string; href?: string };
+
+export function skillCredentialLabel(c: SkillCredential): string {
+  return typeof c === "string" ? c : c.label;
+}
+
+export function skillCredentialHref(c: SkillCredential): string | undefined {
+  return typeof c === "string" ? undefined : c.href;
+}
 
 export const skills = {
   product: [
@@ -319,10 +352,25 @@ export const skills = {
     { name: "Salesforce", category: "Growth" },
   ],
   credentials: [
-    "Google Generative AI Leader",
-    "Lean Belt Certification",
-    "Patent: Inventory",
-    "Patent: Last Mile Delivery",
-    "Publication: E2E Supply Chain Optimization",
-  ],
+    {
+      label: "Google Generative AI Leader",
+      href: "https://www.credly.com/badges/3586fb03-f8d1-4faa-8920-2cf3958ea226/linked_in_profile",
+    },
+    {
+      label: "Lean Belt Certification",
+      href: "https://drive.google.com/file/d/1WOXZfzB5xfSQrWL-Qzb6hKEnc0onzq_k/view",
+    },
+    {
+      label: "Patent: Inventory",
+      href: "https://patents.google.com/patent/US10839348B2/",
+    },
+    {
+      label: "Patent: Last Mile Delivery",
+      href: "https://patents.google.com/patent/US20220245585A1",
+    },
+    {
+      label: "Publication: E2E Supply Chain Optimization",
+      href: "https://pubsonline.informs.org/doi/10.1287/inte.2023.0093",
+    },
+  ] as SkillCredential[],
 };

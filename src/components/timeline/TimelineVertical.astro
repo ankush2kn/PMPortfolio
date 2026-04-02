@@ -6,9 +6,8 @@ import {
   careerHighlightsPreview,
   careerStr,
   careerYearStartEndLabels,
-  pickCareerDomainColor,
 } from "@/lib/careerDisplay";
-import { CAREER_DOMAIN_HEX, careerDomainsCsv, careerEntryPrimaryDomain } from "@/lib/careerDomains";
+import { careerDomainsCsv, careerEntryPrimaryDomain, verticalTimelineAccentByIndex } from "@/lib/careerDomains";
 import CareerCardThumbnails from "@/components/timeline/CareerCardThumbnails.astro";
 import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 ---
@@ -21,7 +20,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
   <div class="vertical-timeline-stack pb-10 space-y-8 md:space-y-0" data-vertical-timeline>
     {careerReverseChronological.map((entry, i) => {
       const primary = careerEntryPrimaryDomain(entry);
-      const color = pickCareerDomainColor(CAREER_DOMAIN_HEX, primary);
+      const color = verticalTimelineAccentByIndex(i);
       const yearLabels = careerYearStartEndLabels(entry);
       const locationOnly = careerStr(entry.location);
       const preview = careerHighlightsPreview(entry.highlights);
@@ -35,6 +34,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
         data-career-entry
         data-career-domains={careerDomainsCsv(entry)}
         data-step-index={String(i)}
+        data-timeline-accent={color}
         data-card-side={i % 2 === 0 ? "left" : "right"}
         data-domain={primary ?? ""}
         style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
@@ -60,7 +60,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
               {(careerStr(entry.company) || locationOnly) && (
               <p
                 class:list={[
-                  "text-sm text-[var(--color-text-secondary)]",
+                  "text-sm font-bold text-[var(--color-text-secondary)]",
                   hasHeading ? "mt-1" : "",
                   i % 2 === 0 ? "md:text-right" : "",
                 ]}
@@ -150,16 +150,6 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 <script>
   const VERTICAL_TIMELINE_START_RATIO = 0.75;
 
-  const DOMAIN_COLORS: Record<string, string> = {
-    engineering: "#6366f1",
-    startup: "#f59e0b",
-    operations: "#10b981",
-    product: "#3b82f6",
-    b2b: "#0d9488",
-    b2c: "#f43f5e",
-    ai: "#e88c4f",
-  };
-
   const MD_UP = "(min-width: 768px)";
   /** Vertical gap so start year clears the horizontal connector (right column: 3px tighter). */
   const YEAR_ABOVE_GAP_LEFT_PX = 9;
@@ -221,8 +211,8 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
         return;
       }
 
-      const domain = step.dataset.domain ?? "";
-      const color = DOMAIN_COLORS[domain] ?? "#888";
+      const color = step.dataset.timelineAccent?.trim() || "#888";
+      dot.style.backgroundColor = color;
 
       const stepRect = step.getBoundingClientRect();
       const anchorRect = anchorEl.getBoundingClientRect();

@@ -14,6 +14,7 @@ const lineNames = [
   { domain: "product", label: "Product Line", color: "#3b82f6" },
   { domain: "b2b", label: "B2B Line", color: "#0d9488" },
   { domain: "b2c", label: "B2C Line", color: "#f43f5e" },
+  { domain: "d2c", label: "D2C Line", color: "#ec4899" },
   { domain: "ai", label: "AI Line", color: "#e88c4f" },
 ];
 ---
@@ -152,21 +153,23 @@ const lineNames = [
       const domainColor = pickCareerDomainColorClient(entry);
       const companyName = careerStrClient(entry.company);
       const companyUrl = careerStrClient(entry.companyUrl);
-      const companyHtml =
-        companyName &&
-        (companyUrl
-          ? `<a href="${escAttr(companyUrl)}" target="_blank" rel="noopener noreferrer" class="career-subway-company-link">${escHtml(companyName)}${EXTERNAL_TAB_ICON}</a>`
-          : escHtml(companyName));
-      const metaTail = [careerStrClient(entry.period), careerStrClient(entry.location)].filter(Boolean).map(escHtml);
-      const metaSegments = [companyHtml, ...metaTail].filter(Boolean);
-      const metaHtml =
-        metaSegments.length > 0
-          ? `<p class="text-sm" style="color: var(--color-text-secondary);">${metaSegments.join(" &middot; ")}</p>`
+      const companyBlock = companyName
+        ? `<p class="text-sm font-bold" style="color: var(--color-text-secondary);">${
+            companyUrl
+              ? `<a href="${escAttr(companyUrl)}" target="_blank" rel="noopener noreferrer" class="career-subway-company-link">${escHtml(companyName)}${EXTERNAL_TAB_ICON}</a>`
+              : escHtml(companyName)
+          }</p>`
+        : "";
+
+      const periodLocTail = [careerStrClient(entry.period), careerStrClient(entry.location)].filter(Boolean).map(escHtml);
+      const periodLocHtml =
+        periodLocTail.length > 0
+          ? `<p class="text-sm" style="color: var(--color-text-secondary); opacity: 0.88">${periodLocTail.join(" · ")}</p>`
           : "";
 
       const title = careerStrClient(entry.title);
       const titleHtml = title
-        ? `<h3 class="text-lg font-bold" style="color: var(--color-text-secondary);">${escHtml(title)}</h3>`
+        ? `<h3 class="text-sm font-bold" style="color: var(--color-text-secondary);">${escHtml(title)}</h3>`
         : "";
 
       const key = careerStrClient(entry.keyMetric);
@@ -234,12 +237,10 @@ const lineNames = [
               .join("")}</div>`
           : "";
 
-      const leftBlock = titleHtml || metaHtml;
-      const topRow = leftBlock
-        ? `<div class="flex items-start justify-between mb-3 gap-4"><div>${titleHtml}${metaHtml}</div>${keyHtml}</div>`
-        : keyHtml
-          ? `<div class="flex items-start justify-between mb-3 gap-4"><div></div>${keyHtml}</div>`
-          : "";
+      const leftCol = `${titleHtml}${companyBlock}${periodLocHtml}`;
+      const topRow = leftCol || keyHtml
+        ? `<div class="flex items-start justify-between mb-3 gap-4"><div class="space-y-1 min-w-0">${leftCol}</div>${keyHtml}</div>`
+        : "";
 
       detail.classList.remove("hidden");
       content.innerHTML = topRow + listHtml + thumbsHtml;

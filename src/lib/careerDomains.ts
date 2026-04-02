@@ -5,10 +5,11 @@ export type CareerDomainId =
   | "product"
   | "b2b"
   | "b2c"
+  | "d2c"
   | "ai";
 
-/** Tag career highlights: real domain id(s) and/or `"all"` (visible for every domain pill). */
-export type CareerHighlightDomainTag = CareerDomainId | "all";
+/** Tag career highlights: `"overall"` for the Overall pill only; real domain id(s) for that domain’s pill only (one mode or the other per bullet, or combine both tags if a line should appear in both). */
+export type CareerHighlightDomainTag = CareerDomainId | "overall";
 
 export const CAREER_DOMAIN_ORDER: CareerDomainId[] = [
   "product",
@@ -17,6 +18,7 @@ export const CAREER_DOMAIN_ORDER: CareerDomainId[] = [
   "startup",
   "b2b",
   "b2c",
+  "d2c",
   "ai"
 ];
 
@@ -27,8 +29,16 @@ export const CAREER_DOMAIN_HEX: Record<CareerDomainId, string> = {
   product: "#3b82f6",
   b2b: "#0d9488",
   b2c: "#f43f5e",
+  d2c: "#ec4899",
   ai: "#e88c4f",
 };
+
+/** Vertical timeline spine / card accent: yellow → blue → green by row index (not primary domain). */
+export const VERTICAL_TIMELINE_ACCENT_CYCLE = ["#f59e0b", "#3b82f6", "#10b981"] as const;
+
+export function verticalTimelineAccentByIndex(stepIndex: number): string {
+  return VERTICAL_TIMELINE_ACCENT_CYCLE[stepIndex % VERTICAL_TIMELINE_ACCENT_CYCLE.length]!;
+}
 
 export const CAREER_DOMAIN_LABEL: Record<CareerDomainId, string> = {
   engineering: "Engineering",
@@ -37,6 +47,7 @@ export const CAREER_DOMAIN_LABEL: Record<CareerDomainId, string> = {
   product: "Product",
   b2b: "B2B",
   b2c: "B2C",
+  d2c: "D2C",
   ai: "AI",
 };
 

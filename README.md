@@ -146,7 +146,7 @@ Domains drive the filter pills on the Journey page and the accent colors on card
 | `b2c` | B2C | Rose |
 | `ai` | AI | Violet |
 
-Each `CareerEntry` must have at least one domain. The **first** domain sets the card's accent color. Each highlight's `domains` array controls which filter states show it — use `"all"` to always display a bullet.
+Each `CareerEntry` must have at least one domain. The **first** domain sets the card's accent color. Each highlight's `domains` array controls which pill shows it: include `"overall"` for the **Overall** pill only, and/or domain ids for those domain pills only (include both if the same line should appear in both).
 
 ### 6. Education
 

@@ -1,5 +1,5 @@
 ---
-import { skills } from "@/data/portfolio";
+import { skillCredentialHref, skillCredentialLabel, skills } from "@/data/portfolio";
 
 const categories = [
   { label: "AI / ML", tools: skills.tools.filter(t => t.category === "AI/ML") },
@@ -13,30 +13,60 @@ const credentialsRow2 = skills.credentials.slice(2);
 ---
 
 <!-- Skills Option C: "Tool Shelf" - Visual shelf with tool icons grouped by category -->
-<section class="py-20 px-6">
+<section class="pt-10 pb-20 px-6">
   <div class="max-w-4xl mx-auto">
     <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-6 text-center">Tech Credentials</h2>
 
     <div class="mb-10 flex flex-col items-center gap-3" style="animation: fadeInUp 0.6s var(--ease-out-expo) both;">
       <div class="flex flex-wrap justify-center gap-3">
-        {credentialsRow1.map((cred) => (
-          <div class="flex items-center gap-2 px-3 py-1.5 bg-[var(--color-accent)]/10 rounded-full">
-            <svg class="w-3.5 h-3.5 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span class="text-xs font-medium text-[var(--color-accent)]">{cred}</span>
-          </div>
-        ))}
+        {credentialsRow1.map((cred) => {
+          const label = skillCredentialLabel(cred);
+          const href = skillCredentialHref(cred);
+          const base = "flex items-center gap-2 px-3 py-1.5 bg-[var(--color-accent)]/10 rounded-full";
+          const linkExtra =
+            "hover:bg-[var(--color-accent)]/18 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]";
+          const inner = (
+            <>
+              <svg class="w-3.5 h-3.5 text-[var(--color-accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="text-xs font-medium text-[var(--color-accent)]">{label}</span>
+            </>
+          );
+          return href ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" class:list={[base, linkExtra]}>
+              {inner}
+              <span class="sr-only">Opens in new tab</span>
+            </a>
+          ) : (
+            <div class={base}>{inner}</div>
+          );
+        })}
       </div>
       <div class="flex flex-wrap justify-center gap-3">
-        {credentialsRow2.map((cred) => (
-          <div class="flex items-center gap-2 px-3 py-1.5 bg-[var(--color-accent)]/10 rounded-full">
-            <svg class="w-3.5 h-3.5 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span class="text-xs font-medium text-[var(--color-accent)]">{cred}</span>
-          </div>
-        ))}
+        {credentialsRow2.map((cred) => {
+          const label = skillCredentialLabel(cred);
+          const href = skillCredentialHref(cred);
+          const base = "flex items-center gap-2 px-3 py-1.5 bg-[var(--color-accent)]/10 rounded-full";
+          const linkExtra =
+            "hover:bg-[var(--color-accent)]/18 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]";
+          const inner = (
+            <>
+              <svg class="w-3.5 h-3.5 text-[var(--color-accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="text-xs font-medium text-[var(--color-accent)]">{label}</span>
+            </>
+          );
+          return href ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" class:list={[base, linkExtra]}>
+              {inner}
+              <span class="sr-only">Opens in new tab</span>
+            </a>
+          ) : (
+            <div class={base}>{inner}</div>
+          );
+        })}
       </div>
     </div>
 

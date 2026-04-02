@@ -15,7 +15,7 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
   <button
     type="button"
     data-journey-domain-pill
-    data-domain="all"
+    data-domain="overall"
     aria-pressed="true"
     class="journey-domain-pill inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition-colors"
   >
@@ -28,7 +28,7 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
     </span>
-    All
+    Overall
   </button>
   {
     pills.map((id) => (
@@ -55,7 +55,10 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
 </div>
 
 <script>
+  let journeyFilterActiveDomain: string | null = null;
+
   function applyJourneyDomainFilter(activeDomain: string | null) {
+    journeyFilterActiveDomain = activeDomain;
     document.querySelectorAll("[data-career-entry]").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
       const raw = el.dataset.careerDomains ?? "";
@@ -69,7 +72,7 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
       const raw = el.dataset.highlightTags ?? "";
       const tags = raw.split(",").map((s) => s.trim()).filter(Boolean);
       const show =
-        activeDomain === null || tags.includes("all") || tags.includes(activeDomain);
+        activeDomain === null ? tags.includes("overall") : tags.includes(activeDomain);
       el.classList.toggle("hidden", !show);
     });
 
@@ -85,8 +88,8 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
     document.querySelectorAll("[data-journey-domain-pill]").forEach((btn) => {
       if (!(btn instanceof HTMLElement)) return;
       const d = btn.dataset.domain ?? "";
-      const isAll = d === "all";
-      const pressed = activeDomain === null ? isAll : d === activeDomain;
+      const isOverallPill = d === "overall";
+      const pressed = activeDomain === null ? isOverallPill : d === activeDomain;
       btn.setAttribute("aria-pressed", pressed ? "true" : "false");
       const check = btn.querySelector("[data-journey-pill-check]");
       if (check instanceof HTMLElement) {
@@ -103,8 +106,16 @@ const pills = CAREER_DOMAIN_ORDER.filter((id) => present.includes(id));
     if (!(t instanceof Element)) return;
     const btn = t.closest("[data-journey-domain-pill]");
     if (!(btn instanceof HTMLButtonElement)) return;
-    const d = btn.dataset.domain ?? "all";
-    applyJourneyDomainFilter(d === "all" ? null : d);
+    const d = btn.dataset.domain ?? "overall";
+    if (d === "overall") {
+      applyJourneyDomainFilter(null);
+      return;
+    }
+    if (journeyFilterActiveDomain === d) {
+      applyJourneyDomainFilter(null);
+      return;
+    }
+    applyJourneyDomainFilter(d);
   }
 
   function initJourneyFilter() {
