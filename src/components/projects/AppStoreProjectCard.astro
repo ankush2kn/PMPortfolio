@@ -1,0 +1,32 @@
+---
+import type { PortfolioProject } from "@/data/portfolio";
+import AppStoreCardInner from "@/components/projects/AppStoreCardInner.astro";
+
+interface Props {
+  project: PortfolioProject;
+  i: number;
+}
+
+const { project, i } = Astro.props;
+const productUrl = project.url?.trim();
+const anim = `animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * i}s both;`;
+
+const linkClass =
+  "group flex h-full min-h-0 flex-col bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-5 hover:border-[var(--color-accent)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg";
+const staticClass =
+  "flex h-full min-h-0 flex-col bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-2xl p-5 cursor-default";
+---
+
+{productUrl ? (
+  <a href={productUrl} target="_blank" rel="noopener" class:list={[linkClass]} style={anim}>
+    <AppStoreCardInner project={project} interactive>
+      <div class="mt-auto self-end pt-4 text-right text-xs text-[var(--color-accent)] font-medium group-hover:underline">
+        View Product →
+      </div>
+    </AppStoreCardInner>
+  </a>
+) : (
+  <div class:list={[staticClass]} style={anim}>
+    <AppStoreCardInner project={project} interactive={false} />
+  </div>
+)}

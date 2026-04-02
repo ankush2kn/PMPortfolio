@@ -48,51 +48,74 @@ export const principles = [
   { title: "Leave it better than I find it", context: "Solve the hardest problems. Always." },
 ];
 
-export const projects = [
+/** Lab project cards. */
+export interface PortfolioProject {
+  name: string;
+  description: string;
+  screenshot: string;
+  challenge: string;
+  outcome: string;
+  /** Public product URL. Omit when there is no live link — Lab cards stay non-clickable and hide the “View Product” / “View Live” CTAs. */
+  url?: string;
+  metrics?: string[];
+  techStack?: string[];
+  icon?: string;
+}
+
+export const projects: PortfolioProject[] = [
   {
     name: "SimpleStory.ai",
     url: "https://simplestory.ai",
-    tagline: "AI-native publishing marketplace for educational content",
-    description:
-      "Multimodal AI platform that enables creators to build educational stories with AI-generated visuals, narration, and interactive elements.",
-    metrics: ["MVP launched", "Low-friction creator UX validated"],
-    techStack: ["Vertex AI", "Google Cloud", "ElevenLabs", "Supabase"],
+    description: "AI-native platform that enables creators to build educational stories with AI-generated visuals, narration, and interactive elements.",
+    //metrics: ["MVP launched", "Low-friction creator UX validated"],
+    techStack: ["AI Audio & Video", "Google Cloud", "ElevenLabs", "Postgres"],
     icon: "book",
     screenshot: "/projects/simplestory.png",
     challenge:
-      "Teachers and parents needed faster ways to create engaging, personalized learning stories without a production team.",
+      "Teachers and parents need faster & safer ways to create engaging learning stories without a production team.",
     outcome:
-      "Shipped an AI-native publishing flow with generated visuals and voice — validated creator UX through MVP launch.",
+      "AI-native publishing flow with generated visuals and voice — validated creator UX through MVP launch.",
   },
   {
     name: "TroveScore",
     url: "https://trovescore.com",
-    tagline: "AI-powered inventory valuation from a single photo",
     description:
       "Scan your bookshelf with one picture. AI identifies every book, cross-references real-time market data from Google & eBay to automate sell vs. donate decisions.",
-    metrics: ["Real-time market data", "Single-image recognition"],
-    techStack: ["Vertex AI", "Google Cloud", "eBay API", "Fal.ai"],
+    //metrics: ["Real-time market data", "Single-image recognition"],
+    techStack: ["AI Vision", "Google Cloud", "eBay API", "Fal.ai", "PostHog", "Stripe", "Umami", "Supabase"],
     icon: "camera",
     screenshot: "/projects/trovescore.png",
     challenge:
-      "People with large home libraries couldn’t quickly value books or decide sell vs. donate vs. keep without manual lookup.",
+      "People with home libraries couldn’t quickly value books or decide sell vs. donate vs. keep without manual lookup.",
     outcome:
-      "Built one-tap shelf capture with ID + live market pricing to recommend the best next action.",
+      "One-tap shelf capture with ID + live market pricing. Recommends best next action. One click publish to eBay",
   },
   {
     name: "Fultu",
     url: "https://fultu.com",
-    tagline: "The What-If AI game",
     description:
       "An AI-powered game that explores alternate scenarios and what-if questions through interactive storytelling and dynamic content generation.",
-    metrics: ["AI-driven gameplay", "Interactive narratives"],
-    techStack: ["AI/ML", "Interactive Design"],
+    //metrics: ["AI-driven gameplay", "Interactive narratives"],
+    techStack: ["AI-driven gameplay", "Interactive Design", "Stripe", "Custom merchandise store"],
     icon: "gamepad",
     screenshot: "/projects/fultu.png",
     challenge:
-      "Exploring “what if” scenarios was mostly static or generic — few playful, interactive ways to branch narratives with AI.",
+      "Exploring “what if” scenarios was mostly static — few playful, interactive ways to branch narratives with AI.",
     outcome:
-      "Launched a what-if game engine that turns hypotheticals into short, dynamic AI-driven story paths.",
+      "Launched a what-if game engine that turns hypotheticals into short, dynamic AI-driven story paths. Includes aMerchandise store to monetize the interactions.",
+  },
+  {
+    name: "BotBhargava - OpenClaw",
+    //url: "https://fultu.com",
+    description: "OpenClaw powered personal assistant for me and my family.",
+    //metrics: ["AI-driven gameplay", "Interactive narratives"],
+    techStack: ["Amazon EC2", "OpenClaw", "Email/Calendar APIs", "OpenRouter"],
+    icon: "gamepad",
+    screenshot: "/projects/openclaw_botbhargava.svg",
+    challenge:
+      "As parents with two kids, it's hard to keep track of school and outside activities. We are constantly losing track.",
+    outcome:
+      "Trained OpenClaw to be my personal assistant, and it's helping my family keep track of calendar events.",
   },
 ];
 

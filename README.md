@@ -84,19 +84,20 @@ export const principles = [
 
 ### 4. Projects (Lab page)
 
+`PortfolioProject`: **required** — `name`, `description`, `screenshot`, `challenge`, `outcome`. **Optional** — `url`, `metrics`, `techStack`, `icon` (reserved for future UI).
+
 ```ts
-export const projects = [
+export const projects: PortfolioProject[] = [
   {
     name: "Project Name",
-    url: "https://yourproject.com",
-    tagline: "Short tagline",
-    description: "Longer description paragraph.",
-    metrics: ["Metric one", "Metric two"],
-    techStack: ["React", "Supabase"],
-    icon: "book",                          // "book" | "camera" | "gamepad"
+    description: "What the project is — one short paragraph.",
     screenshot: "/projects/screenshot.png", // place in public/projects/
     challenge: "What problem did you solve?",
     outcome: "What was the result?",
+    url: "https://yourproject.com", // omit for non-linked cards
+    metrics: ["Metric one", "Metric two"],
+    techStack: ["React", "Supabase"],
+    icon: "book",
   },
 ];
 ```

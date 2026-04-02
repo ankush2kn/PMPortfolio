@@ -1,54 +1,53 @@
 ---
+import type { PortfolioProject } from "@/data/portfolio";
 import { projects } from "@/data/portfolio";
-
-const projectDetails = [
-  {
-    problem: "Teachers struggle to create engaging, personalized educational content at scale",
-    solution: "AI-native platform that generates stories with visuals, narration, and interactivity",
-  },
-  {
-    problem: "Book owners can't easily value collections or decide what to keep vs. sell vs. donate",
-    solution: "Single photo scans entire shelf, cross-references live market data for instant decisions",
-  },
-  {
-    problem: "People wonder 'what if' but lack tools to explore alternate scenarios interactively",
-    solution: "AI-driven game that generates dynamic narratives from hypothetical questions",
-  },
-];
 ---
 
 <!-- Projects Option C: "Problem/Solution" - Two-panel micro-cards -->
 <div class="space-y-6">
-  {projects.map((project, i) => (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noopener"
-      class="group block bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden hover:border-[var(--color-accent)] transition-all duration-300"
-      style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
-    >
+  {projects.map((project: PortfolioProject, i) => {
+    const productUrl = project.url?.trim();
+    const techStack = project.techStack ?? [];
+    const anim = `animation: fadeInUp 0.6s var(--ease-out-expo) ${0.15 * i}s both;`;
+    const shellClass =
+      "group block bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden hover:border-[var(--color-accent)] transition-all duration-300";
+
+    const inner = (
       <div class="grid grid-cols-1 md:grid-cols-2">
-        <!-- Problem side -->
         <div class="p-5 md:border-r border-[var(--color-border)]">
           <span class="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] font-medium">Problem</span>
-          <p class="text-sm mt-2 text-[var(--color-text-secondary)]">{projectDetails[i].problem}</p>
+          <p class="text-sm mt-2 text-[var(--color-text-secondary)]">{project.challenge}</p>
         </div>
-        <!-- Solution side -->
         <div class="p-5 bg-[var(--color-accent)]/5">
           <div class="flex items-start justify-between">
             <span class="text-[10px] uppercase tracking-wider text-[var(--color-accent)] font-medium">Solution: {project.name}</span>
-            <svg class="w-4 h-4 text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-            </svg>
+            {productUrl && (
+              <svg class="w-4 h-4 text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+              </svg>
+            )}
           </div>
-          <p class="text-sm mt-2">{projectDetails[i].solution}</p>
-          <div class="flex flex-wrap gap-1 mt-3">
-            {project.techStack.map((t) => (
-              <span class="text-[9px] px-1.5 py-0.5 border border-[var(--color-accent)]/30 rounded text-[var(--color-accent)]">{t}</span>
-            ))}
-          </div>
+          <p class="text-sm mt-2">{project.outcome}</p>
+          <p class="text-xs mt-2 text-[var(--color-text-secondary)] leading-relaxed">{project.description}</p>
+          {techStack.length > 0 && (
+            <div class="flex flex-wrap gap-1 mt-3">
+              {techStack.map((t) => (
+                <span class="text-[9px] px-1.5 py-0.5 border border-[var(--color-accent)]/30 rounded text-[var(--color-accent)]">{t}</span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-    </a>
-  ))}
+    );
+
+    return productUrl ? (
+      <a href={productUrl} target="_blank" rel="noopener" class:list={[shellClass]} style={anim}>
+        {inner}
+      </a>
+    ) : (
+      <div class:list={[shellClass, "cursor-default"]} style={anim}>
+        {inner}
+      </div>
+    );
+  })}
 </div>

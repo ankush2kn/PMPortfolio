@@ -28,6 +28,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
       const hasKeyMetric = Boolean(careerStr(entry.keyMetric));
       const hasTitle = Boolean(careerStr(entry.title));
       const hasHeading = hasKeyMetric || hasTitle;
+      const side = i % 2 === 0 ? "left" : "right";
       return (
       <div
         class="vertical-timeline-step relative pointer-events-none"
@@ -35,12 +36,13 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
         data-career-domains={careerDomainsCsv(entry)}
         data-step-index={String(i)}
         data-timeline-accent={color}
-        data-card-side={i % 2 === 0 ? "left" : "right"}
+        data-timeline-side={side}
+        data-card-side={side}
         data-domain={primary ?? ""}
-        style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
+        style={`z-index: ${i + 1}; animation: ${side === "left" ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
       >
-        <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-          <div class={`ml-8 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+        <div class="vertical-timeline-main-row relative flex items-start gap-6 md:gap-0">
+          <div class="vertical-timeline-card-col ml-8 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto">
             <div class="timeline-card-surface bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
               {careerStr(entry.keyMetric) && (
                 <p class="vertical-timeline-anchor text-lg font-bold leading-snug" style={`color: ${color};`}>
@@ -60,9 +62,8 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
               {(careerStr(entry.company) || locationOnly) && (
               <p
                 class:list={[
-                  "text-sm font-bold text-[var(--color-text-secondary)]",
+                  "vertical-timeline-company-line text-sm font-bold text-[var(--color-text-secondary)]",
                   hasHeading ? "mt-1" : "",
-                  i % 2 === 0 ? "md:text-right" : "",
                 ]}
               >
                 {careerStr(entry.company) && (
@@ -75,26 +76,17 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
               <ul class="mt-3 space-y-2.5" data-career-highlights-list>
                 {preview.map((h) => (
                   <li
-                    class:list={[
-                      "flex flex-row items-stretch gap-2.5 text-xs text-[var(--color-text-secondary)]",
-                      i % 2 === 0 ? "justify-start md:justify-end" : "justify-start",
-                    ]}
+                    class="vertical-timeline-hl-item flex flex-row items-stretch gap-2.5 text-xs text-[var(--color-text-secondary)] justify-start"
                     data-career-highlight
                     data-highlight-tags={careerHighlightTagsCsv(h.domains)}
                   >
                     <span
-                      class:list={[
-                        "career-hl-rail w-0.5 shrink-0 rounded-full self-stretch min-h-[1em] opacity-[0.5]",
-                        i % 2 === 0 ? "order-1 md:order-2" : "order-1",
-                      ]}
+                      class="vertical-timeline-hl-rail career-hl-rail w-0.5 shrink-0 rounded-full self-stretch min-h-[1em] opacity-[0.5] order-1"
                       style={`background-color: ${color}`}
                       aria-hidden="true"
                     />
                     <span
-                      class:list={[
-                        "career-hl-text min-w-0 flex-1 text-left",
-                        i % 2 === 0 ? "order-2 md:order-1 md:text-right" : "order-2",
-                      ]}
+                      class="vertical-timeline-hl-text career-hl-text min-w-0 flex-1 text-left order-2"
                     >
                       {careerHighlightDisplayText(h.text)}
                     </span>
@@ -102,11 +94,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
                 ))}
               </ul>
               )}
-              <CareerCardThumbnails
-                images={entry.images}
-                label={cardLabel}
-                align={i % 2 === 0 ? "end" : "start"}
-              />
+              <CareerCardThumbnails images={entry.images} label={cardLabel} align="start" />
             </div>
           </div>
         </div>
@@ -134,7 +122,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 
         <div
           class="vertical-timeline-connector absolute z-10 h-[3px] md:h-2 rounded-full pointer-events-none opacity-95"
-          data-card-side={i % 2 === 0 ? 'left' : 'right'}
+          data-card-side={side}
           style={`background-color: ${color};`}
           aria-hidden="true"
         >
@@ -147,6 +135,56 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
   </div>
 </div>
 
+<style>
+  @media (min-width: 768px) {
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-main-row {
+      flex-direction: row;
+    }
+    .vertical-timeline-step[data-timeline-side="right"] .vertical-timeline-main-row {
+      flex-direction: row-reverse;
+    }
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-card-col {
+      padding-right: 2rem;
+      text-align: right;
+    }
+    .vertical-timeline-step[data-timeline-side="right"] .vertical-timeline-card-col {
+      padding-left: 2rem;
+      text-align: left;
+    }
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-company-line {
+      text-align: right;
+    }
+    .vertical-timeline-step[data-timeline-side="right"] .vertical-timeline-company-line {
+      text-align: left;
+    }
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-hl-item {
+      justify-content: flex-end;
+    }
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-hl-rail {
+      order: 2;
+    }
+    .vertical-timeline-step[data-timeline-side="left"] .vertical-timeline-hl-text {
+      order: 1;
+      text-align: right;
+    }
+    .vertical-timeline-step[data-timeline-side="right"] .vertical-timeline-hl-rail {
+      order: 1;
+    }
+    .vertical-timeline-step[data-timeline-side="right"] .vertical-timeline-hl-text {
+      order: 2;
+      text-align: left;
+    }
+  }
+</style>
+
+<style is:global>
+  @media (min-width: 768px) {
+    .vertical-timeline-step[data-timeline-side="left"] .career-card-thumbnails {
+      justify-content: flex-end;
+    }
+  }
+</style>
+
 <script>
   const VERTICAL_TIMELINE_START_RATIO = 0.75;
 
@@ -158,12 +196,24 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
   /** Shift year labels off the vertical spine, toward the card. */
   const YEAR_OFF_SPINE_LEFT_PX = 32;
   const YEAR_OFF_SPINE_RIGHT_PX = 20;
-  const YEAR_OFF_SPINE_MOBILE_PX = 20;
+  const YEAR_OFF_SPINE_MOBILE_PX = 5;
 
   function visibleVerticalSteps(stack: HTMLElement): HTMLElement[] {
     return Array.from(stack.querySelectorAll(".vertical-timeline-step")).filter(
       (el): el is HTMLElement => el instanceof HTMLElement && !el.classList.contains("hidden"),
     );
+  }
+
+  /** Alternate left/right by visible order so filtered timelines stay balanced. */
+  function applyVisibleStepSides(stack: HTMLElement) {
+    const visible = visibleVerticalSteps(stack);
+    visible.forEach((step, vi) => {
+      const side = vi % 2 === 0 ? "left" : "right";
+      step.dataset.timelineSide = side;
+      step.dataset.cardSide = side;
+      const connector = step.querySelector(".vertical-timeline-connector");
+      if (connector) connector.setAttribute("data-card-side", side);
+    });
   }
 
   function applyVerticalTimelineOverlap() {
@@ -222,7 +272,11 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
       dot.style.transform = desktop ? "translate(-50%, -50%)" : "translate(0, -50%)";
 
       const dotCenterX = dot.offsetLeft + dot.offsetWidth / 2;
-      const cardSide = step.dataset.cardSide ?? connector.getAttribute("data-card-side") ?? "left";
+      const cardSide =
+        step.dataset.timelineSide ??
+        step.dataset.cardSide ??
+        connector.getAttribute("data-card-side") ??
+        "left";
       const towardCardPx = desktop
         ? cardSide === "left"
           ? -YEAR_OFF_SPINE_LEFT_PX
@@ -299,6 +353,8 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
   }
 
   function runLayout() {
+    const stack = document.querySelector("[data-vertical-timeline]");
+    if (stack instanceof HTMLElement) applyVisibleStepSides(stack);
     applyVerticalTimelineOverlap();
     requestAnimationFrame(() => {
       alignDotsAndConnectors();

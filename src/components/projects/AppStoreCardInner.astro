@@ -1,0 +1,70 @@
+---
+import type { PortfolioProject } from "@/data/portfolio";
+
+interface Props {
+  project: PortfolioProject;
+  interactive: boolean;
+}
+
+const CHALLENGE_LABEL = "Why it existed";
+const OUTCOME_LABEL = "What I shipped";
+
+const { project, interactive } = Astro.props;
+const metrics = project.metrics ?? [];
+const techStack = project.techStack ?? [];
+---
+
+<div class="flex gap-4 shrink-0 mb-4">
+  <div class="flex h-[5.4rem] w-[5.4rem] shrink-0 items-center justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-1.5">
+    <img
+      src={project.screenshot}
+      alt={`${project.name} site preview`}
+      class="max-h-full max-w-full object-contain object-center"
+      width="87"
+      height="87"
+      loading="lazy"
+    />
+  </div>
+  <div class="min-w-0 flex-1 pt-0.5">
+    <h3
+      class:list={[
+        "text-lg font-bold leading-tight",
+        interactive && "group-hover:text-[var(--color-accent)] transition-colors",
+      ]}
+    >
+      {project.name}
+    </h3>
+    <p class="text-xs text-[var(--color-text-secondary)] mt-1 leading-relaxed line-clamp-3">{project.description}</p>
+  </div>
+</div>
+
+<div class="flex min-h-0 flex-1 flex-col text-left">
+  <div class="space-y-2 mb-4">
+    <div>
+      <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{CHALLENGE_LABEL}</p>
+      <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">{project.challenge}</p>
+    </div>
+    <div>
+      <p class="text-[10px] uppercase tracking-wider font-semibold text-[var(--color-accent)] mb-0.5">{OUTCOME_LABEL}</p>
+      <p class="text-xs text-[var(--color-text)] leading-relaxed">{project.outcome}</p>
+    </div>
+  </div>
+
+  {metrics.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      {metrics.map((m) => (
+        <span class="text-[10px] px-2 py-0.5 bg-[var(--color-bg-secondary)] rounded-full text-[var(--color-text-secondary)]">{m}</span>
+      ))}
+    </div>
+  )}
+
+  {techStack.length > 0 && (
+    <div class="flex flex-wrap gap-1">
+      {techStack.map((t) => (
+        <span class="text-[10px] px-1.5 py-0.5 border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">{t}</span>
+      ))}
+    </div>
+  )}
+
+  <slot />
+</div>
