@@ -15,7 +15,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
 <!-- Timeline Option 3: "Scroll-Driven Vertical Timeline" - Central spine, alternating cards -->
 <div class="relative max-w-4xl mx-auto">
   <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--color-border)] -translate-x-1/2 hidden md:block"></div>
-  <div class="absolute left-6 top-0 bottom-0 w-px bg-[var(--color-border)] md:hidden"></div>
+  <div class="absolute left-3 top-0 bottom-0 w-px bg-[var(--color-border)] md:hidden"></div>
 
   <div class="vertical-timeline-stack pb-10 space-y-8 md:space-y-0" data-vertical-timeline>
     {careerReverseChronological.map((entry, i) => {
@@ -40,7 +40,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
         style={`z-index: ${i + 1}; animation: ${i % 2 === 0 ? 'slideInLeft' : 'slideInRight'} 0.6s var(--ease-out-expo) ${0.15 * i}s both;`}
       >
         <div class={`relative flex items-start gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-          <div class={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+          <div class={`ml-8 md:ml-0 md:w-[calc(50%-2rem)] pointer-events-auto ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
             <div class="timeline-card-surface bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-5 hover:border-[var(--color-accent)] transition-colors">
               {careerStr(entry.keyMetric) && (
                 <p class="vertical-timeline-anchor text-lg font-bold leading-snug" style={`color: ${color};`}>
@@ -112,7 +112,7 @@ import CareerCompanyLine from "@/components/timeline/CareerCompanyLine.astro";
         </div>
 
         <div
-          class="vertical-timeline-dot absolute left-6 md:left-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-20 shadow-sm pointer-events-none"
+          class="vertical-timeline-dot absolute -left-3 md:left-1/2 w-4 h-4 rounded-full border-2 border-[var(--color-card-bg)] z-20 shadow-sm pointer-events-none"
           style={`background-color: ${color};`}
         >
         </div>
