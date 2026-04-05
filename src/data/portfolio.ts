@@ -162,7 +162,7 @@ export const career: CareerEntry[] = [
       { text: "Pearson's: Built e2e assessment creation workflows", domains: ["overall", "engineering", "b2b"] },
       { text: "LexisNexis: unified content delivery platform for US & EU", domains: ["overall", "engineering", "b2b"] },
     ],
-    keyMetric: "Core part of global Enterprise data platform",
+    keyMetric: "Key engineer on global Enterprise data platform",
     images: [
       { src: "/career/award-icon.svg", href: "https://drive.google.com/file/d/1oXkI_2ZVGbFOQ5v7hZTl5jvFgRxl_p3-/view?usp=sharing" },
      ], 

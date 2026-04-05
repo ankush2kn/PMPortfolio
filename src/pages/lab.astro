@@ -5,13 +5,38 @@ import ProjectsAppStore from "@/components/projects/ProjectsAppStore.astro";
 import ProjectsScreenshot from "@/components/projects/ProjectsScreenshot.astro";
 import ProjectsProblemSolution from "@/components/projects/ProjectsProblemSolution.astro";
 import ContactMinimalFooter from "@/components/contact/ContactMinimalFooter.astro";
-import { profile } from "@/data/portfolio";
+import { profile, projects } from "@/data/portfolio";
 function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
   return DEFAULT_VARIANTS[group] === variant ? ({ "data-is-default": true } as const) : {};
 }
 ---
 
-<Layout title="My Lab — Ankush Bhargava">
+<Layout
+  title="Ankush Bhargava — AI Projects & Portfolio | LLMs, Agentic Workflows"
+  description="AI projects and experiments by Ankush Bhargava — consumer apps, tools, and open-source work built with LLMs and agentic frameworks."
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "About", "item": "https://ankushbhargava.us" },
+      { "@type": "ListItem", "position": 2, "name": "My Lab", "item": "https://ankushbhargava.us/lab" }
+    ]
+  })} />
+  {projects.map((p) => (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": p.name,
+      "description": p.description,
+      "author": {
+        "@type": "Person",
+        "name": "Ankush Bhargava",
+        "url": "https://ankushbhargava.us"
+      },
+      ...(p.url ? { "url": p.url } : {})
+    })} />
+  ))}
   <section class="pt-12 pb-20 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-12">

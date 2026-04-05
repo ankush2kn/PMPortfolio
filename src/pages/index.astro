@@ -24,6 +24,45 @@ function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
 ---
 
 <Layout>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Ankush Bhargava",
+      "url": "https://ankushbhargava.us",
+      "image": "https://ankushbhargava.us/images/ankush-bhargava-profile.jpg",
+      "jobTitle": "Product Manager & AI Builder",
+      "description": "Entrepreneurial player-coach with 20+ years across Product, Engineering and Business. AI-enabled, data-fluent, patent holder.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Francisco Bay Area",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "knowsAbout": ["Product Management", "Artificial Intelligence", "B2B Platforms", "Logistics Technology", "Software Engineering", "Startup Founding", "Agentic Workflows"],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Product Manager",
+        "occupationLocation": { "@type": "City", "name": "San Francisco Bay Area" },
+        "skills": "Product Management, Artificial Intelligence, B2B Platforms, Logistics Technology, Agentic Workflows"
+      },
+      "alumniOf": [
+        { "@type": "Organization", "name": "Walmart" },
+        { "@type": "Organization", "name": "University of Michigan" }
+      ],
+      "award": [
+        "US Utility Patent — Inventory Management",
+        "US Utility Patent — Delivery Logistics"
+      ],
+      "sameAs": [
+        "https://linkedin.com/in/ankushbhargava",
+        "https://github.com/ankush2kn",
+        "https://productlogistics.beehiiv.com/"
+      ]
+    }
+  })} />
+
   <!-- HERO VARIANTS -->
   <div data-variant-group="Hero" data-variant="A" {...defaultAttr("Hero", "A")}>
     <HeroAnimatedIntro />
