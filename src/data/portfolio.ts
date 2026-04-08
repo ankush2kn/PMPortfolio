@@ -15,6 +15,7 @@ export const profile = {
   phone: "734-494-2012",
   linkedin: "https://linkedin.com/in/ankushbhargava",
   github: "https://github.com/ankush2kn",
+  twitter: "https://x.com/TheKushBhargava",
   /** The Product Logistics (beehiiv); contact UI label "My blog". */
   newsletter: "https://productlogistics.beehiiv.com/",
   portfolioRepo: "https://github.com/ankush2kn/PMPortfolio",

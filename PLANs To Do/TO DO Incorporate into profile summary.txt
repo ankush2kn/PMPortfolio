@@ -1,0 +1,9 @@
+Some learnings from job descriptions, i could address on portfolio:
+> Experience with AI agents, LLMs, or the emerging AI tooling ecosystem — not as a buzzword, but because you've thought about how AI changes product surface area and user expectations.
+> Familiarity with workforce analytics, skills platforms, or learning technology.
+> You understand what makes products sticky: effortless onboarding, value in the first 30 seconds, interactions that feel considered.
+> Technical enough to read a PR, understand a data pipeline architecture, and have a credible opinion on build-vs.-buy decisions. You don't need to write code, but you need to know when the engineers are solving the right problem.
+Design sensibility. Not "you're a designer" — but you notice when something is 4px off, and you care.
+
+Add to skills
+> Claude Code
