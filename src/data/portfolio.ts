@@ -350,7 +350,7 @@ export const career: CareerEntry[] = [
   {
     id: "walmart-pm1",
     chapter: "Inventory & Capacity Management",
-    title: "Senior PM → Staff PM",
+    title: "Sr → Staff PM, Forecast Lead",
     company: "Walmart Gloabl Tech",
     companyUrl: "https://tech.walmart.com/content/walmart-global-tech/en_us.html",
     location: "SF Bay Area",
@@ -359,8 +359,8 @@ export const career: CareerEntry[] = [
     yearEnd: 2019,
     domains: ["product", "b2b"],
     highlights: [
-      { text: "Delivered millions in cost savings by modernizing eCommerce predictive analytics and inventory planning products, while designing intuitive journeys for data-heavy decision tools.", domains: ["overall"] },
-      { text: "Team size: 1 to 6 PMs & Data Scientists", domains: ["overall"] },
+      { text: "Delivered millions in cost savings by modernizing eCommerce predictive analytics and inventory planning products, while designing intuitive journeys for merchants with data-heavy decision tools.", domains: ["overall"] },
+      { text: "Built team from 1 to 6 - PMs & Data Scientists", domains: ["overall"] },
       { text: "Launched m/l based demand forecast, improving YoY accuracy by 25%", domains: ["product", "engineering","b2b"] },
       { text: "Created products that converged tribal knowledge with systematic data to enable high speed decision making", domains: ["product", "operations", "b2c"] },
       { text: "Developed Walmart's first SKU-region level demand/capacity management engine", domains: ["product", "engineering", "b2c"] },
@@ -370,7 +370,7 @@ export const career: CareerEntry[] = [
   {
     id: "walmart-pm2",
     chapter: "The Platform Architect",
-    title: "Principal PM → Director",
+    title: "Director, Head of Freight Transportation",
     company: "Walmart Global Tech",
     companyUrl: "https://tech.walmart.com/content/walmart-global-tech/en_us.html",
     location: "SF Bay Area",
@@ -379,8 +379,8 @@ export const career: CareerEntry[] = [
     yearEnd: 2025,
     domains: ["product", "operations", "b2b", "d2c"],
     highlights: [
-      { text: "As first hire for freight transportation team, led enterprise transportation, last-mile, and eCommerce products", domains: ["overall"] },
-      { text: "Team size: 1 to 10 PMs", domains: ["overall"] },
+      { text: "As head of Product for freight transportation, I led product portfolio across freight transportation, last-mile, and eCommerce", domains: ["overall"] },
+      { text: "Built global team from 1 to 10 PMs", domains: ["overall"] },
       { text: "0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
       { text: "0→1 E2E freight logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations", "b2b"] },
       { text: "0→1→N last mile delivery planning & routing engine from launch to 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering", "operations", "b2b"] },
@@ -405,11 +405,11 @@ export const career: CareerEntry[] = [
     yearStart: 2025,
     domains: ["product", "engineering", "b2c", "b2b", "d2c"],
     highlights: [
-      { text: "SimpleStory.ai: AI native content marketplace", domains: ["overall", "product", "b2b", "b2c", "engineering"] },
-      { text: "TroveScore.com: AI vision powered book shelf valuation", domains: ["overall", "d2c", "product", "engineering"] },
+      { text: "TroveScore: AI powered book shelf valuation & selling", domains: ["overall", "d2c", "product", "engineering"] },
+      { text: "SimpleStory: AI native content marketplace", domains: ["overall", "product", "b2b", "b2c", "engineering"] },
       { text: "Fultu.com: What-If-AI game - interactive experiences", domains: ["overall", "d2c", "product", "engineering"] },
     ],
-    keyMetric: "Shipped 3 AI products",
+    keyMetric: "Shipped 3 AI products solo",
     images: [
       { src: "/projects/simplestory.png", href: "https://simplestory.ai" },
       { src: "/projects/trovescore.png", href: "https://trovescore.com" },
