@@ -18,9 +18,20 @@ import PrinciplesHandwritten from "@/components/principles/PrinciplesHandwritten
 import PrinciplesPillCloud from "@/components/principles/PrinciplesPillCloud.astro";
 import PrinciplesRadar from "@/components/principles/PrinciplesRadar.astro";
 import PrinciplesFlipCards from "@/components/principles/PrinciplesFlipCards.astro";
+import TimelineSubway from "@/components/timeline/TimelineSubway.astro";
+import TimelineElevation from "@/components/timeline/TimelineElevation.astro";
+import TimelineVertical from "@/components/timeline/TimelineVertical.astro";
+import TimelineOrbit from "@/components/timeline/TimelineOrbit.astro";
+import TimelineFilmStrip from "@/components/timeline/TimelineFilmStrip.astro";
+import CareerDomainFilter from "@/components/timeline/CareerDomainFilter.astro";
+import CareerImageLightbox from "@/components/timeline/CareerImageLightbox.astro";
+import ProjectsAppStore from "@/components/projects/ProjectsAppStore.astro";
+import ProjectsScreenshot from "@/components/projects/ProjectsScreenshot.astro";
+import ProjectsProblemSolution from "@/components/projects/ProjectsProblemSolution.astro";
 import ContactOpenDoor from "@/components/contact/ContactOpenDoor.astro";
 import ContactTerminal from "@/components/contact/ContactTerminal.astro";
 import ContactMinimalFooter from "@/components/contact/ContactMinimalFooter.astro";
+import { education, profile } from "@/data/portfolio";
 
 function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
   return DEFAULT_VARIANTS[group] === variant ? ({ "data-is-default": true } as const) : {};
@@ -114,6 +125,94 @@ function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
     <PrinciplesFlipCards />
   </div>
 
+  <!-- MY JOURNEY -->
+  <section id="journey" class="pt-12 pb-20 px-6 border-t border-[var(--color-border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">My Journey</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto">
+          20+ years across startups and enterprise operations, in product, operations and engineering.
+          From building code to building organizations.
+        </p>
+        <CareerDomainFilter />
+      </div>
+
+      <!-- TIMELINE VARIANTS -->
+      <div data-variant-group="Timeline" data-variant="Subway" {...defaultAttr("Timeline", "Subway")}>
+        <TimelineSubway />
+      </div>
+      <div data-variant-group="Timeline" data-variant="Elevation" {...defaultAttr("Timeline", "Elevation")}>
+        <TimelineElevation />
+      </div>
+      <div data-variant-group="Timeline" data-variant="Vertical" {...defaultAttr("Timeline", "Vertical")}>
+        <TimelineVertical />
+      </div>
+      <div data-variant-group="Timeline" data-variant="Orbit" {...defaultAttr("Timeline", "Orbit")}>
+        <TimelineOrbit />
+      </div>
+      <div data-variant-group="Timeline" data-variant="FilmStrip" {...defaultAttr("Timeline", "FilmStrip")}>
+        <TimelineFilmStrip />
+      </div>
+
+      <!-- Education -->
+      <div class="mt-20 max-w-md mx-auto w-full">
+        <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-6 text-center">Education</h2>
+        <div class="space-y-4">
+          {education.map((edu) => (
+            <div class="flex items-start gap-4 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-xl p-4">
+              <div class="w-14 h-14 shrink-0 rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-secondary)] flex items-center justify-center">
+                <img src={edu.logoSrc} alt={edu.logoAlt} class="w-full h-full object-contain p-1" width="56" height="56" loading="lazy" />
+              </div>
+              <div>
+                <h3 class="text-sm font-bold">{edu.degree}</h3>
+                <p class="text-xs text-[var(--color-text-secondary)]">{edu.focus}</p>
+                <p class="text-xs text-[var(--color-text-secondary)]">{edu.school}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <CareerImageLightbox />
+
+  <!-- MY LAB -->
+  <section id="lab" class="pt-12 pb-20 px-6 border-t border-[var(--color-border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">My Lab</h2>
+        <p class="max-w-5xl mx-auto text-[var(--color-text-secondary)] leading-relaxed">
+          Post-Walmart, I established a high-velocity R&D sandbox to build with agentic workflows and GenAI.<br />
+          These are live products built end-to-end.
+        </p>
+      </div>
+
+      <!-- PROJECT VARIANTS -->
+      <div data-variant-group="Projects" data-variant="A" {...defaultAttr("Projects", "A")}>
+        <ProjectsAppStore />
+      </div>
+      <div data-variant-group="Projects" data-variant="B" {...defaultAttr("Projects", "B")}>
+        <ProjectsScreenshot />
+      </div>
+      <div data-variant-group="Projects" data-variant="C" {...defaultAttr("Projects", "C")}>
+        <ProjectsProblemSolution />
+      </div>
+
+      <div class="mt-16 max-w-2xl mx-auto rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed text-center sm:text-left">
+          My portfolio website is a public repo on GitHub — star the repo if you found it useful, or fork it for your own site!
+        </p>
+        <a href={profile.portfolioRepo} target="_blank" rel="noopener"
+          class="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm font-medium hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 transition-colors">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+          </svg>
+          ankush2kn/PMPortfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- SKILLS VARIANTS -->
   <div data-variant-group="Skills" data-variant="A" {...defaultAttr("Skills", "A")}>
     <SkillsGroupedTags />
@@ -138,4 +237,6 @@ function defaultAttr(group: keyof typeof DEFAULT_VARIANTS, variant: string) {
   <div data-variant-group="Contact" data-variant="C" {...defaultAttr("Contact", "C")}>
     <ContactMinimalFooter />
   </div>
+
+  <ContactMinimalFooter />
 </Layout>
