@@ -33,7 +33,7 @@ export const profile = {
    * Short bio shown below the hero. Edit freely — aim for 3–5 sentences.
    * Use \n\n for paragraph breaks.
    */
-  bio: "Entrepreneurial player-coach with 20+ years across Product, Engineering, and Business — 13 at Walmart scaling supply chain, 4 at a startup, and 4 at a tech consulting firm. I've built across multi-sided marketplaces, last-mile logistics, ML forecasting, inventory, and AI-native consumer apps — many from 0 to 1.\n\nI'm deliberately focused on B2B and AI, and most energized by problems that need deep technical understanding and end-to-end ownership. If you're building something challenging in my space — or just curious about anything you've read here — I'd love to connect.",
+  bio: "Entrepreneurial player-coach with 20+ years across Product, Engineering, and Business — 13 at Walmart scaling supply chain, 4 at a startup, and 4 at a tech consulting firm. I've built across multi-sided marketplaces, last-mile logistics, ML forecasting, inventory, and AI-native consumer apps — many from 0 to 1.\n\nI'm most energized by hard problems that need deep technical understanding and end-to-end ownership — B2B, B2C, or anything in between. If you're building something real with a great cross-functional team and want someone who connects strategy, ops, and execution — I'd love to connect.",
 };
 
 // columns to left, right
@@ -381,7 +381,7 @@ export const career: CareerEntry[] = [
     highlights: [
       { text: "As head of Product for freight transportation, I led product portfolio across freight transportation, last-mile, and eCommerce", domains: ["overall"] },
       { text: "Built global team from 1 to 10 PMs", domains: ["overall"] },
-      { text: "0→1 B2B transportation marketplace to $250M ARR", domains: ["product", "b2b"] },
+      { text: "0→1 B2B transportation marketplace to $250M ARR. Partnered with GTM teams for Careers and Shippers", domains: ["product", "b2b"] },
       { text: "0→1 E2E freight logistics platform across 5 countries, $50M+ annual savings", domains: ["product", "operations", "b2b"] },
       { text: "0→1→N last mile delivery planning & routing engine from launch to 250M+ annual deliveries, 20% fewer miles, earned patent", domains: ["product", "engineering", "operations", "b2b"] },
       { text: "0→1 last mile delivery eligibility, delivery slots, freight scheduling services for eCommerce", domains: ["product", "engineering", "b2c", "d2c"] },
