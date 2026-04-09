@@ -29,17 +29,23 @@ export const profile = {
   availability: "Available Immediately",
   seeking: "Product Manager roles in B2B & AI",
   seekingSubline: "Let's solve some hard problems together",
+  /**
+   * Short bio shown below the hero. Edit freely — aim for 3–5 sentences.
+   * Use \n\n for paragraph breaks.
+   */
+  bio: "Entrepreneurial player-coach with 20+ years across Product, Engineering, and Business — 13 at Walmart scaling supply chain platforms from concept to $250M+ impact. I've built across multi-sided marketplaces, last-mile logistics, ML forecasting, inventory, and AI-native consumer apps — many from 0 to 1.\n\nI'm deliberately focused on B2B and AI, and most energized by problems that need deep technical understanding and end-to-end ownership. If you're building something challenging in my space — or just curious about anything you've read here — I'd love to connect.",
 };
 
 // columns to left, right
 export const impactMetrics = [
-  { value: "3", label: "AI Products", context: "Built & Launched Solo", company: "Independent" },
+  { value: "$50M+", label: "Savings in 5 Markets", context: "Transportation Services Platform", company: "Walmart" },
   { value: "$250M", label: "ARR in 18m", context: "B2B Marketplace", company: "Walmart" },
-  { value: "$50M+", label: "Savings in 5 Markets", context: "Transportation Platform", company: "Walmart" },
-  { value: "First", label: "E2E Simulation Platform", context: "$5B+ Investment Support to CEO", company: "Walmart" },
-  { value: "2", label: "Utility Patents", context: "Inventory & Delivery", company: "Walmart" },
+  { value: "First", label: "E2E Digital Twin", context: "Supported $5B+ Investment to CEO", company: "Walmart" },
+  { value: "First", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New to Walmart Building Type", company: "Walmart" },
   { value: "250M+", label: "Last Mile Deliveries/yr", context: "Routing, Scheduling, Execution", company: "Walmart" },
-  { value: "First", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New Building Type", company: "Walmart" }
+  { value: "2", label: "Utility Patents", context: "Inventory & Delivery", company: "Walmart" },
+  { value: "10x", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New Building Type", company: "NuRide" },
+  { value: "3", label: "AI D2C Products", context: "Built & Launched Solo", company: "Independent" },
 ];
 
 export const principles = [
@@ -51,6 +57,97 @@ export const principles = [
   { title: "Leave it better than I find it", context: "Solve the hardest problems. Always." },
 ];
 
+export interface MindsetDomain {
+  /** Short pill label */
+  domain: string;
+  /** Subtitle shown in expanded/detail state */
+  subtitle: string;
+  /** Emoji icon for the pill */
+  icon: string;
+  /** The philosophical one-liner for this domain */
+  principle: string;
+  /** Bullet-point thoughts - edit these freely to reflect your current thinking */
+  keywords: string[];
+}
+
+export const mindset: MindsetDomain[] = [
+  {
+    domain: "Customer",
+    subtitle: "Obsessively user-centric",
+    icon: "👤",
+    principle: "Leave it better than I find it - solve real customer problems, always.",
+    keywords: [
+      "I've build products for lawyers, supply chain operators, supplliers, drivers, store managers, resellers, parents and more",
+      "I notice when something is 4px off, and I figure out how to prioritize fixing it",
+      "B2B UX is still UX - enterprise tools deserve the same craft as consumer",
+      "Good onboarding = value before the user has time to reconsider",
+    ],
+  },
+  {
+    domain: "AI & LLMs",
+    subtitle: "Building with intelligence",
+    icon: "🤖",
+    principle: "Build to learn, learn to build - ship fast, iterate faster.",
+    keywords: [
+      "The best AI UX makes the model invisible - users feel smarter, not assisted",
+      "I've shipped 3 AI products solo: agents, vision, audio/video - all in production",
+      "AI changes product surface area: new entry points, new failure modes, new expectations",
+      "Prompt engineering is product thinking - structure determines output quality",
+    ],
+  },
+  {
+    domain: "Product",
+    subtitle: "From zero to sticky",
+    icon: "🎯",
+    principle: "0 to 1 to N - energized by building from scratch, then scaling.",
+    keywords: [
+      "0→1 is energizing. 1→N is where real PM craft shows",
+      "Stickiness is designed in from day one",
+      "Onboarding is a product, not a flow: value in the first 30 seconds",
+      "PLG: I led 10x user growth during a financial crisis",
+      "Build vs. buy is a strategic question first, an implementation one second",
+    ],
+  },
+  {
+    domain: "Data",
+    subtitle: "Decisions grounded in evidence",
+    icon: "📊",
+    principle: "Good data and analytics answers questions nobody thought to ask - understand first, strategize second, execute last.",
+    keywords: [
+      "I don't trust gut instinct until data confirms or refutes it",
+      "I created ML-based demand forecasting that improved yoy accuracy by 25%",
+      "Built simulation platform for $5B+ investment decisions for Walmart CEO",
+      "I instrument everything - PostHog, kibana, excel - from day one",
+      "Raised Walmart Store eComm fill rates from 90% to 95%+ by fixing the invisible",
+    ],
+  },
+  {
+    domain: "Operations",
+    subtitle: "End-to-end ownership",
+    icon: "🔄",
+    principle: "End-to-end thinking - strategy through execution, no handoffs.",
+    keywords: [
+      "I've led programs across 5 countries and 250M+ annual deliveries",
+      "Cross-functional leadership means owning outcomes, not just requirements",
+      "Lean Belt certified - applied selectively",
+      "$50M+ in savings came from building efficient logistics services at Walmart",
+      "Built the first delivery sortation center tech: 10% cost cut, 15% faster",
+    ],
+  },
+  {
+    domain: "Engineering",
+    subtitle: "Technical depth without writing every line",
+    icon: "⚙️",
+    principle: "Every 1% matters at scale - small wins, massive P&L impact.",
+    keywords: [
+      "I coded for 6 years, and know how to lead cross-functional teams",
+      "Two US utility patents: inventory management and last-mile delivery",
+      "CI/CD and observability aren't DevOps concerns - they're PM concerns too",
+      "Built and shipped full-stack AI products solo: Astro, React, Node, Python",
+    ],
+  },
+];
+
 /** Lab project cards. */
 export interface PortfolioProject {
   name: string;
@@ -58,7 +155,7 @@ export interface PortfolioProject {
   screenshot: string;
   challenge: string;
   outcome: string;
-  /** Public product URL. Omit when there is no live link — Lab cards stay non-clickable and hide the “View Product” / “View Live” CTAs. */
+  /** Public product URL. Omit when there is no live link - Lab cards stay non-clickable and hide the “View Product” / “View Live” CTAs. */
   url?: string;
   metrics?: string[];
   techStack?: string[];
@@ -77,7 +174,7 @@ export const projects: PortfolioProject[] = [
     challenge:
       "Teachers and parents need faster & safer ways to create engaging learning stories without a production team.",
     outcome:
-      "AI-native publishing flow with generated visuals and voice — validated creator UX through MVP launch.",
+      "AI-native publishing flow with generated visuals and voice - validated creator UX through MVP launch.",
   },
   {
     name: "TroveScore",
@@ -85,7 +182,7 @@ export const projects: PortfolioProject[] = [
     description:
       "Scan your bookshelf with one picture. AI identifies every book, cross-references real-time market data from Google & eBay to automate sell vs. donate decisions.",
     //metrics: ["Real-time market data", "Single-image recognition"],
-    techStack: ["AI Vision", "Google Cloud", "eBay API", "Fal.ai", "PostHog", "Stripe", "Umami", "Supabase"],
+    techStack: ["AI Vision", "Claude Code", "Google Cloud", "eBay API", "PostHog", "Stripe", "Umami", "Supabase"],
     icon: "camera",
     screenshot: "/projects/trovescore.png",
     challenge:
@@ -99,11 +196,11 @@ export const projects: PortfolioProject[] = [
     description:
       "An AI-powered game that explores alternate scenarios and what-if questions through interactive storytelling and dynamic content generation.",
     //metrics: ["AI-driven gameplay", "Interactive narratives"],
-    techStack: ["AI-driven gameplay", "Interactive Design", "Stripe", "Custom merchandise store"],
+    techStack: ["AI-driven gameplay", "Claude Code", "Interactive AI", "Stripe", "Custom merchandise store", "Printful", "Fal.ai", "PostHog"],
     icon: "gamepad",
     screenshot: "/projects/fultu.png",
     challenge:
-      "Exploring “what if” scenarios was mostly static — few playful, interactive ways to branch narratives with AI.",
+      "Exploring “what if” scenarios was mostly static - few playful, interactive ways to branch narratives with AI.",
     outcome:
       "Launched a what-if game engine that turns hypotheticals into short, dynamic AI-driven story paths. Includes aMerchandise store to monetize the interactions.",
   },
@@ -112,7 +209,7 @@ export const projects: PortfolioProject[] = [
     //url: "https://fultu.com",
     description: "OpenClaw powered personal assistant for me and my family.",
     //metrics: ["AI-driven gameplay", "Interactive narratives"],
-    techStack: ["Amazon EC2", "OpenClaw", "Email/Calendar APIs", "OpenRouter"],
+    techStack: ["Amazon EC2", "OpenClaw", "Email/Calendar APIs", "OpenRouter", "Scripting"],
     icon: "gamepad",
     screenshot: "/projects/openclaw_botbhargava.svg",
     challenge:
@@ -284,7 +381,7 @@ export const career: CareerEntry[] = [
     highlights: [
       { text: "SimpleStory.ai: AI native content marketplace", domains: ["overall", "product", "b2b", "b2c", "engineering"] },
       { text: "TroveScore.com: AI vision powered book shelf valuation", domains: ["overall", "d2c", "product", "engineering"] },
-      { text: "Fultu.com: What-If-AI game — interactive experiences", domains: ["overall", "d2c", "product", "engineering"] },
+      { text: "Fultu.com: What-If-AI game - interactive experiences", domains: ["overall", "d2c", "product", "engineering"] },
     ],
     keyMetric: "Shipped 3 AI products",
     images: [
@@ -296,7 +393,7 @@ export const career: CareerEntry[] = [
   },
 ];
 
-/** Newest roles first — used on Journey timeline views */
+/** Newest roles first - used on Journey timeline views */
 export const careerReverseChronological: CareerEntry[] = [...career].reverse();
 
 export const education = [

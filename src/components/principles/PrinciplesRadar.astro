@@ -1,0 +1,209 @@
+---
+import { mindset } from "@/data/portfolio";
+
+// Compute SVG radar chart geometry
+const cx = 200;
+const cy = 200;
+const r = 150;
+const labelR = 180;
+const count = mindset.length;
+const angleStep = (2 * Math.PI) / count;
+// Start at top (-90deg offset)
+const startAngle = -Math.PI / 2;
+
+// Aggregate weight per domain (average of keyword weights, normalized to 0–1)
+const maxWeight = 5;
+const scores = mindset.map((d) => {
+  const avg = d.keywords.reduce((s, k) => s + k.weight, 0) / d.keywords.length;
+  return avg / maxWeight;
+});
+
+// Axis endpoints
+const axes = mindset.map((_, i) => {
+  const angle = startAngle + i * angleStep;
+  return {
+    x2: cx + r * Math.cos(angle),
+    y2: cy + r * Math.sin(angle),
+    lx: cx + labelR * Math.cos(angle),
+    ly: cy + labelR * Math.sin(angle),
+    angle,
+  };
+});
+
+// Polygon vertices (scaled by score)
+const polyPoints = scores.map((score, i) => {
+  const angle = startAngle + i * angleStep;
+  return {
+    x: cx + r * score * Math.cos(angle),
+    y: cy + r * score * Math.sin(angle),
+  };
+});
+const polyStr = polyPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+
+// Text anchor based on position
+function textAnchor(angle: number): string {
+  const cos = Math.cos(angle);
+  if (cos > 0.3) return "start";
+  if (cos < -0.3) return "end";
+  return "middle";
+}
+function dominantBaseline(angle: number): string {
+  const sin = Math.sin(angle);
+  if (sin < -0.3) return "auto";
+  if (sin > 0.3) return "hanging";
+  return "middle";
+}
+---
+
+<section class="pt-10 pb-16 px-6" id="principles">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-8 text-center">
+      Approach & Mindset
+    </h2>
+
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <!-- SVG Radar -->
+      <div class="flex-shrink-0 w-full md:w-auto flex justify-center">
+        <svg
+          id="mindset-radar"
+          viewBox="0 30 400 370"
+          class="w-full max-w-[360px]"
+          aria-hidden="true"
+        >
+          <!-- Background rings -->
+          {[0.25, 0.5, 0.75, 1].map((frac) => (
+            <polygon
+              points={mindset.map((_, i) => {
+                const angle = startAngle + i * angleStep;
+                return `${(cx + r * frac * Math.cos(angle)).toFixed(1)},${(cy + r * frac * Math.sin(angle)).toFixed(1)}`;
+              }).join(" ")}
+              fill="none"
+              stroke="var(--color-border)"
+              stroke-width="1"
+              opacity="0.5"
+            />
+          ))}
+
+          <!-- Axes -->
+          {axes.map((ax) => (
+            <line
+              x1={cx}
+              y1={cy}
+              x2={ax.x2}
+              y2={ax.y2}
+              stroke="var(--color-border)"
+              stroke-width="1"
+              opacity="0.6"
+            />
+          ))}
+
+          <!-- Score polygon -->
+          <polygon
+            id="radar-polygon"
+            points={polyStr}
+            fill="var(--color-accent)"
+            fill-opacity="0.15"
+            stroke="var(--color-accent)"
+            stroke-width="2"
+            stroke-linejoin="round"
+            style="animation: fadeInUp 0.8s var(--ease-out-expo) 0.2s both;"
+          />
+
+          <!-- Vertex dots -->
+          {polyPoints.map((p, i) => (
+            <circle
+              class="radar-vertex"
+              cx={p.x}
+              cy={p.y}
+              r="5"
+              fill="var(--color-accent)"
+              data-index={i}
+              style="cursor:pointer; transition: r 0.2s;"
+            />
+          ))}
+
+          <!-- Axis labels -->
+          {axes.map((ax, i) => (
+            <text
+              class="radar-label"
+              x={ax.lx}
+              y={ax.ly}
+              text-anchor={textAnchor(ax.angle)}
+              dominant-baseline={dominantBaseline(ax.angle)}
+              font-size="13"
+              fill="var(--color-text-secondary)"
+              data-index={i}
+              style="cursor:pointer; transition: fill 0.2s; font-family: inherit;"
+            >
+              {mindset[i].icon} {mindset[i].domain}
+            </text>
+          ))}
+        </svg>
+      </div>
+
+      <!-- Detail panel -->
+      <div class="flex-1 min-w-0">
+        <div id="radar-detail">
+          {mindset.map((d, i) => (
+            <div
+              class="radar-panel"
+              data-panel={i}
+              style={i === 0 ? "" : "display:none;"}
+            >
+              <p class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1 font-semibold">
+                {d.icon} {d.domain}
+              </p>
+              <p class="text-sm italic text-[var(--color-text-secondary)] mb-4 leading-relaxed">
+                {d.principle}
+              </p>
+              <ul class="space-y-2">
+                {d.keywords.map((bullet) => (
+                  <li class="flex items-start gap-2.5 text-xs text-[var(--color-text)] leading-relaxed">
+                    <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] opacity-70"></span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .radar-label:hover,
+  .radar-label[data-active="true"] {
+    fill: var(--color-accent) !important;
+    font-weight: 600;
+  }
+  .radar-vertex:hover,
+  .radar-vertex[data-active="true"] {
+    r: 8;
+  }
+</style>
+
+<script>
+  const labels = document.querySelectorAll<SVGTextElement>(".radar-label");
+  const vertices = document.querySelectorAll<SVGCircleElement>(".radar-vertex");
+  const panels = document.querySelectorAll<HTMLDivElement>(".radar-panel");
+
+  function activateDomain(idx: number) {
+    labels.forEach((l) => l.setAttribute("data-active", l.dataset.index === String(idx) ? "true" : "false"));
+    vertices.forEach((v) => v.setAttribute("data-active", v.dataset.index === String(idx) ? "true" : "false"));
+    panels.forEach((p, pi) => {
+      p.style.display = pi === idx ? "" : "none";
+    });
+  }
+
+  labels.forEach((label) => {
+    label.addEventListener("click", () => activateDomain(parseInt(label.dataset.index!)));
+  });
+  vertices.forEach((v) => {
+    v.addEventListener("click", () => activateDomain(parseInt(v.dataset.index!)));
+  });
+
+  // Activate first domain on load
+  activateDomain(0);
+</script>

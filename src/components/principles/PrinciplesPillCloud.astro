@@ -1,0 +1,119 @@
+---
+import { mindset } from "@/data/portfolio";
+---
+
+<section class="pt-10 pb-16 px-6" id="principles">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-8 text-center">
+      Approach & Mindset
+    </h2>
+
+    <!-- Pill bar -->
+    <div class="flex flex-wrap justify-center gap-2 mb-8" id="mindset-pills">
+      {mindset.map((d, i) => (
+        <button
+          class="mindset-pill flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer"
+          data-index={i}
+          data-active={i === 0 ? "true" : "false"}
+        >
+          <span>{d.icon}</span>
+          <span>{d.domain}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Principle subheading -->
+    <p class="mindset-principle text-sm italic text-center text-[var(--color-text-secondary)] mb-6 min-h-[1.5rem] transition-opacity duration-300">
+      {mindset[0].principle}
+    </p>
+
+    <!-- Bullet list container -->
+    <div class="relative w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] px-8 py-6 min-h-[220px]">
+      {mindset.map((d, di) => (
+        <ul
+          class="mindset-cloud space-y-3 transition-opacity duration-300"
+          data-cloud={di}
+          style={di === 0 ? "" : "opacity:0; pointer-events:none; position:absolute; inset:0; padding: 1.5rem 2rem;"}
+        >
+          {d.keywords.map((bullet, ki) => (
+            <li
+              class="flex items-start gap-3 text-sm text-[var(--color-text)] leading-relaxed"
+              style={`animation: fadeInUp 0.4s var(--ease-out-expo) ${0.06 * ki}s both;`}
+            >
+              <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] opacity-70"></span>
+              {bullet}
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+
+    <!-- Domain subtitle -->
+    <p class="mindset-subtitle text-xs text-center text-[var(--color-text-secondary)] mt-4 opacity-60">
+      {mindset[0].subtitle}
+    </p>
+  </div>
+</section>
+
+<style>
+  .mindset-pill[data-active="true"] {
+    background-color: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .mindset-pill[data-active="false"] {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+  }
+  .mindset-pill[data-active="false"]:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  const pills = document.querySelectorAll<HTMLButtonElement>(".mindset-pill");
+  const clouds = document.querySelectorAll<HTMLUListElement>(".mindset-cloud");
+  const principleEl = document.querySelector<HTMLParagraphElement>(".mindset-principle");
+  const subtitleEl = document.querySelector<HTMLParagraphElement>(".mindset-subtitle");
+
+  const cloudData: { principle: string; subtitle: string }[] = JSON.parse(
+    document.getElementById("mindset-cloud-data")!.textContent!
+  );
+
+  function activateDomain(idx: number) {
+    pills.forEach((p) => p.setAttribute("data-active", p.dataset.index === String(idx) ? "true" : "false"));
+    clouds.forEach((c, ci) => {
+      if (ci === idx) {
+        c.style.opacity = "1";
+        c.style.pointerEvents = "auto";
+        c.style.position = "";
+        c.style.inset = "";
+        c.style.padding = "";
+        // Re-trigger animations
+        c.querySelectorAll("li").forEach((li, i) => {
+          li.style.animation = "none";
+          void (li as HTMLElement).offsetHeight;
+          li.style.animation = `fadeInUp 0.4s var(--ease-out-expo) ${0.06 * i}s both`;
+        });
+      } else {
+        c.style.opacity = "0";
+        c.style.pointerEvents = "none";
+        c.style.position = "absolute";
+        c.style.inset = "0";
+        c.style.padding = "1.5rem 2rem";
+      }
+    });
+    if (principleEl) principleEl.textContent = cloudData[idx].principle;
+    if (subtitleEl) subtitleEl.textContent = cloudData[idx].subtitle;
+  }
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => activateDomain(parseInt(pill.dataset.index!)));
+  });
+</script>
+
+<script id="mindset-cloud-data" type="application/json" set:html={JSON.stringify(
+  mindset.map(d => ({ principle: d.principle, subtitle: d.subtitle }))
+)} />

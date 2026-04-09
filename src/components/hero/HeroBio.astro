@@ -1,0 +1,19 @@
+---
+import { profile } from "@/data/portfolio";
+const [intro, cta] = profile.bio.split("\n\n");
+// Linkify "connect" in the CTA paragraph
+const ctaHtml = cta.replace(
+  /\bconnect\b/,
+  '<a href="#contact" class="text-[var(--color-accent)] underline underline-offset-2 hover:opacity-80 transition-opacity">connect</a>'
+);
+---
+
+<div class="max-w-4xl mx-auto px-6 pb-10 text-center space-y-6" style="animation: fadeInUp 0.8s var(--ease-out-expo) 0.4s both;">
+  <!-- Intro paragraph -->
+  <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{intro}</p>
+
+  <!-- CTA paragraph — visually separated -->
+  <div class="inline-block border border-[var(--color-accent)] border-opacity-40 rounded-xl px-6 py-4 bg-[var(--color-accent)]/5">
+    <p class="text-sm md:text-base text-[var(--color-text)] leading-relaxed" set:html={ctaHtml} />
+  </div>
+</div>

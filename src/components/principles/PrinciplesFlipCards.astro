@@ -1,0 +1,166 @@
+---
+import { mindset } from "@/data/portfolio";
+---
+
+<section class="pt-10 pb-16 px-6" id="principles">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-sm uppercase tracking-widest text-[var(--color-text-secondary)] mb-8 text-center">
+      Approach & Mindset
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+      {mindset.map((d, i) => (
+        <div
+          class="flip-card-wrapper"
+          data-index={i}
+          style={`animation: fadeInUp 0.6s var(--ease-out-expo) ${0.08 * i}s both;`}
+        >
+          <div class="flip-card-inner">
+            <!-- Front -->
+            <div class="flip-card-face flip-card-front rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-5 flex flex-col cursor-pointer select-none">
+              <!-- Flip hint badge -->
+              <div class="flip-hint absolute top-3 right-3 flex items-center gap-1 text-[10px] text-[var(--color-accent)] opacity-60 font-medium">
+                <span class="flip-icon">↻</span>
+                <span>flip</span>
+              </div>
+              <!-- Accent top stripe -->
+              <div class="absolute top-0 left-4 right-4 h-0.5 rounded-full bg-[var(--color-accent)] opacity-30"></div>
+
+              <div class="text-3xl mb-3 mt-1 text-center">{d.icon}</div>
+              <h3 class="font-bold text-sm mb-2 leading-snug text-center">{d.domain}</h3>
+              <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed italic flex-1">{d.principle}</p>
+              <p class="text-[10px] text-[var(--color-accent)] mt-4 font-medium text-center">my thoughts on this →</p>
+            </div>
+
+            <!-- Back -->
+            <div class="flip-card-face flip-card-back rounded-2xl border border-[var(--color-accent)] bg-[var(--color-card-bg)] p-4 flex flex-col cursor-pointer">
+              <!-- Flip hint (same position as front) -->
+              <div class="absolute top-3 right-3 flex items-center gap-1 text-[10px] text-[var(--color-accent)] opacity-60 font-medium">
+                <span>↻</span>
+                <span>flip</span>
+              </div>
+              <p class="text-[10px] uppercase tracking-widest text-[var(--color-accent)] font-semibold mb-3 pr-10">
+                {d.subtitle}
+              </p>
+              <ul class="space-y-2">
+                {d.keywords.map((bullet) => (
+                  <li class="flex items-start gap-2 text-xs text-[var(--color-text)] leading-relaxed">
+                    <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] opacity-70"></span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .flip-card-wrapper {
+    perspective: 1000px;
+    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .flip-card-wrapper.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  .flip-card-face {
+    width: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    position: relative;
+  }
+  .flip-card-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    /* When flipped, back becomes the visible face */
+  }
+  /* When flipped, let back be in natural flow for height */
+  .flip-card-wrapper.flipped .flip-card-back {
+    position: relative;
+    transform: rotateY(180deg);
+  }
+  .flip-card-wrapper.flipped .flip-card-front {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Flip icon animation */
+  .flip-card-front:hover .flip-hint {
+    opacity: 1;
+  }
+  .flip-card-front:hover .flip-icon {
+    display: inline-block;
+    animation: spin-once 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes spin-once {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Card hover depth effect */
+  .flip-card-front:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px -4px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    transform: translateY(-2px);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+</style>
+
+<script>
+  const wrappers = document.querySelectorAll<HTMLDivElement>(".flip-card-wrapper");
+  const isHoverDevice = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  function measureFace(wrapper: HTMLDivElement, face: "front" | "back"): number {
+    const el = wrapper.querySelector<HTMLDivElement>(
+      face === "front" ? ".flip-card-front" : ".flip-card-back"
+    )!;
+    el.style.position = "relative";
+    el.style.transform = "none";
+    el.style.visibility = "hidden";
+    const h = el.offsetHeight;
+    el.style.position = "";
+    el.style.transform = "";
+    el.style.visibility = "";
+    return h;
+  }
+
+  function setFlipped(wrapper: HTMLDivElement, flipped: boolean) {
+    if (flipped === wrapper.classList.contains("flipped")) return;
+    wrapper.style.height = measureFace(wrapper, flipped ? "back" : "front") + "px";
+    wrapper.classList.toggle("flipped", flipped);
+  }
+
+  // Set initial heights
+  wrappers.forEach((wrapper) => {
+    wrapper.style.height = measureFace(wrapper, "front") + "px";
+  });
+
+  wrappers.forEach((wrapper) => {
+    let isHovered = false;
+    let isSticky = false;
+
+    function update() {
+      setFlipped(wrapper, isHovered || isSticky);
+    }
+
+    if (isHoverDevice) {
+      wrapper.addEventListener("mouseenter", () => { isHovered = true; update(); });
+      wrapper.addEventListener("mouseleave", () => { isHovered = false; update(); });
+    }
+
+    wrapper.addEventListener("click", () => {
+      isSticky = !isSticky;
+      update();
+    });
+  });
+</script>

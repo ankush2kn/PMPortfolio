@@ -8,8 +8,8 @@ export const DEFAULT_TYPOGRAPHY = "sans" as const;
 
 export const DEFAULT_VARIANTS = {
   Hero: "C",
-  Impact: "B",
-  Principles: "A",
+  Impact: "A",
+  Principles: "F",
   Skills: "C",
   Contact: "B",
   Timeline: "Vertical",
