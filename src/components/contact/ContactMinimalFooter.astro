@@ -6,15 +6,11 @@ import { profile } from "@/data/portfolio";
 <footer class="border-t border-[var(--color-border)] py-6 px-6">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
     <div class="flex items-center gap-3">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-available)] opacity-75" style="animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-available)]"></span>
+      </span>
       <span class="text-sm font-medium">{profile.name}</span>
-      <span class="text-[var(--color-border)]">|</span>
-      <div class="flex items-center gap-1.5">
-        <span class="relative flex h-2 w-2">
-          <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-available)] opacity-75" style="animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-available)]"></span>
-        </span>
-        <span class="text-xs text-[var(--color-available)]">{profile.availability}</span>
-      </div>
     </div>
     <div class="flex items-center gap-4">
       <a
@@ -22,13 +18,24 @@ import { profile } from "@/data/portfolio";
         target="_blank"
         rel="noopener me"
         class="text-sm hover:text-[var(--color-accent)] transition-colors inline-flex items-center gap-1.5"
+        title="LinkedIn"
       >
         <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"
           />
         </svg>
-        LinkedIn
+      </a>
+      <a
+        href={profile.twitter}
+        target="_blank"
+        rel="noopener me"
+        class="text-sm hover:text-[var(--color-accent)] transition-colors inline-flex items-center gap-1.5"
+        title="X"
+      >
+        <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
       </a>
       <a
         href={profile.newsletter}
@@ -47,16 +54,6 @@ import { profile } from "@/data/portfolio";
           decoding="async"
         />
         My blog
-      </a>
-      <a
-        href={profile.twitter}
-        target="_blank"
-        rel="noopener me"
-        class="text-sm hover:text-[var(--color-accent)] transition-colors inline-flex items-center gap-1.5"
-      >
-        <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-        </svg>
       </a>
       <a
         href={profile.github}

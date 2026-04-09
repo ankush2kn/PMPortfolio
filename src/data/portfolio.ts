@@ -27,13 +27,13 @@ export const profile = {
   summary:
     "Entrepreneurial player-coach with 20+ years across Product, Engineering and Business. AI-enabled, data-fluent, patent holder with a growth mindset.",
   availability: "Available Immediately",
-  seeking: "Product Manager roles in B2B & AI",
-  seekingSubline: "Let's solve some hard problems together",
+  seeking: "Product roles where I own outcomes, not just roadmaps",
+  seekingSubline: "I connect strategy, ops, and execution — and ship",
   /**
    * Short bio shown below the hero. Edit freely — aim for 3–5 sentences.
    * Use \n\n for paragraph breaks.
    */
-  bio: "Entrepreneurial player-coach with 20+ years across Product, Engineering, and Business — 13 at Walmart scaling supply chain platforms from concept to $250M+ impact. I've built across multi-sided marketplaces, last-mile logistics, ML forecasting, inventory, and AI-native consumer apps — many from 0 to 1.\n\nI'm deliberately focused on B2B and AI, and most energized by problems that need deep technical understanding and end-to-end ownership. If you're building something challenging in my space — or just curious about anything you've read here — I'd love to connect.",
+  bio: "Entrepreneurial player-coach with 20+ years across Product, Engineering, and Business — 13 at Walmart scaling supply chain, 4 at a startup, and 4 at a tech consulting firm. I've built across multi-sided marketplaces, last-mile logistics, ML forecasting, inventory, and AI-native consumer apps — many from 0 to 1.\n\nI'm deliberately focused on B2B and AI, and most energized by problems that need deep technical understanding and end-to-end ownership. If you're building something challenging in my space — or just curious about anything you've read here — I'd love to connect.",
 };
 
 // columns to left, right
