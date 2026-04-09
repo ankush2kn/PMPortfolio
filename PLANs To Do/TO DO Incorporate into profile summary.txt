@@ -6,4 +6,4 @@ Some learnings from job descriptions, i could address on portfolio:
 Design sensibility. Not "you're a designer" — but you notice when something is 4px off, and you care.
 
 Add to skills
-> Claude Code
+> 

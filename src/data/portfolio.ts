@@ -112,7 +112,7 @@ export const mindset: MindsetDomain[] = [
     domain: "Data",
     subtitle: "Decisions grounded in evidence",
     icon: "📊",
-    principle: "Good data and analytics answers questions nobody thought to ask - understand first, strategize second, execute last.",
+    principle: "Good data and analytics answers questions nobody thought to ask - understand, strategize, then execute.",
     keywords: [
       "I don't trust gut instinct until data confirms or refutes it",
       "I created ML-based demand forecasting that improved yoy accuracy by 25%",
