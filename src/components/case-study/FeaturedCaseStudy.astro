@@ -1,56 +1,54 @@
-<section class="pt-20 pb-10 px-6" aria-labelledby="featured-case-study-heading">
-  <div class="max-w-3xl mx-auto">
-    <div class="bg-[var(--color-card-bg)] border border-[var(--color-accent)]/30 rounded-xl overflow-hidden">
-      <button
-        type="button"
-        class="w-full p-5 text-left flex items-center justify-between group"
-        id="featured-case-study-toggle"
-        aria-expanded="false"
-        aria-controls="featured-case-study-details"
-      >
-        <div>
-          <div class="flex items-center gap-3 mb-1">
-            <span class="text-xs uppercase tracking-wider text-[var(--color-accent)] font-medium">Featured Case Study</span>
-            <span class="text-xs text-[var(--color-text-secondary)]">Walmart Tech &middot; 2024–2026</span>
-          </div>
-          <h3 id="featured-case-study-heading" class="text-lg font-bold">B2B Transportation Marketplace</h3>
-          <p class="text-2xl font-bold text-[var(--color-accent)] mt-1">$250M ARR</p>
-        </div>
-        <svg
-          class="w-5 h-5 text-[var(--color-text-secondary)] transition-transform group-hover:text-[var(--color-accent)] shrink-0"
-          id="featured-case-study-chevron"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
+---
+import { caseStudies } from "@/data/portfolio";
+
+const study = caseStudies[0];
+---
+
+{study && (
+  <section class="pt-20 pb-10 px-6" aria-labelledby="featured-case-study-heading">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-[var(--color-card-bg)] border border-[var(--color-accent)]/30 rounded-xl overflow-hidden">
+        <button
+          type="button"
+          class="w-full p-5 text-left flex items-center justify-between group"
+          id="featured-case-study-toggle"
+          aria-expanded="false"
+          aria-controls="featured-case-study-details"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-        </svg>
-      </button>
-      <div class="hidden px-5 pb-5 border-t border-[var(--color-border)]" id="featured-case-study-details">
-        <ul class="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
-          <li class="flex items-start gap-2">
-            <span class="text-[var(--color-accent)] mt-0.5">&#8226;</span>
-            0→1 build: from concept to $250M ARR marketplace. Targetting $100M Savings in 3 years
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[var(--color-accent)] mt-0.5">&#8226;</span>
-            Co-created vision with cross-functional leaders across GTM, CRM, execution, safety & fraud, and mobile
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[var(--color-accent)] mt-0.5">&#8226;</span>
-            Optimized onboarding funnel for first 3,000 carriers — reduced activation from 90+ days to 1 day
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[var(--color-accent)] mt-0.5">&#8226;</span>
-            Partnered with Salesforce, Quantum Metrics, JPMorgan, RMIS to accelerate launch
-          </li>
-        </ul>
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <span class="text-xs uppercase tracking-wider text-[var(--color-accent)] font-medium">{study.label}</span>
+              <span class="text-xs text-[var(--color-text-secondary)]">{study.company} &middot; {study.period}</span>
+            </div>
+            <h3 id="featured-case-study-heading" class="text-lg font-bold">{study.title}</h3>
+            <p class="text-2xl font-bold text-[var(--color-accent)] mt-1">{study.keyMetric}</p>
+          </div>
+          <svg
+            class="w-5 h-5 text-[var(--color-text-secondary)] transition-transform group-hover:text-[var(--color-accent)] shrink-0"
+            id="featured-case-study-chevron"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+          </svg>
+        </button>
+        <div class="hidden px-5 pb-5 border-t border-[var(--color-border)]" id="featured-case-study-details">
+          <ul class="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
+            {study.bullets.map((bullet) => (
+              <li class="flex items-start gap-2">
+                <span class="text-[var(--color-accent)] mt-0.5">&#8226;</span>
+                {bullet}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+)}
 
 <script>
   const toggle = document.getElementById("featured-case-study-toggle");

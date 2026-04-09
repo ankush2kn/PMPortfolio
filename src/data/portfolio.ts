@@ -148,6 +148,32 @@ export const mindset: MindsetDomain[] = [
   },
 ];
 
+export interface CaseStudy {
+  label: string;
+  company: string;
+  period: string;
+  title: string;
+  keyMetric: string;
+  bullets: string[];
+}
+
+export const caseStudies: CaseStudy[] = [
+  /*{
+    label: "Featured Case Study",
+    company: "Walmart Tech",
+    period: "2024–2026",
+    title: "B2B Transportation Marketplace",
+    keyMetric: "$250M ARR",
+    bullets: [
+      "0→1 build: from concept to $250M ARR marketplace. Targeting $100M Savings in 3 years",
+      "Co-created vision with cross-functional leaders across GTM, CRM, execution, safety & fraud, and mobile",
+      "Optimized onboarding funnel for first 3,000 carriers — reduced activation from 90+ days to 1 day",
+      "Partnered with Salesforce, Quantum Metrics, JPMorgan, RMIS to accelerate launch",
+    ],
+  },
+  */
+];
+
 /** Lab project cards. */
 export interface PortfolioProject {
   name: string;
