@@ -222,7 +222,7 @@ export const projects: PortfolioProject[] = [
     description:
       "An AI-powered game that explores alternate scenarios and what-if questions through interactive storytelling and dynamic content generation.",
     //metrics: ["AI-driven gameplay", "Interactive narratives"],
-    techStack: ["AI-driven gameplay", "Claude Code", "Interactive AI", "Stripe", "Custom merchandise store", "Printful", "Fal.ai", "PostHog"],
+    techStack: ["AI-driven gameplay", "Claude Code", "Conversational AI", "Stripe", "Custom merchandise store", "Printful", "Fal.ai", "PostHog"],
     icon: "gamepad",
     screenshot: "/projects/fultu.png",
     challenge:
@@ -242,6 +242,19 @@ export const projects: PortfolioProject[] = [
       "As parents with two kids, it's hard to keep track of school and outside activities. We are constantly losing track.",
     outcome:
       "Trained OpenClaw to be my personal assistant, and it's helping my family keep track of calendar events.",
+  },
+  {
+    name: "WordSnake Adventure",
+    //url: "https://fultu.com",
+    description: "A fun and educational hybrid game that combines the classic Snake game with crossword puzzle mechanics.",
+    //metrics: ["AI-driven gameplay", "Interactive narratives"],
+    techStack: ["One of a kind hybrid game", "Gamification", "Social Proof", "Google Cloud", "Approved by Kids!"],
+    icon: "gamepad",
+    screenshot: "/projects/WordSnake.png",
+    challenge:
+      "Blend a classic arcade fun with education, fostering team collaboration and word-building skills.",
+    outcome:
+      "Players develop vocabulary, spelling accuracy, and strategic thinking while improving hand-eye coordination, fine motor skills, and collaborative teamwork.",
   },
 ];
 
