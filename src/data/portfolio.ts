@@ -510,6 +510,7 @@ export const skills = {
     { name: "PostHog", category: "Analytics" },
     { name: "Umami", category: "Analytics" },
     { name: "Tableau", category: "Analytics" },
+    { name: "Advanced Excel", category: "Analytics" },
     { name: "Stripe", category: "Growth" },
     { name: "Braze", category: "Growth" },
     { name: "Salesforce", category: "Growth" },
