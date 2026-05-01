@@ -5,5 +5,8 @@ Some learnings from job descriptions, i could address on portfolio:
 > Technical enough to read a PR, understand a data pipeline architecture, and have a credible opinion on build-vs.-buy decisions. You don't need to write code, but you need to know when the engineers are solving the right problem.
 Design sensibility. Not "you're a designer" — but you notice when something is 4px off, and you care.
 
-Add to skills
-> 
+
+i think my code base is primarily static, and no database connectivity. Are we still able to track thumbsup or likes on the site, if we add such icons?                                                                                                                                                                                                                                                                                                                       
+● Yes, definitely possible — but it requires a small external piece since there's nowhere to persist counts in a purely static build. A few approaches:
+Easiest: Third-party counter service
+Call a free REST API (like https://upstash.com or CountAPI) from client-side JS. The like button hits the API on click, and on page load you fetch the current count to display. No backend code needed on your end.

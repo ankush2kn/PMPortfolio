@@ -514,6 +514,7 @@ export const skills = {
     { name: "Stripe", category: "Growth" },
     { name: "Braze", category: "Growth" },
     { name: "Salesforce", category: "Growth" },
+    { name: "Notion", category: "Growth" },
   ],
   credentials: [
     {
