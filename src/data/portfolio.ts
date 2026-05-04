@@ -44,8 +44,8 @@ export const impactMetrics = [
   { value: "First", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New to Walmart Building Type", company: "Walmart" },
   { value: "250M+", label: "Last Mile Deliveries/yr", context: "Routing, Scheduling, Execution", company: "Walmart" },
   { value: "2", label: "Utility Patents", context: "Inventory & Delivery", company: "Walmart" },
-  { value: "10x", label: "Delivery Sortation Center", context: "Tech Inside & Outside a New Building Type", company: "NuRide" },
-  { value: "3", label: "AI D2C Products", context: "Built & Launched Solo", company: "Independent" },
+  { value: "10x", label: "Membership Growth & Retention", context: "Owned Engineering and Product", company: "NuRide, 10-person startup" },
+  { value: "3", label: "AI D2C Products", context: "Built & Launched Solo - AI Video, Vision & Conversational", company: "Independent" },
 ];
 
 export const principles = [
