@@ -190,19 +190,6 @@ export interface PortfolioProject {
 
 export const projects: PortfolioProject[] = [
   {
-    name: "SimpleStory.ai",
-    url: "https://simplestory.ai",
-    description: "AI-native platform that enables creators to build educational stories with AI-generated visuals, narration, and interactive elements.",
-    //metrics: ["MVP launched", "Low-friction creator UX validated"],
-    techStack: ["AI Audio & Video", "Google Cloud", "ElevenLabs", "Postgres"],
-    icon: "book",
-    screenshot: "/projects/simplestory.png",
-    challenge:
-      "Teachers and parents need faster & safer ways to create engaging learning stories without a production team.",
-    outcome:
-      "AI-native publishing flow with generated visuals and voice - validated creator UX through MVP launch.",
-  },
-  {
     name: "TroveScore",
     url: "https://trovescore.com",
     description:
@@ -215,6 +202,19 @@ export const projects: PortfolioProject[] = [
       "People with home libraries couldn’t quickly value books or decide sell vs. donate vs. keep without manual lookup.",
     outcome:
       "One-tap shelf capture with ID + live market pricing. Recommends best next action. One click publish to eBay",
+  },
+  {
+    name: "SimpleStory.ai",
+    url: "https://simplestory.ai",
+    description: "AI-native platform that enables creators to build educational stories with AI-generated visuals, narration, and interactive elements.",
+    //metrics: ["MVP launched", "Low-friction creator UX validated"],
+    techStack: ["AI Audio & Video", "Google Cloud", "ElevenLabs", "Postgres"],
+    icon: "book",
+    screenshot: "/projects/simplestory.png",
+    challenge:
+      "Teachers and parents need faster & safer ways to create engaging learning stories without a production team.",
+    outcome:
+      "AI-native publishing flow with generated visuals and voice - validated creator UX through MVP launch.",
   },
   {
     name: "Fultu",
